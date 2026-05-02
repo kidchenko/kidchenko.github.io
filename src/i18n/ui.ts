@@ -21,7 +21,7 @@ export const ui = {
 			languageLabel: "Language",
 		},
 		home: {
-			meta: { title: "Jose Barbosa - Engineering Director" },
+			meta: { title: "Engineering Director" },
 			heroName: "Jose Barbosa",
 			heroTitle: "Engineering Director - AI / SaaS / Team Building",
 			heroBlurb:
@@ -360,7 +360,7 @@ export const ui = {
 			languageLabel: "Idioma",
 		},
 		home: {
-			meta: { title: "Jose Barbosa - Diretor de Engenharia" },
+			meta: { title: "Diretor de Engenharia" },
 			heroName: "Jose Barbosa",
 			heroTitle: "Diretor de Engenharia - IA / SaaS / Construção de Times",
 			heroBlurb:
