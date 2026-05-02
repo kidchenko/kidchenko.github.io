@@ -1,0 +1,84 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+import { type Lang, languages } from "@/i18n/ui";
+import { useTranslations } from "@/i18n/utils";
+
+export function getStaticPaths() {
+	return Object.keys(languages).map((lang) => ({
+		params: { lang: lang === "en" ? undefined : lang },
+		props: { lang: lang as Lang },
+	}));
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).portfolio;
+const meta = { title: t.meta.title, description: t.meta.description };
+---
+
+<PageLayout meta={meta}>
+	<h1 class="title mb-4 text-3xl sm:text-4xl">{t.heading}</h1>
+	<p class="text-muted mb-12">{t.lead}</p>
+
+	<section>
+		<div class="mb-8 flex items-baseline justify-between gap-4">
+			<h2 class="title text-xl">{t.now.heading}</h2>
+			<span class="text-muted text-xs font-semibold tracking-wider uppercase">
+				{t.now.eyebrow}
+			</span>
+		</div>
+
+		<div class="divide-y divide-global-text/10 border-y border-global-text/10">
+			{
+				t.now.items.map((item) => (
+					<article class="py-8 sm:grid sm:grid-cols-[8rem_1fr] sm:gap-8 sm:py-10">
+						<div class="text-accent mb-3 text-xs font-bold tracking-wider uppercase sm:mb-0">
+							{item.label}
+						</div>
+						<div>
+							<h3 class="mb-2 text-lg font-bold sm:text-xl">{item.title}</h3>
+							<p class="text-muted mb-3 text-sm">{item.subtitle}</p>
+							<p class="leading-relaxed">{item.body}</p>
+						</div>
+					</article>
+				))
+			}
+		</div>
+	</section>
+
+	<hr class="border-global-text/10 my-16" />
+
+	<section>
+		<h2 class="title mb-8 text-xl">{t.past.heading}</h2>
+
+		<div class="divide-y divide-global-text/10 border-y border-global-text/10">
+			{
+				t.past.items.map((item) => (
+					<article class="py-8 sm:grid sm:grid-cols-[8rem_1fr] sm:gap-8 sm:py-10">
+						<div class="text-muted mb-3 text-xs font-bold tracking-wider uppercase sm:mb-0">
+							{item.period}
+						</div>
+						<div>
+							<h3 class="mb-2 text-lg font-bold sm:text-xl">{item.title}</h3>
+							<p class="text-muted mb-3 text-sm">{item.subtitle}</p>
+							<p class="leading-relaxed">{item.body}</p>
+						</div>
+					</article>
+				))
+			}
+		</div>
+	</section>
+
+	<hr class="border-global-text/10 my-16" />
+
+	<section>
+		<h2 class="title mb-6 text-xl">{t.oss.heading}</h2>
+		<div class="prose prose-cactus max-w-none">
+			<p>{t.oss.body}</p>
+			<p>
+				<a href="https://github.com/kidchenko" rel="noreferrer" target="_blank">
+					{t.oss.link}
+				</a>
+			</p>
+		</div>
+	</section>
+</PageLayout>

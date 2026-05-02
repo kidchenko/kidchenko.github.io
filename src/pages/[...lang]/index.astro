@@ -1,0 +1,185 @@
+---
+import { Image } from "astro:assets";
+import { type CollectionEntry } from "astro:content";
+import PostPreview from "@/components/blog/PostPreview.astro";
+import SocialList from "@/components/SocialList.astro";
+import { getAllPosts } from "@/data/post";
+import PageLayout from "@/layouts/Base.astro";
+import { collectionDateSort } from "@/utils/date";
+import headshot from "@/assets/img/jose-headshot.jpg";
+import { type Lang, languages } from "@/i18n/ui";
+import { useTranslations } from "@/i18n/utils";
+
+export function getStaticPaths() {
+	return Object.keys(languages).map((lang) => ({
+		params: { lang: lang === "en" ? undefined : lang },
+		props: { lang: lang as Lang },
+	}));
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).home;
+
+const allPosts = (await getAllPosts()).sort(collectionDateSort) as CollectionEntry<"post">[];
+const featuredPost = allPosts.find((p) => p.data.pinned) ?? null;
+const writingUrl = "/posts/";
+---
+
+<PageLayout meta={{ title: t.meta.title }}>
+	<section class="hero-fullbleed relative h-screen overflow-hidden">
+		<div class="absolute inset-0 sm:left-[48%]">
+			<Image
+				alt="Portrait of Jose Barbosa"
+				class="hero-photo h-full w-full object-cover object-[center_15%]"
+				loading="eager"
+				sizes="(min-width: 640px) 52vw, 100vw"
+				src={headshot}
+				widths={[640, 1024, 1600]}
+			/>
+		</div>
+
+		<div class="relative flex h-full items-end px-6 pb-20 sm:items-center sm:px-12 sm:pb-0 lg:px-20">
+			<div class="max-w-xl">
+				<h1 class="title mb-4 text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">{t.heroName}</h1>
+				<p class="text-accent mb-8 text-lg font-semibold sm:text-xl">{t.heroTitle}</p>
+				<p class="text-base leading-relaxed sm:text-lg" set:html={t.heroBlurb} />
+			</div>
+		</div>
+
+		<a
+			class="text-muted hover:text-accent absolute bottom-8 left-6 z-10 inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase transition-colors sm:left-12 lg:left-20"
+			href="#outcomes"
+		>
+			<span>{t.scrollCue}</span>
+			<span aria-hidden="true" class="scroll-arrow">↓</span>
+		</a>
+	</section>
+
+	<section class="mt-32" id="outcomes">
+		<h2 class="title mb-12 text-xl">{t.outcomesHeading}</h2>
+
+		<div class="divide-y divide-global-text/10 border-y border-global-text/10">
+			{
+				t.outcomes.map((o) => (
+					<article class="py-10 sm:grid sm:grid-cols-[8rem_1fr] sm:gap-12 sm:py-14">
+						<div class="text-accent mb-4 text-xs font-bold tracking-wider uppercase sm:mb-0">
+							{o.eyebrow}
+						</div>
+						<div>
+							<h3 class="mb-3 text-lg leading-snug font-bold sm:text-xl">{o.heading}</h3>
+							<p class="leading-relaxed" set:html={o.body} />
+						</div>
+					</article>
+				))
+			}
+		</div>
+	</section>
+
+	{
+		featuredPost && (
+			<section class="mt-20">
+				<h2 class="title mb-6 text-xl">
+					<a href={writingUrl}>{t.featuredHeading}</a>
+				</h2>
+				<div class="grid gap-1 sm:grid-cols-[auto_1fr]">
+					<PostPreview post={featuredPost} />
+				</div>
+			</section>
+		)
+	}
+
+	<section class="mt-20">
+		<SocialList />
+	</section>
+</PageLayout>
+
+<style>
+	.hero-fullbleed {
+		margin-left: calc(50% - 50vw);
+		margin-right: calc(50% - 50vw);
+		width: 100vw;
+	}
+	.hero-photo {
+		mask-image: linear-gradient(
+			to bottom,
+			rgba(0, 0, 0, 0.8) 0%,
+			rgba(0, 0, 0, 0.8) 30%,
+			rgba(0, 0, 0, 0.15) 60%,
+			transparent 100%
+		);
+		-webkit-mask-image: linear-gradient(
+			to bottom,
+			rgba(0, 0, 0, 0.8) 0%,
+			rgba(0, 0, 0, 0.8) 30%,
+			rgba(0, 0, 0, 0.15) 60%,
+			transparent 100%
+		);
+	}
+	@media (min-width: 640px) {
+		.hero-photo {
+			mask-image:
+				linear-gradient(to right, transparent 0, black 10rem),
+				linear-gradient(to top, transparent 0, black 10rem);
+			mask-composite: intersect;
+			-webkit-mask-image:
+				linear-gradient(to right, transparent 0, black 10rem),
+				linear-gradient(to top, transparent 0, black 10rem);
+			-webkit-mask-composite: source-in;
+		}
+	}
+	.scroll-arrow {
+		display: inline-block;
+		animation: scroll-bounce 2s ease-in-out infinite;
+	}
+	@keyframes scroll-bounce {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(4px);
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.scroll-arrow {
+			animation: none;
+		}
+	}
+</style>
+
+<style is:global>
+	body {
+		padding-top: 0 !important;
+		--color-global-bg: oklch(98.48% 0 0);
+		--color-global-text: oklch(26.99% 0.0096 235.05);
+		--color-muted: oklch(44.6% 0.03 256.802);
+		--color-link: oklch(55.44% 0.0431 185.69);
+		--color-accent: oklch(55.27% 0.195 19.06);
+		--color-accent-2: oklch(18.15% 0 0);
+		--color-quote: oklch(55.27% 0.195 19.06);
+		background-color: var(--color-global-bg);
+		color: var(--color-global-text);
+	}
+	#main-header {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 20;
+		margin-bottom: 0 !important;
+		padding: 1rem 1.5rem;
+	}
+	#main-header theme-toggle {
+		display: none;
+	}
+	@media (min-width: 640px) {
+		#main-header {
+			padding: 1.5rem 2.5rem;
+		}
+	}
+	@media (min-width: 1024px) {
+		#main-header {
+			padding: 1.75rem 3rem;
+		}
+	}
+</style>

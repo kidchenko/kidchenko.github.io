@@ -1,18 +1,30 @@
 ---
 import fs from "node:fs";
 import path from "node:path";
+import LanguageToggle from "@/components/LanguageToggle.astro";
 import Search from "@/components/Search.astro";
 import ThemeToggle from "@/components/ThemeToggle.astro";
-import { menuLinks } from "@/site.config";
+import { getLangFromUrl, localizeUrl, useTranslations } from "@/i18n/utils";
 
 const markSvg = fs.readFileSync(
 	path.resolve("./src/assets/img/logo/svg/mark.svg"),
 	"utf-8",
 );
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang).nav;
+const menuLinks: { path: string; title: string }[] = [
+	{ path: localizeUrl("/", lang), title: t.home },
+	{ path: localizeUrl("/about/", lang), title: t.about },
+	{ path: localizeUrl("/portfolio/", lang), title: t.portfolio },
+	{ path: localizeUrl("/posts/", lang), title: t.writing },
+	{ path: localizeUrl("/cv/", lang), title: t.cv },
+	{ path: localizeUrl("/contact/", lang), title: t.contact },
+];
 ---
 
 <header class="group relative z-10 mb-20 flex items-center" id="main-header">
-	<a aria-current={false} aria-label="Jose Barbosa - home" class="logo-link" href="/">
+	<a aria-current={false} aria-label="Jose Barbosa - home" class="logo-link" href={localizeUrl("/", lang)}>
 		<span aria-hidden="true" class="logo-mark" set:html={markSvg} />
 	</a>
 	<nav
@@ -33,6 +45,7 @@ const markSvg = fs.readFileSync(
 		}
 	</nav>
 	<Search />
+	<LanguageToggle />
 	<ThemeToggle />
 	<mobile-button>
 		<button
@@ -94,6 +107,89 @@ const markSvg = fs.readFileSync(
 	}
 
 	customElements.define("mobile-button", MobileNavBtn);
+
+	// Compass behavior on the logo
+	const bezel = document.querySelector<SVGGElement>(".logo-mark .compass-bezel");
+	if (bezel) {
+		let currentAngle = 0;
+		const setAngle = (target: number) => {
+			const diff = (((target - currentAngle) % 360) + 540) % 360 - 180;
+			currentAngle += diff;
+			bezel.style.transform = `rotate(${currentAngle}deg)`;
+		};
+
+		let mode: "compass" | "mouse" | null = null;
+
+		const onMove = (e: MouseEvent) => {
+			if (mode === "compass") return;
+			if (mode == null) mode = "mouse";
+			const rect = bezel.getBoundingClientRect();
+			const cx = rect.left + rect.width / 2;
+			const cy = rect.top + rect.height / 2;
+			const dx = e.clientX - cx;
+			const dy = e.clientY - cy;
+			const angle = (Math.atan2(dy, dx) * 180) / Math.PI + 90;
+			setAngle(angle);
+		};
+
+		const compassHandler = (e: DeviceOrientationEvent & { webkitCompassHeading?: number }) => {
+			let heading: number | null = null;
+			if (e.webkitCompassHeading != null) {
+				heading = e.webkitCompassHeading;
+			} else if (e.absolute && e.alpha != null) {
+				heading = 360 - e.alpha;
+			}
+			console.log("[compass]", {
+				type: e.type,
+				absolute: e.absolute,
+				alpha: e.alpha,
+				webkitCompassHeading: e.webkitCompassHeading,
+				heading,
+			});
+			if (heading != null) setAngle(-heading);
+		};
+
+		const attachOrientationListener = () => {
+			if ("ondeviceorientationabsolute" in window) {
+				console.log("[compass] using deviceorientationabsolute");
+				window.addEventListener("deviceorientationabsolute", compassHandler as EventListener);
+			} else {
+				console.log("[compass] using deviceorientation");
+				window.addEventListener("deviceorientation", compassHandler as EventListener);
+			}
+		};
+
+		const enableCompass = async () => {
+			mode = "compass";
+			document.removeEventListener("mousemove", onMove);
+			type IOSPermission = typeof DeviceOrientationEvent & {
+				requestPermission?: () => Promise<"granted" | "denied">;
+			};
+			const cls = DeviceOrientationEvent as IOSPermission;
+			if (typeof cls.requestPermission === "function") {
+				try {
+					const state = await cls.requestPermission();
+					console.log("[compass] iOS permission:", state);
+					if (state === "granted") attachOrientationListener();
+				} catch (err) {
+					console.log("[compass] iOS permission error:", err);
+				}
+			} else {
+				attachOrientationListener();
+			}
+		};
+
+		const hasTouch =
+			"ontouchstart" in window ||
+			navigator.maxTouchPoints > 0 ||
+			window.matchMedia("(pointer: coarse)").matches;
+
+		if (hasTouch) {
+			document.addEventListener("touchstart", enableCompass, { once: true, passive: true });
+		} else {
+			document.addEventListener("mousemove", onMove);
+		}
+	}
 </script>
 
 <style>
@@ -115,6 +211,15 @@ const markSvg = fs.readFileSync(
 		display: block;
 		height: 100%;
 		width: 100%;
+	}
+	.logo-mark :global(.compass-bezel) {
+		transform-origin: 50px 50px;
+		transition: transform 200ms ease-out;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.logo-mark :global(.compass-bezel) {
+			transition: none;
+		}
 	}
 	@media (min-width: 640px) {
 		.logo-mark {

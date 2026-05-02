@@ -1,0 +1,36 @@
+---
+import { getAlternateUrl, getLangFromUrl, getOtherLang } from "@/i18n/utils";
+import { languages } from "@/i18n/ui";
+
+const currentLang = getLangFromUrl(Astro.url);
+const otherLang = getOtherLang(currentLang);
+const alternateUrl = getAlternateUrl(Astro.url.pathname, currentLang);
+---
+
+<a
+	aria-label={`Switch language to ${languages[otherLang]}`}
+	class="lang-toggle"
+	href={alternateUrl}
+	hreflang={otherLang}
+>
+	{otherLang.toUpperCase()}
+</a>
+
+<style>
+	.lang-toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: 600;
+		font-size: 0.75rem;
+		letter-spacing: 0.05em;
+		padding: 0.25rem 0.5rem;
+		border-radius: 0.25rem;
+		color: var(--color-global-text);
+		transition: color 150ms ease, background-color 150ms ease;
+	}
+	.lang-toggle:hover {
+		color: var(--color-accent);
+		background-color: color-mix(in oklab, var(--color-accent) 10%, transparent);
+	}
+</style>

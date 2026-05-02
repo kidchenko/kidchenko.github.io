@@ -1,7 +1,19 @@
 ---
-import { menuLinks, siteConfig } from "@/site.config";
+import LanguageToggle from "@/components/LanguageToggle.astro";
+import { getLangFromUrl, localizeUrl, useTranslations } from "@/i18n/utils";
+import { siteConfig } from "@/site.config";
 
 const year = new Date().getFullYear();
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang).nav;
+const menuLinks: { path: string; title: string }[] = [
+	{ path: localizeUrl("/", lang), title: t.home },
+	{ path: localizeUrl("/about/", lang), title: t.about },
+	{ path: localizeUrl("/portfolio/", lang), title: t.portfolio },
+	{ path: localizeUrl("/posts/", lang), title: t.writing },
+	{ path: localizeUrl("/cv/", lang), title: t.cv },
+	{ path: localizeUrl("/contact/", lang), title: t.contact },
+];
 ---
 
 <footer
@@ -20,5 +32,6 @@ const year = new Date().getFullYear();
 				</a>
 			))
 		}
+		<LanguageToggle />
 	</nav>
 </footer>

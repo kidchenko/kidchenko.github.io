@@ -1,0 +1,434 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+import { type Lang, languages } from "@/i18n/ui";
+import { useTranslations } from "@/i18n/utils";
+
+export function getStaticPaths() {
+	return Object.keys(languages).map((lang) => ({
+		params: { lang: lang === "en" ? undefined : lang },
+		props: { lang: lang as Lang },
+	}));
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).cv;
+const meta = { title: t.meta.title, description: t.meta.description };
+---
+
+<PageLayout meta={meta}>
+	<div class="mb-4 flex items-baseline justify-between gap-4 print:hidden">
+		<h1 class="title text-3xl sm:text-4xl">{t.heading}</h1>
+		<button
+			class="text-muted hover:text-accent text-xs font-semibold tracking-wider uppercase"
+			id="print-cv"
+			type="button"
+		>
+			{t.print}
+		</button>
+	</div>
+	<p class="text-muted mb-12 print:hidden">{t.lead}</p>
+
+	<header class="cv-print-head">
+		<h1 class="cv-print-name">{t.printName}</h1>
+		<p class="cv-print-title">{t.printTitle}</p>
+		<div class="cv-print-contact">
+			<p>{t.contact.locationPrint}</p>
+			<p>
+				<a href="mailto:kidchenko@gmail.com">kidchenko@gmail.com</a>
+				&nbsp;&nbsp;
+				<a href="https://github.com/kidchenko" rel="noreferrer" target="_blank"
+					>github.com/kidchenko</a
+				>
+				&nbsp;&nbsp;
+				<a href="https://linkedin.com/in/kidchenko" rel="noreferrer" target="_blank"
+					>linkedin.com/in/kidchenko</a
+				>
+			</p>
+		</div>
+	</header>
+
+	<div class="print:hidden">
+		<section class="cv-section">
+			<div class="cv-label">{t.contact.label}</div>
+			<div class="space-y-1">
+				<p>{t.contact.location}</p>
+				<p><a href="mailto:kidchenko@gmail.com">kidchenko@gmail.com</a></p>
+				<p>
+					<a href="https://github.com/kidchenko" rel="noreferrer" target="_blank"
+						>github.com/kidchenko</a
+					>
+				</p>
+				<p>
+					<a href="https://linkedin.com/in/kidchenko" rel="noreferrer" target="_blank"
+						>linkedin.com/in/kidchenko</a
+					>
+				</p>
+			</div>
+		</section>
+
+		<hr class="border-global-text/10 my-12" />
+	</div>
+
+	<section class="cv-section">
+		<div class="cv-label">{t.summary.label}</div>
+		<div class="prose prose-cactus max-w-none">
+			{t.summary.body.map((p) => <p set:html={p} />)}
+		</div>
+	</section>
+
+	<hr class="border-global-text/10 my-12" />
+
+	<section>
+		<h2 class="title mb-8 text-xl">{t.workHeading}</h2>
+		<div class="divide-y divide-global-text/10 border-y border-global-text/10">
+			{
+				t.work.map((job) => (
+					<article class="cv-job">
+						<div class="cv-meta">
+							<div class="font-bold">{job.period}</div>
+							<div class="text-muted">
+								{job.location}
+								{"locationNote" in job && job.locationNote ? (
+									<span class="text-xs"> {job.locationNote}</span>
+								) : null}
+							</div>
+						</div>
+						<div>
+							<h3 class="cv-job-title">{job.title}</h3>
+							{"role" in job && job.role ? <p class="cv-role">{job.role}</p> : null}
+							<div class="prose prose-cactus max-w-none">
+								{job.body.map((p) => (
+									<p set:html={p} />
+								))}
+							</div>
+							<p class="cv-stack">{job.stack}</p>
+						</div>
+					</article>
+				))
+			}
+		</div>
+	</section>
+
+	<hr class="border-global-text/10 my-12" />
+
+	<section>
+		<h2 class="title mb-8 text-xl">{t.eduHeading}</h2>
+		<div class="divide-y divide-global-text/10 border-y border-global-text/10">
+			{
+				t.edu.map((item) => (
+					<article class="cv-job">
+						<div class="cv-meta">
+							<div class="font-bold">{item.period}</div>
+						</div>
+						<div>
+							<h3 class="cv-job-title">{item.title}</h3>
+							<p class="cv-role">{item.role}</p>
+						</div>
+					</article>
+				))
+			}
+		</div>
+	</section>
+
+	<hr class="border-global-text/10 my-12" />
+
+	<section>
+		<h2 class="title mb-8 text-xl">{t.skillsHeading}</h2>
+		<div class="space-y-8">
+			{
+				t.skills.map((skill) => (
+					<div class="cv-skills-row">
+						<h3 class="cv-skills-label">{skill.label}</h3>
+						<p>{skill.body}</p>
+					</div>
+				))
+			}
+		</div>
+	</section>
+
+	<hr class="border-global-text/10 my-12" />
+
+	<section class="cv-section">
+		<div class="cv-label">{t.community.label}</div>
+		<div class="prose prose-cactus max-w-none">
+			<p set:html={t.community.body} />
+		</div>
+	</section>
+
+	<hr class="border-global-text/10 my-12" />
+
+	<section class="cv-section">
+		<div class="cv-label">{t.learning.label}</div>
+		<div class="prose prose-cactus max-w-none">
+			<p set:html={t.learning.body} />
+		</div>
+	</section>
+
+	<hr class="border-global-text/10 my-12" />
+
+	<section class="cv-section">
+		<div class="cv-label">{t.languages.label}</div>
+		<div>
+			<p>{t.languages.body}</p>
+		</div>
+	</section>
+</PageLayout>
+
+<style>
+	.cv-section {
+		display: grid;
+		gap: 1rem;
+	}
+	@media (min-width: 640px) {
+		.cv-section {
+			grid-template-columns: 8rem 1fr;
+			gap: 2rem;
+		}
+	}
+	.cv-label {
+		color: var(--color-accent);
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+	}
+	.cv-job {
+		padding-top: 2rem;
+		padding-bottom: 2rem;
+		display: grid;
+		gap: 1rem;
+	}
+	@media (min-width: 640px) {
+		.cv-job {
+			grid-template-columns: 8rem 1fr;
+			gap: 2rem;
+			padding-top: 2.5rem;
+			padding-bottom: 2.5rem;
+		}
+	}
+	.cv-meta {
+		font-size: 0.75rem;
+		letter-spacing: 0.025em;
+		text-transform: uppercase;
+	}
+	.cv-job-title {
+		font-size: 1.125rem;
+		font-weight: 700;
+		margin-bottom: 0.25rem;
+	}
+	@media (min-width: 640px) {
+		.cv-job-title {
+			font-size: 1.25rem;
+		}
+	}
+	.cv-role {
+		color: var(--color-muted);
+		font-size: 0.875rem;
+		margin-bottom: 0.75rem;
+	}
+	.cv-stack {
+		color: var(--color-muted);
+		font-size: 0.75rem;
+		letter-spacing: 0.025em;
+		margin-top: 1rem;
+	}
+	.cv-skills-row {
+		display: grid;
+		gap: 0.5rem;
+	}
+	@media (min-width: 640px) {
+		.cv-skills-row {
+			grid-template-columns: 12rem 1fr;
+			gap: 2rem;
+		}
+	}
+	.cv-skills-label {
+		color: var(--color-accent);
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+	}
+
+	.cv-print-head {
+		display: none;
+	}
+
+	@media print {
+		.cv-job,
+		.cv-section,
+		.cv-skills-row {
+			page-break-inside: avoid;
+		}
+		hr {
+			display: none;
+		}
+
+		.cv-print-head {
+			display: block;
+			text-align: center;
+			padding-bottom: 1.25rem;
+			border-bottom: 1px solid #ccc;
+			margin-bottom: 1.5rem;
+		}
+		.cv-print-name {
+			font-family: Georgia, "Times New Roman", serif;
+			font-size: 2.25rem;
+			font-weight: 700;
+			letter-spacing: -0.01em;
+			margin-bottom: 0.35rem;
+		}
+		.cv-print-title {
+			text-transform: uppercase;
+			letter-spacing: 0.18em;
+			font-size: 0.8rem;
+			color: #666;
+			margin-bottom: 0.85rem;
+		}
+		.cv-print-contact {
+			font-size: 0.8rem;
+			line-height: 1.6;
+		}
+		.cv-print-contact p {
+			margin: 0.15rem 0;
+		}
+		.cv-print-contact a {
+			color: #666;
+			text-decoration: none;
+		}
+
+		.cv-screen-only {
+			display: none !important;
+		}
+
+		body {
+			font-family: Georgia, "Times New Roman", serif !important;
+			font-size: 0.92rem;
+			line-height: 1.55;
+			padding: 0 !important;
+			max-width: none !important;
+			color: #222;
+		}
+
+		h2.title {
+			text-transform: uppercase;
+			letter-spacing: 0.12em;
+			font-size: 0.85rem !important;
+			color: var(--color-accent);
+			border-bottom: 1px solid #ccc;
+			padding-bottom: 0.4rem;
+			margin-top: 1.5rem !important;
+			margin-bottom: 0.75rem !important;
+			font-family: inherit;
+		}
+
+		.cv-section {
+			display: block !important;
+			grid-template-columns: none !important;
+			gap: 0 !important;
+			margin-bottom: 1rem;
+		}
+		.cv-label {
+			display: none !important;
+		}
+
+		.cv-job {
+			display: block !important;
+			grid-template-columns: none !important;
+			padding: 0.85rem 0 !important;
+			gap: 0 !important;
+			border-bottom: none !important;
+		}
+		.cv-meta {
+			float: right;
+			text-align: right;
+			margin-left: 1rem;
+			font-size: 0.85rem;
+			text-transform: none;
+			letter-spacing: 0;
+		}
+		.cv-meta > .font-bold {
+			font-weight: 600;
+		}
+		.cv-meta > .text-muted {
+			font-size: 0.78rem;
+			color: #777;
+		}
+		.cv-job-title {
+			font-size: 1.05rem;
+			font-weight: 700;
+			margin-bottom: 0.15rem;
+		}
+		.cv-role {
+			color: #666;
+			font-style: italic;
+			font-size: 0.9rem;
+			margin-bottom: 0.4rem;
+		}
+		.cv-stack {
+			clear: both;
+			font-style: italic;
+			font-size: 0.78rem;
+			color: #777;
+			margin-top: 0.5rem;
+			letter-spacing: 0;
+			text-transform: none;
+		}
+
+		.cv-skills-row {
+			display: block !important;
+			grid-template-columns: none !important;
+			gap: 0 !important;
+			margin-bottom: 0.85rem;
+		}
+		.cv-skills-label {
+			display: inline-block !important;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			font-size: 0.78rem;
+			color: var(--color-accent);
+			margin-right: 0.5rem;
+			margin-bottom: 0.15rem;
+		}
+		.cv-skills-row p {
+			display: block;
+			margin: 0;
+		}
+
+		.divide-y > * + *,
+		.border-y {
+			border: none !important;
+		}
+
+		a {
+			color: inherit !important;
+			text-decoration: none !important;
+		}
+
+		.prose p {
+			margin: 0.45rem 0 !important;
+		}
+
+		@page {
+			margin: 1.5cm 1.5cm;
+		}
+	}
+</style>
+
+<style is:global>
+	@media print {
+		#main-header,
+		body > footer {
+			display: none !important;
+		}
+		body {
+			padding-top: 0 !important;
+			max-width: none !important;
+		}
+	}
+</style>
+
+<script>
+	const printBtn = document.getElementById("print-cv");
+	printBtn?.addEventListener("click", () => window.print());
+</script>

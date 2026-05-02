@@ -1,41 +1,41 @@
 ---
 import PageLayout from "@/layouts/Base.astro";
+import { type Lang, languages } from "@/i18n/ui";
+import { useTranslations } from "@/i18n/utils";
 
-const meta = {
-	description:
-		"Get in touch with Jose Barbosa. For consulting inquiries, AI training, or anything that needs a real reply.",
-	title: "Contact",
-};
+export function getStaticPaths() {
+	return Object.keys(languages).map((lang) => ({
+		params: { lang: lang === "en" ? undefined : lang },
+		props: { lang: lang as Lang },
+	}));
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).contact;
+const meta = { title: t.meta.title, description: t.meta.description };
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-4 text-3xl sm:text-4xl">Contact</h1>
-	<p class="text-muted mb-12">
-		Drop a note. I'm interested in consulting, AI training engagements, and
-		conversations about engineering at scale. The more specific your message, the
-		faster the reply.
-	</p>
+	<h1 class="title mb-4 text-3xl sm:text-4xl">{t.heading}</h1>
+	<p class="text-muted mb-12">{t.lead}</p>
 
 	<form
 		action="https://formspree.io/f/mzdozjng"
 		class="space-y-6"
 		id="contact-form"
 		method="POST"
+		data-success={t.form.success}
+		data-error={t.form.error}
+		data-sending={t.form.sending}
+		data-submit={t.form.submit}
 	>
 		<div>
-			<label class="contact-label" for="name">Name</label>
-			<input
-				autocomplete="name"
-				class="contact-input"
-				id="name"
-				name="name"
-				required
-				type="text"
-			/>
+			<label class="contact-label" for="name">{t.form.name}</label>
+			<input autocomplete="name" class="contact-input" id="name" name="name" required type="text" />
 		</div>
 
 		<div>
-			<label class="contact-label" for="email">Email</label>
+			<label class="contact-label" for="email">{t.form.email}</label>
 			<input
 				autocomplete="email"
 				class="contact-input"
@@ -47,17 +47,15 @@ const meta = {
 		</div>
 
 		<div>
-			<label class="contact-label" for="subject">Subject <span class="text-muted text-xs">(optional)</span></label>
-			<input
-				class="contact-input"
-				id="subject"
-				name="subject"
-				type="text"
-			/>
+			<label class="contact-label" for="subject">
+				{t.form.subject}{" "}
+				<span class="text-muted text-xs">{t.form.subjectOptional}</span>
+			</label>
+			<input class="contact-input" id="subject" name="subject" type="text" />
 		</div>
 
 		<div>
-			<label class="contact-label" for="message">Message</label>
+			<label class="contact-label" for="message">{t.form.message}</label>
 			<textarea
 				class="contact-input min-h-40 resize-y"
 				id="message"
@@ -67,38 +65,33 @@ const meta = {
 		</div>
 
 		<div aria-hidden="true" class="hidden">
-			<label for="website">Leave this field empty</label>
+			<label for="website">{t.form.honeypotLabel}</label>
 			<input id="website" name="_gotcha" tabindex="-1" type="text" />
 		</div>
 
 		<div id="form-feedback" aria-live="polite" class="text-sm"></div>
 
-		<button class="contact-submit" type="submit">Send message</button>
+		<button class="contact-submit" type="submit">{t.form.submit}</button>
 	</form>
 
 	<hr class="border-global-text/10 my-16" />
 
 	<section>
-		<h2 class="title mb-6 text-xl">Other ways to reach me</h2>
+		<h2 class="title mb-6 text-xl">{t.other.heading}</h2>
 		<div class="prose prose-cactus max-w-none">
 			<ul>
-				<li>
-					<a href="https://linkedin.com/in/kidchenko" rel="noreferrer" target="_blank">
-						LinkedIn
-					</a>
-					- best for professional inquiries
-				</li>
-				<li>
-					<a href="https://github.com/kidchenko" rel="noreferrer" target="_blank">
-						GitHub
-					</a>
-					- for open source and code
-				</li>
+				{
+					t.other.items.map((item) => (
+						<li>
+							<a href={item.url} rel="noreferrer" target="_blank">
+								{item.name}
+							</a>
+							{` - ${item.note}`}
+						</li>
+					))
+				}
 			</ul>
-			<p class="text-muted text-sm">
-				Note: cold sales, generic recruiter spam, and "quick chat" requests without
-				context tend to get archived.
-			</p>
+			<p class="text-muted text-sm">{t.other.footnote}</p>
 		</div>
 	</section>
 </PageLayout>
@@ -158,12 +151,17 @@ const meta = {
 	const submitBtn = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
 
 	if (form && feedback && submitBtn) {
+		const successMsg = form.dataset.success ?? "Message sent.";
+		const errorMsg = form.dataset.error ?? "Something went wrong.";
+		const sendingMsg = form.dataset.sending ?? "Sending...";
+		const submitMsg = form.dataset.submit ?? "Send message";
+
 		form.addEventListener("submit", async (e) => {
 			e.preventDefault();
 			feedback.textContent = "";
 			feedback.className = "text-sm";
 			submitBtn.disabled = true;
-			submitBtn.textContent = "Sending...";
+			submitBtn.textContent = sendingMsg;
 
 			try {
 				const response = await fetch(form.action, {
@@ -173,21 +171,18 @@ const meta = {
 				});
 
 				if (response.ok) {
-					feedback.textContent = "Message sent. I'll get back to you.";
-					feedback.className =
-						"text-sm font-semibold text-green-700 dark:text-green-400";
+					feedback.textContent = successMsg;
+					feedback.className = "text-sm font-semibold text-green-700 dark:text-green-400";
 					form.reset();
 				} else {
 					throw new Error("Form submission failed");
 				}
 			} catch {
-				feedback.textContent =
-					"Something went wrong. Try again, or email kidchenko@gmail.com directly.";
-				feedback.className =
-					"text-sm font-semibold text-red-700 dark:text-red-400";
+				feedback.textContent = errorMsg;
+				feedback.className = "text-sm font-semibold text-red-700 dark:text-red-400";
 			} finally {
 				submitBtn.disabled = false;
-				submitBtn.textContent = "Send message";
+				submitBtn.textContent = submitMsg;
 			}
 		});
 	}

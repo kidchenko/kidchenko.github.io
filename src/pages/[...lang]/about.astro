@@ -1,0 +1,84 @@
+---
+import { Image } from "astro:assets";
+import PageLayout from "@/layouts/Base.astro";
+import casual from "@/assets/img/jose-casual.png";
+import { type Lang, languages } from "@/i18n/ui";
+import { localizeUrl, useTranslations } from "@/i18n/utils";
+
+export function getStaticPaths() {
+	return Object.keys(languages).map((lang) => ({
+		params: { lang: lang === "en" ? undefined : lang },
+		props: { lang: lang as Lang },
+	}));
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).about;
+const meta = {
+	title: t.meta.title,
+	description: t.meta.description,
+};
+const contactUrl = localizeUrl("/contact", lang);
+---
+
+<PageLayout meta={meta}>
+	<h1 class="title mb-12 text-3xl sm:text-4xl">{t.heading}</h1>
+
+	<div class="prose prose-cactus max-w-none">
+		<div class="not-prose mb-6 w-40 sm:float-right sm:mb-4 sm:ms-8 sm:w-56">
+			<Image
+				alt={t.photoAlt}
+				class="rounded-lg"
+				sizes="(min-width: 640px) 224px, 160px"
+				src={casual}
+				widths={[160, 224, 448]}
+			/>
+		</div>
+
+		<p><strong>{t.hi}</strong></p>
+
+		{t.intro.map((p) => <p>{p}</p>)}
+	</div>
+
+	<hr class="border-global-text/10 my-16" />
+
+	<section>
+		<h2 class="title mb-6 text-xl">{t.now.heading}</h2>
+		<div class="prose prose-cactus max-w-none">
+			<ul>
+				{t.now.items.map((item) => <li set:html={item} />)}
+			</ul>
+		</div>
+	</section>
+
+	<hr class="border-global-text/10 my-16" />
+
+	<section>
+		<h2 class="title mb-6 text-xl">{t.beyond.heading}</h2>
+		<div class="prose prose-cactus max-w-none">
+			{t.beyond.body.map((p) => <p set:html={p} />)}
+		</div>
+	</section>
+
+	<hr class="border-global-text/10 my-16" />
+
+	<section>
+		<h2 class="title mb-6 text-xl">{t.reading.heading}</h2>
+		<div class="prose prose-cactus max-w-none">
+			<p>{t.reading.lead}</p>
+			<ul>
+				{t.reading.items.map((item) => <li set:html={item} />)}
+			</ul>
+			<p>{t.reading.closing}</p>
+		</div>
+	</section>
+
+	<hr class="border-global-text/10 my-16" />
+
+	<section>
+		<h2 class="title mb-6 text-xl">{t.connect.heading}</h2>
+		<div class="prose prose-cactus max-w-none">
+			<p set:html={t.connect.body.replace("{contactUrl}", contactUrl)} />
+		</div>
+	</section>
+</PageLayout>
