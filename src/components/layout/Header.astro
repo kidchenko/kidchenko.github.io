@@ -23,7 +23,7 @@ const menuLinks: { path: string; title: string }[] = [
 ];
 ---
 
-<header class="group relative z-10 mb-20 flex items-center" id="main-header">
+<header class="group relative z-10 mb-12 flex items-center sm:mb-16" id="main-header">
 	<a aria-current={false} aria-label="Jose Barbosa - home" class="logo-link" href={localizeUrl("/", lang)}>
 		<span aria-hidden="true" class="logo-mark" set:html={markSvg} />
 	</a>
@@ -113,6 +113,7 @@ const menuLinks: { path: string; title: string }[] = [
 				if (headerEl) toggleClass(headerEl, "menu-open");
 				this.#menuOpen = !this.#menuOpen;
 				mobileButtonEl.setAttribute("aria-expanded", this.#menuOpen.toString());
+				document.body.style.overflow = this.#menuOpen ? "hidden" : "";
 			});
 		}
 	}
@@ -143,7 +144,7 @@ const menuLinks: { path: string; title: string }[] = [
 			bezel.style.transform = `rotate(${currentAngle}deg)`;
 		};
 
-		let mode: "compass" | "compass-idle" | "mouse" | null = null;
+		let mode: "compass" | "compass-lost" | "mouse" | null = null;
 
 		const onMove = (e: MouseEvent) => {
 			if (mode === "compass") return;
@@ -157,13 +158,33 @@ const menuLinks: { path: string; title: string }[] = [
 			setAngle(angle);
 		};
 
-		const stopIdle = () => bezel.classList.remove("compass-idle");
-		const startIdle = () => {
-			if (mode === "compass-idle") return;
-			mode = "compass-idle";
-			bezel.style.transform = "";
-			bezel.classList.add("compass-idle");
-			log("[compass] no usable data, falling back to idle spin");
+		const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+		let wanderTimeout: number | null = null;
+
+		const stopLostCompass = () => {
+			if (wanderTimeout != null) {
+				clearTimeout(wanderTimeout);
+				wanderTimeout = null;
+			}
+		};
+
+		const startLostCompass = () => {
+			if (mode === "compass" || mode === "compass-lost") return;
+			if (reducedMotion) return;
+			mode = "compass-lost";
+			log("[compass] no usable data, simulating lost compass");
+			const wander = () => {
+				if (mode !== "compass-lost") return;
+				const bigSwing = Math.random() < 0.25;
+				const magnitude = bigSwing
+					? 120 + Math.random() * 80
+					: 30 + Math.random() * 70;
+				const direction = Math.random() < 0.5 ? 1 : -1;
+				setAngle(currentAngle + magnitude * direction);
+				const delay = 600 + Math.random() * 1400;
+				wanderTimeout = window.setTimeout(wander, delay);
+			};
+			wander();
 		};
 
 		const compassHandler = (e: DeviceOrientationEvent & { webkitCompassHeading?: number }) => {
@@ -183,10 +204,8 @@ const menuLinks: { path: string; title: string }[] = [
 				`[compass] ${e.type}\nabsolute: ${e.absolute}\nalpha: ${e.alpha?.toFixed(1)}\nwebkit: ${e.webkitCompassHeading?.toFixed(1) ?? "n/a"}\nheading: ${heading?.toFixed(1) ?? "n/a"} (${source})`,
 			);
 			if (heading != null) {
-				if (mode === "compass-idle") {
-					stopIdle();
-					mode = "compass";
-				}
+				if (mode === "compass-lost") stopLostCompass();
+				mode = "compass";
 				setAngle(-heading);
 			}
 		};
@@ -212,9 +231,9 @@ const menuLinks: { path: string; title: string }[] = [
 			}) as EventListener);
 		};
 
-		const armIdleFallback = () => {
+		const armLostFallback = () => {
 			window.setTimeout(() => {
-				if (mode !== "compass") startIdle();
+				if (mode !== "compass") startLostCompass();
 			}, 2000);
 		};
 
@@ -231,17 +250,19 @@ const menuLinks: { path: string; title: string }[] = [
 					console.log("[compass] iOS permission:", state);
 					if (state === "granted") {
 						attachOrientationListener();
-						armIdleFallback();
+						armLostFallback();
 					} else {
-						startIdle();
+						mode = null;
+						startLostCompass();
 					}
 				} catch (err) {
 					console.log("[compass] iOS permission error:", err);
-					startIdle();
+					mode = null;
+					startLostCompass();
 				}
 			} else {
 				attachOrientationListener();
-				armIdleFallback();
+				armLostFallback();
 			}
 		};
 
@@ -252,9 +273,6 @@ const menuLinks: { path: string; title: string }[] = [
 
 		if (hasTouch) {
 			document.addEventListener("touchstart", enableCompass, { once: true, passive: true });
-			window.setTimeout(() => {
-				if (mode == null) startIdle();
-			}, 4000);
 		} else {
 			document.addEventListener("mousemove", onMove);
 		}
@@ -283,26 +301,11 @@ const menuLinks: { path: string; title: string }[] = [
 	}
 	.logo-mark :global(.compass-bezel) {
 		transform-origin: 50px 50px;
-		transition: transform 200ms ease-out;
-	}
-	.logo-mark :global(.compass-bezel.compass-idle) {
-		animation: compass-spin 24s linear infinite;
-		transition: none;
-	}
-	@keyframes compass-spin {
-		from {
-			transform: rotate(0deg);
-		}
-		to {
-			transform: rotate(360deg);
-		}
+		transition: transform 350ms ease-out;
 	}
 	@media (prefers-reduced-motion: reduce) {
 		.logo-mark :global(.compass-bezel) {
 			transition: none;
-		}
-		.logo-mark :global(.compass-bezel.compass-idle) {
-			animation: none;
 		}
 	}
 	@media (min-width: 640px) {
