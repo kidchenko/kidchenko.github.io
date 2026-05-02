@@ -29,29 +29,41 @@ const menuLinks: { path: string; title: string }[] = [
 	</a>
 	<nav
 		aria-label="Main menu"
-		class="bg-global-bg absolute -inset-x-4 top-12 hidden flex-col divide-y px-2 py-4 group-[.menu-open]:z-50 group-[.menu-open]:flex sm:static sm:z-auto sm:ms-8 sm:flex sm:flex-row sm:divide-x sm:divide-y-0 sm:bg-transparent sm:p-0"
+		class="bg-global-bg/95 fixed inset-x-0 top-0 z-40 hidden h-screen flex-col items-stretch px-8 pt-24 pb-10 backdrop-blur-md group-[.menu-open]:flex sm:static sm:inset-auto sm:z-auto sm:ms-8 sm:flex sm:h-auto sm:flex-row sm:items-center sm:gap-0 sm:bg-transparent sm:p-0 sm:backdrop-blur-none"
 		id="navigation-menu"
 	>
-		{
-			menuLinks.map((link) => (
-				<a
-					aria-current={Astro.url.pathname === link.path ? "page" : false}
-					class="text-accent px-2 py-4 font-semibold sm:px-4 sm:py-0 sm:underline-offset-2 sm:hover:underline"
-					href={link.path}
-				>
-					{link.title}
-				</a>
-			))
-		}
+		<div class="flex flex-1 flex-col gap-1 sm:flex-row sm:gap-0">
+			{
+				menuLinks.map((link, i) => (
+					<a
+						aria-current={Astro.url.pathname === link.path ? "page" : false}
+						class:list={[
+							"nav-link group/link relative block py-3 text-2xl font-semibold sm:px-4 sm:py-0 sm:text-sm sm:hover:underline",
+							Astro.url.pathname === link.path ? "text-accent" : "text-global-text",
+						]}
+						href={link.path}
+					>
+						<span class="text-muted me-3 text-xs font-mono sm:hidden">
+							{String(i + 1).padStart(2, "0")}
+						</span>
+						{link.title}
+					</a>
+				))
+			}
+		</div>
+		<div class="mt-auto flex items-center justify-between border-t border-global-text/10 pt-6 sm:hidden">
+			<span class="text-muted text-xs font-semibold uppercase tracking-wider">Language</span>
+			<LanguageToggle />
+		</div>
 	</nav>
 	<Search />
-	<LanguageToggle />
+	<span class="hidden sm:inline-flex"><LanguageToggle /></span>
 	<ThemeToggle />
 	<mobile-button>
 		<button
 			aria-expanded="false"
 			aria-haspopup="menu"
-			class="group relative ms-4 h-7 w-7 sm:invisible sm:hidden"
+			class="group focus-visible:ring-accent relative z-50 ms-4 h-7 w-7 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:invisible sm:hidden"
 			id="toggle-navigation-menu"
 			type="button"
 		>
@@ -73,7 +85,6 @@ const menuLinks: { path: string; title: string }[] = [
 			<svg
 				aria-hidden="true"
 				class="text-accent absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all group-aria-expanded:scale-100 group-aria-expanded:opacity-100"
-				class="text-accent"
 				fill="none"
 				focusable="false"
 				id="cross-svg"
@@ -111,6 +122,20 @@ const menuLinks: { path: string; title: string }[] = [
 	// Compass behavior on the logo
 	const bezel = document.querySelector<SVGGElement>(".logo-mark .compass-bezel");
 	if (bezel) {
+		const debugOn = new URLSearchParams(window.location.search).has("compass-debug");
+		let debugEl: HTMLDivElement | null = null;
+		if (debugOn) {
+			debugEl = document.createElement("div");
+			debugEl.style.cssText =
+				"position:fixed;bottom:12px;right:12px;z-index:9999;background:rgba(0,0,0,0.8);color:#0f0;font:11px/1.4 monospace;padding:8px 12px;border-radius:6px;max-width:240px;white-space:pre;";
+			debugEl.textContent = "[compass] waiting...";
+			document.body.appendChild(debugEl);
+		}
+		const log = (msg: string) => {
+			console.log(msg);
+			if (debugEl) debugEl.textContent = msg;
+		};
+
 		let currentAngle = 0;
 		const setAngle = (target: number) => {
 			const diff = (((target - currentAngle) % 360) + 540) % 360 - 180;
@@ -134,29 +159,42 @@ const menuLinks: { path: string; title: string }[] = [
 
 		const compassHandler = (e: DeviceOrientationEvent & { webkitCompassHeading?: number }) => {
 			let heading: number | null = null;
+			let source = "none";
 			if (e.webkitCompassHeading != null) {
 				heading = e.webkitCompassHeading;
+				source = "webkit";
 			} else if (e.absolute && e.alpha != null) {
 				heading = 360 - e.alpha;
+				source = "absolute";
+			} else if (e.alpha != null) {
+				heading = 360 - e.alpha;
+				source = "relative";
 			}
-			console.log("[compass]", {
-				type: e.type,
-				absolute: e.absolute,
-				alpha: e.alpha,
-				webkitCompassHeading: e.webkitCompassHeading,
-				heading,
-			});
+			log(
+				`[compass] ${e.type}\nabsolute: ${e.absolute}\nalpha: ${e.alpha?.toFixed(1)}\nwebkit: ${e.webkitCompassHeading?.toFixed(1) ?? "n/a"}\nheading: ${heading?.toFixed(1) ?? "n/a"} (${source})`,
+			);
 			if (heading != null) setAngle(-heading);
 		};
 
 		const attachOrientationListener = () => {
-			if ("ondeviceorientationabsolute" in window) {
-				console.log("[compass] using deviceorientationabsolute");
-				window.addEventListener("deviceorientationabsolute", compassHandler as EventListener);
+			const win = window as unknown as {
+				addEventListener: (type: string, handler: EventListener) => void;
+				ondeviceorientationabsolute?: unknown;
+			};
+			let absoluteFired = false;
+			if ("ondeviceorientationabsolute" in win) {
+				log("[compass] attached: deviceorientationabsolute");
+				win.addEventListener("deviceorientationabsolute", ((e: Event) => {
+					absoluteFired = true;
+					compassHandler(e as DeviceOrientationEvent & { webkitCompassHeading?: number });
+				}) as EventListener);
 			} else {
-				console.log("[compass] using deviceorientation");
-				window.addEventListener("deviceorientation", compassHandler as EventListener);
+				log("[compass] no absolute event, listening to deviceorientation only");
 			}
+			win.addEventListener("deviceorientation", ((e: Event) => {
+				if (!absoluteFired)
+					compassHandler(e as DeviceOrientationEvent & { webkitCompassHeading?: number });
+			}) as EventListener);
 		};
 
 		const enableCompass = async () => {
