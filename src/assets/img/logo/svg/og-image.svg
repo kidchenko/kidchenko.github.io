@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Jose Barbosa social card">
+  <rect width="1200" height="630" fill="#fdfdf9"/>
+  <rect x="40" y="40" width="1120" height="550" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.15"/>
+  <g transform="translate(480 90) scale(2.4)" fill="none" stroke="currentColor">
+    <circle cx="50" cy="50" r="41.6" stroke-width="0.6" opacity="0.4"/>
+    <circle cx="50" cy="50" r="35.2" stroke-width="1.2"/>
+    <circle cx="50" cy="50" r="25.6" stroke-width="0.4" opacity="0.4"/>
+    <g stroke-width="0.7">
+      <line x1="50" y1="8.4" x2="50" y2="11.6"/>
+      <line x1="70.8" y1="14" x2="69.2" y2="16.8"/>
+      <line x1="86" y1="29.2" x2="83.2" y2="30.8"/>
+      <line x1="91.6" y1="50" x2="88.4" y2="50"/>
+      <line x1="86" y1="70.8" x2="83.2" y2="69.2"/>
+      <line x1="70.8" y1="86" x2="69.2" y2="83.2"/>
+      <line x1="50" y1="91.6" x2="50" y2="88.4"/>
+      <line x1="29.2" y1="86" x2="30.8" y2="83.2"/>
+      <line x1="14" y1="70.8" x2="16.8" y2="69.2"/>
+      <line x1="8.4" y1="50" x2="11.6" y2="50"/>
+      <line x1="14" y1="29.2" x2="16.8" y2="30.8"/>
+      <line x1="29.2" y1="14" x2="30.8" y2="16.8"/>
+    </g>
+    <polygon points="50,14.8 47.6,21.2 52.4,21.2" fill="currentColor" stroke="none"/>
+    <text x="50" y="57.2" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="17.6" font-weight="500" fill="currentColor" stroke="none" letter-spacing="-0.8">JB</text>
+  </g>
+  <text x="600" y="510" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="76" font-weight="500" fill="currentColor" letter-spacing="-2">Jose Barbosa</text>
+</svg>

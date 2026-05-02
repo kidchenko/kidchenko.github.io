@@ -1,0 +1,158 @@
+---
+import { Image } from "astro:assets";
+import PageLayout from "@/layouts/Base.astro";
+import casual from "@/assets/img/jose-casual.png";
+
+const meta = {
+	description:
+		"Engineering Director who scaled teams across Thailand and Brazil. Now founding AI products and consulting from São Paulo.",
+	title: "About",
+};
+---
+
+<PageLayout meta={meta}>
+	<h1 class="title mb-12 text-3xl sm:text-4xl">About</h1>
+
+	<div class="prose prose-cactus max-w-none">
+		<div
+			class="not-prose mb-6 w-40 sm:float-right sm:mb-4 sm:ms-8 sm:w-56"
+		>
+			<Image
+				alt="Jose Barbosa, casual portrait"
+				class="rounded-lg"
+				sizes="(min-width: 640px) 224px, 160px"
+				src={casual}
+				widths={[160, 224, 448]}
+			/>
+		</div>
+
+		<p><strong>Hi, I'm Jose.</strong></p>
+
+		<p>
+			I grew up in São Paulo and started writing code professionally in 2010. By 2017
+			I was in Bangkok - first as a senior engineer at Jetabroad, then a tech lead at
+			Thoughtworks, and most recently as Head of Engineering at Seven Peaks Software,
+			where I scaled a 30-person backend team into a 60-engineer department across 27
+			nationalities.
+		</p>
+
+		<p>
+			Eight years and a lot of conferences, hires, and retros later, I'm back in
+			Brazil. I came home at the end of 2025 with a clearer sense of what I want to
+			build next: leverage what I've learned about scaling teams to scale a product
+			instead.
+		</p>
+
+		<p>
+			I'm currently founding two AI-augmented B2B SaaS products - Vera, a
+			company-data enrichment platform, and a .NET SaaS for AI-augmented backend
+			development - while running enterprise AI training across APAC and Brazil, and
+			consulting selectively.
+		</p>
+
+		<p>
+			I read a lot, lift weights, organize meetups, and care about treating engineers
+			like adults.
+		</p>
+	</div>
+
+	<hr class="border-global-text/10 my-16" />
+
+	<section>
+		<h2 class="title mb-6 text-xl">Now</h2>
+		<div class="prose prose-cactus max-w-none">
+			<ul>
+				<li>
+					<strong>Building.</strong> Vera (AI-driven company data enrichment) and a .NET SaaS
+					for AI-augmented backend development.
+				</li>
+				<li>
+					<strong>Training.</strong> Running enterprise AI workshops (n8n, LLM workflows, automation)
+					for clients across APAC and Brazil.
+				</li>
+				<li>
+					<strong>Consulting.</strong> Selectively, on engineering architecture, AI integration,
+					and team scaling.
+				</li>
+				<li><strong>Writing.</strong> First posts coming soon.</li>
+			</ul>
+		</div>
+	</section>
+
+	<hr class="border-global-text/10 my-16" />
+
+	<section>
+		<h2 class="title mb-6 text-xl">Beyond engineering</h2>
+		<div class="prose prose-cactus max-w-none">
+			<p>
+				I've founded a few companies before this one. <strong>Rose</strong> was a
+				student-era startup that became a Microsoft Imagine Cup finalist and raised over
+				$100K. <strong>Unline</strong> followed with a $15K seed. Later, while working full-time
+				in Bangkok, I founded <strong>Isho Group</strong>, a small mining operation in
+				Thailand that returned 2x on operational costs through procurement and
+				supply-chain optimization.
+			</p>
+			<p>
+				I co-organize <strong>.NET Conf Thailand</strong>, the largest .NET conference
+				in Thailand (~200 attendees, 7 years and counting), and have spoken at conferences
+				across Latin America and Southeast Asia. I invest, lift, and spend a lot of weekends
+				on AI automation pipelines.
+			</p>
+		</div>
+	</section>
+
+	<hr class="border-global-text/10 my-16" />
+
+	<section>
+		<h2 class="title mb-6 text-xl">Reading & interests</h2>
+		<div class="prose prose-cactus max-w-none">
+			<p>I read broadly. The books I return to:</p>
+			<ul>
+				<li>
+					<strong>Engineering & leadership:</strong>
+					<em>The Making of a Manager</em>, <em>Managing Humans</em>, <em
+						>Leading Effective Engineering Teams</em
+					>
+				</li>
+				<li>
+					<strong>Teams:</strong>
+					<em>The Five Dysfunctions of a Team</em>
+				</li>
+				<li>
+					<strong>Strategy & decisions:</strong>
+					<em>Principles</em> (Dalio), <em>The First 90 Days</em>
+				</li>
+				<li>
+					<strong>Human nature:</strong>
+					<em>The Laws of Human Nature</em>, <em>Atomic Habits</em>
+				</li>
+				<li>
+					<strong>Stoicism:</strong>
+					<em>Meditations</em>, <em>Letters from a Stoic</em>, <em>Tao Te Ching</em>
+				</li>
+			</ul>
+			<p>
+				Topics I think about most: organizational design, AI and automation, product
+				strategy, and stoic decision-making.
+			</p>
+		</div>
+	</section>
+
+	<hr class="border-global-text/10 my-16" />
+
+	<section>
+		<h2 class="title mb-6 text-xl">Connect</h2>
+		<div class="prose prose-cactus max-w-none">
+			<p>
+				Best way to reach me is via <a href="/contact">the contact form</a>. You can
+				also find me on <a
+					href="https://github.com/kidchenko"
+					rel="noreferrer"
+					target="_blank">GitHub</a
+				> and <a href="https://linkedin.com/in/kidchenko" rel="noreferrer" target="_blank"
+					>LinkedIn</a
+				>.
+			</p>
+		</div>
+	</section>
+</PageLayout>

@@ -1,0 +1,194 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+
+const meta = {
+	description:
+		"Get in touch with Jose Barbosa. For consulting inquiries, AI training, or anything that needs a real reply.",
+	title: "Contact",
+};
+---
+
+<PageLayout meta={meta}>
+	<h1 class="title mb-4 text-3xl sm:text-4xl">Contact</h1>
+	<p class="text-muted mb-12">
+		Drop a note. I'm interested in consulting, AI training engagements, and
+		conversations about engineering at scale. The more specific your message, the
+		faster the reply.
+	</p>
+
+	<form
+		action="https://formspree.io/f/mzdozjng"
+		class="space-y-6"
+		id="contact-form"
+		method="POST"
+	>
+		<div>
+			<label class="contact-label" for="name">Name</label>
+			<input
+				autocomplete="name"
+				class="contact-input"
+				id="name"
+				name="name"
+				required
+				type="text"
+			/>
+		</div>
+
+		<div>
+			<label class="contact-label" for="email">Email</label>
+			<input
+				autocomplete="email"
+				class="contact-input"
+				id="email"
+				name="email"
+				required
+				type="email"
+			/>
+		</div>
+
+		<div>
+			<label class="contact-label" for="subject">Subject <span class="text-muted text-xs">(optional)</span></label>
+			<input
+				class="contact-input"
+				id="subject"
+				name="subject"
+				type="text"
+			/>
+		</div>
+
+		<div>
+			<label class="contact-label" for="message">Message</label>
+			<textarea
+				class="contact-input min-h-40 resize-y"
+				id="message"
+				name="message"
+				required
+				rows="6"></textarea>
+		</div>
+
+		<div aria-hidden="true" class="hidden">
+			<label for="website">Leave this field empty</label>
+			<input id="website" name="_gotcha" tabindex="-1" type="text" />
+		</div>
+
+		<div id="form-feedback" aria-live="polite" class="text-sm"></div>
+
+		<button class="contact-submit" type="submit">Send message</button>
+	</form>
+
+	<hr class="border-global-text/10 my-16" />
+
+	<section>
+		<h2 class="title mb-6 text-xl">Other ways to reach me</h2>
+		<div class="prose prose-cactus max-w-none">
+			<ul>
+				<li>
+					<a href="https://linkedin.com/in/kidchenko" rel="noreferrer" target="_blank">
+						LinkedIn
+					</a>
+					- best for professional inquiries
+				</li>
+				<li>
+					<a href="https://github.com/kidchenko" rel="noreferrer" target="_blank">
+						GitHub
+					</a>
+					- for open source and code
+				</li>
+			</ul>
+			<p class="text-muted text-sm">
+				Note: cold sales, generic recruiter spam, and "quick chat" requests without
+				context tend to get archived.
+			</p>
+		</div>
+	</section>
+</PageLayout>
+
+<style>
+	.contact-label {
+		display: block;
+		font-size: 0.875rem;
+		font-weight: 600;
+		margin-bottom: 0.4rem;
+		color: var(--color-global-text);
+	}
+	.contact-input {
+		display: block;
+		width: 100%;
+		padding: 0.65rem 0.9rem;
+		border: 1px solid var(--color-global-text);
+		border-opacity: 0.2;
+		border-color: color-mix(in oklch, var(--color-global-text) 20%, transparent);
+		border-radius: 4px;
+		background: transparent;
+		color: var(--color-global-text);
+		font-family: inherit;
+		font-size: 0.95rem;
+		transition: border-color 150ms ease;
+	}
+	.contact-input:focus {
+		outline: none;
+		border-color: var(--color-accent);
+	}
+	.contact-submit {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.7rem 1.5rem;
+		background: var(--color-accent);
+		color: var(--color-global-bg);
+		border-radius: 4px;
+		font-weight: 600;
+		font-size: 0.95rem;
+		cursor: pointer;
+		border: none;
+		transition: opacity 150ms ease;
+	}
+	.contact-submit:hover {
+		opacity: 0.9;
+	}
+	.contact-submit:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+</style>
+
+<script>
+	const form = document.getElementById("contact-form") as HTMLFormElement | null;
+	const feedback = document.getElementById("form-feedback");
+	const submitBtn = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+	if (form && feedback && submitBtn) {
+		form.addEventListener("submit", async (e) => {
+			e.preventDefault();
+			feedback.textContent = "";
+			feedback.className = "text-sm";
+			submitBtn.disabled = true;
+			submitBtn.textContent = "Sending...";
+
+			try {
+				const response = await fetch(form.action, {
+					method: "POST",
+					body: new FormData(form),
+					headers: { Accept: "application/json" },
+				});
+
+				if (response.ok) {
+					feedback.textContent = "Message sent. I'll get back to you.";
+					feedback.className =
+						"text-sm font-semibold text-green-700 dark:text-green-400";
+					form.reset();
+				} else {
+					throw new Error("Form submission failed");
+				}
+			} catch {
+				feedback.textContent =
+					"Something went wrong. Try again, or email kidchenko@gmail.com directly.";
+				feedback.className =
+					"text-sm font-semibold text-red-700 dark:text-red-400";
+			} finally {
+				submitBtn.disabled = false;
+				submitBtn.textContent = "Send message";
+			}
+		});
+	}
+</script>
