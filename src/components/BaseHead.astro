@@ -4,6 +4,13 @@ import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
 import "@/styles/global.css";
 
+// Critical font subset preloaded so the browser can fetch in parallel with CSS,
+// not after. Latin-only Roboto Mono (normal weight) is the most-used face on
+// every page; preloading it shrinks the FOUT window where the metric-matched
+// fallback is visible. Other subsets (latin-ext for PT-BR, italic, Newsreader)
+// load via the @font-face declarations on demand.
+import robotoMonoLatin from "@fontsource-variable/roboto-mono/files/roboto-mono-latin-wght-normal.woff2?url";
+
 type Props = SiteMeta;
 
 const { articleDate, description, ogImage, title } = Astro.props;
@@ -17,6 +24,9 @@ const socialImageURL = new URL(ogImage ? ogImage : "/og-image.svg", Astro.url).h
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 <title>{siteTitle}</title>
+
+{/* Preload the body voice. Crossorigin is required for fonts. */}
+<link as="font" crossorigin href={robotoMonoLatin} rel="preload" type="font/woff2" />
 
 {/* Icons - theme-adaptive favicons (high contrast against tab bg) */}
 <link

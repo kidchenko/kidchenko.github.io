@@ -18,6 +18,11 @@ export default {
 						},
 						blockquote: {
 							borderLeftWidth: "0",
+							fontFamily: "var(--font-serif)",
+							fontStyle: "italic",
+							fontSize: "1.125em",
+							lineHeight: "1.5",
+							fontVariationSettings: "'opsz' 18",
 						},
 						code: {
 							border: "1px dotted #666",
