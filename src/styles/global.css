@@ -182,6 +182,73 @@
 		font-variation-settings: "opsz" 36;
 		text-wrap: balance;
 	}
+
+	/* Interior page hero pattern (About, Portfolio, Contact, Writing index).
+	   Eyebrow above, page title below, optional serif standfirst.
+	   The post-title (serif) is reserved for blog post H1s; interior pages
+	   stay mono so they read as part of the chrome system. */
+	.page-eyebrow {
+		@apply text-accent text-xs font-bold uppercase;
+		letter-spacing: 0.1em;
+	}
+
+	.page-title {
+		font-family: var(--font-mono);
+		@apply text-accent-2 text-4xl font-bold sm:text-5xl;
+		line-height: 1.05;
+		letter-spacing: -0.02em;
+	}
+
+	/* Editorial standfirst — serif italic lede.
+	   Reserved for the About page, where the personal greeting earns the
+	   editorial moment. Other interior pages use .page-lead instead. */
+	.standfirst {
+		font-family: var(--font-serif);
+		font-size: clamp(1.25rem, 1vw + 1rem, 1.625rem);
+		font-style: italic;
+		font-weight: 400;
+		line-height: 1.4;
+		color: var(--color-accent-2);
+		font-variation-settings: "opsz" 24;
+		text-wrap: balance;
+	}
+
+	/* Functional subtitle — mono, muted, slightly larger than body.
+	   The default lead for interior pages where the copy is descriptive
+	   (Portfolio, Contact, Writing, CV) rather than personal. Sits in the
+	   same slot as .standfirst so structural alignment carries across pages. */
+	.page-lead {
+		font-family: var(--font-mono);
+		@apply text-muted text-base font-normal sm:text-lg;
+		line-height: 1.55;
+	}
+
+	/* Section heading inside long-form interior pages.
+	   Sits between the page-title (h1) and body. Used for h2 inside About,
+	   Portfolio, Contact subsections. */
+	.section-heading {
+		@apply text-accent-2 text-2xl font-bold sm:text-3xl;
+		font-family: var(--font-mono);
+		line-height: 1.15;
+		letter-spacing: -0.01em;
+	}
+
+	/* Bottom-fade mask for portrait images on interior pages.
+	   Mirrors the home hero's mask vocabulary at smaller scale. */
+	.photo-fade {
+		mask-image: linear-gradient(
+			to bottom,
+			rgba(0, 0, 0, 1) 70%,
+			rgba(0, 0, 0, 0.4) 92%,
+			transparent 100%
+		);
+		-webkit-mask-image: linear-gradient(
+			to bottom,
+			rgba(0, 0, 0, 1) 70%,
+			rgba(0, 0, 0, 0.4) 92%,
+			transparent 100%
+		);
+	}
 }
 
 @utility prose {

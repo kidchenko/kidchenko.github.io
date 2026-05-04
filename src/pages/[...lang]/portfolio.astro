@@ -1,7 +1,7 @@
 ---
-import PageLayout from "@/layouts/Base.astro";
 import { type Lang, languages } from "@/i18n/ui";
 import { useTranslations } from "@/i18n/utils";
+import PageLayout from "@/layouts/Base.astro";
 
 export function getStaticPaths() {
 	return Object.keys(languages).map((lang) => ({
@@ -16,12 +16,17 @@ const meta = { title: t.meta.title, description: t.meta.description };
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-4 text-3xl sm:text-4xl">{t.heading}</h1>
-	<p class="text-muted mb-12">{t.lead}</p>
+	{/* Editorial hero: same vocabulary as About, no portrait. */}
+	<header class="mb-8 sm:mb-10">
+		<p class="page-eyebrow mb-5">{t.eyebrow}</p>
+		<h1 class="page-title">{t.heading}</h1>
+		<p class="page-lead mt-6 max-w-prose">{t.lead}</p>
+	</header>
 
-	<section>
+	{/* Building now */}
+	<section class="mt-12 sm:mt-16">
 		<div class="mb-8 flex items-baseline justify-between gap-4">
-			<h2 class="title text-xl">{t.now.heading}</h2>
+			<h2 class="section-heading">{t.now.heading}</h2>
 			<span class="text-muted text-xs font-semibold tracking-wider uppercase">
 				{t.now.eyebrow}
 			</span>
@@ -45,10 +50,9 @@ const meta = { title: t.meta.title, description: t.meta.description };
 		</div>
 	</section>
 
-	<hr class="border-global-text/10 my-16" />
-
-	<section>
-		<h2 class="title mb-8 text-xl">{t.past.heading}</h2>
+	{/* Past ventures */}
+	<section class="mt-20 border-t border-global-text/10 pt-16 sm:mt-24 sm:pt-20">
+		<h2 class="section-heading mb-8">{t.past.heading}</h2>
 
 		<div class="divide-y divide-global-text/10 border-y border-global-text/10">
 			{
@@ -68,10 +72,9 @@ const meta = { title: t.meta.title, description: t.meta.description };
 		</div>
 	</section>
 
-	<hr class="border-global-text/10 my-16" />
-
-	<section>
-		<h2 class="title mb-6 text-xl">{t.oss.heading}</h2>
+	{/* Open source */}
+	<section class="mt-20 border-t border-global-text/10 pt-16 sm:mt-24 sm:pt-20">
+		<h2 class="section-heading mb-8">{t.oss.heading}</h2>
 		<div class="prose prose-cactus max-w-none">
 			<p>{t.oss.body}</p>
 			<p>

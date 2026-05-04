@@ -1,9 +1,9 @@
 ---
 import { Image } from "astro:assets";
-import PageLayout from "@/layouts/Base.astro";
 import casual from "@/assets/img/jose-casual.png";
 import { type Lang, languages } from "@/i18n/ui";
 import { localizeUrl, useTranslations } from "@/i18n/utils";
+import PageLayout from "@/layouts/Base.astro";
 
 export function getStaticPaths() {
 	return Object.keys(languages).map((lang) => ({
@@ -22,28 +22,35 @@ const contactUrl = localizeUrl("/contact", lang);
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-12 text-3xl sm:text-4xl">{t.heading}</h1>
-
-	<div class="prose prose-cactus max-w-none">
-		<div class="not-prose mb-6 w-40 sm:float-right sm:mb-4 sm:ms-8 sm:w-56">
-			<Image
-				alt={t.photoAlt}
-				class="rounded-lg"
-				sizes="(min-width: 640px) 224px, 160px"
-				src={casual}
-				widths={[160, 224, 448]}
-			/>
+	{/* Editorial hero: eyebrow + page title + serif standfirst + portrait.
+	    Tight bottom margin because the standfirst leads into the body it introduces. */}
+	<header class="mb-8 sm:mb-10">
+		<div class="grid gap-10 sm:grid-cols-[1fr_14rem] sm:items-end sm:gap-12">
+			<div>
+				<p class="page-eyebrow mb-5">{t.eyebrow}</p>
+				<h1 class="page-title">{t.heading}</h1>
+				<p class="standfirst mt-6 max-w-prose">{t.hi}</p>
+			</div>
+			<div class="not-prose">
+				<Image
+					alt={t.photoAlt}
+					class="photo-fade w-full rounded-lg object-cover"
+					sizes="(min-width: 640px) 224px, 280px"
+					src={casual}
+					widths={[280, 448]}
+				/>
+			</div>
 		</div>
+	</header>
 
-		<p><strong>{t.hi}</strong></p>
-
+	{/* Bio narrative */}
+	<div class="prose prose-cactus max-w-none">
 		{t.intro.map((p) => <p>{p}</p>)}
 	</div>
 
-	<hr class="border-global-text/10 my-16" />
-
-	<section>
-		<h2 class="title mb-6 text-xl">{t.now.heading}</h2>
+	{/* Now */}
+	<section class="mt-20 border-t border-global-text/10 pt-16 sm:mt-24 sm:pt-20">
+		<h2 class="section-heading mb-8">{t.now.heading}</h2>
 		<div class="prose prose-cactus max-w-none">
 			<ul>
 				{t.now.items.map((item) => <li set:html={item} />)}
@@ -51,19 +58,17 @@ const contactUrl = localizeUrl("/contact", lang);
 		</div>
 	</section>
 
-	<hr class="border-global-text/10 my-16" />
-
-	<section>
-		<h2 class="title mb-6 text-xl">{t.beyond.heading}</h2>
+	{/* Beyond engineering */}
+	<section class="mt-20 border-t border-global-text/10 pt-16 sm:mt-24 sm:pt-20">
+		<h2 class="section-heading mb-8">{t.beyond.heading}</h2>
 		<div class="prose prose-cactus max-w-none">
 			{t.beyond.body.map((p) => <p set:html={p} />)}
 		</div>
 	</section>
 
-	<hr class="border-global-text/10 my-16" />
-
-	<section>
-		<h2 class="title mb-6 text-xl">{t.reading.heading}</h2>
+	{/* Reading & interests */}
+	<section class="mt-20 border-t border-global-text/10 pt-16 sm:mt-24 sm:pt-20">
+		<h2 class="section-heading mb-8">{t.reading.heading}</h2>
 		<div class="prose prose-cactus max-w-none">
 			<p>{t.reading.lead}</p>
 			<ul>
@@ -73,10 +78,9 @@ const contactUrl = localizeUrl("/contact", lang);
 		</div>
 	</section>
 
-	<hr class="border-global-text/10 my-16" />
-
-	<section>
-		<h2 class="title mb-6 text-xl">{t.connect.heading}</h2>
+	{/* Connect */}
+	<section class="mt-20 border-t border-global-text/10 pt-16 sm:mt-24 sm:pt-20">
+		<h2 class="section-heading mb-8">{t.connect.heading}</h2>
 		<div class="prose prose-cactus max-w-none">
 			<p set:html={t.connect.body.replace("{contactUrl}", contactUrl)} />
 		</div>

@@ -23,26 +23,27 @@ export const ui = {
 		home: {
 			meta: { title: "Engineering Director" },
 			heroName: "Jose Barbosa",
-			heroTitle: "Engineering Director - AI / SaaS / Team Building",
+			heroRole: "Engineering Director",
+			heroFocus: "AI Agents / SaaS / Team Building / Distributed Teams",
 			heroBlurb:
-				"15 years building engineering teams across <strong>Thailand and Brazil</strong>. Scaled Seven Peaks Software's engineering org from <strong>30 to 60 across 27 nationalities</strong>. Currently founding AI products and consulting from Brazil.",
+				"15 years building engineering teams across Thailand and Brazil. Ex-Thoughtworks; ran a <strong>60-engineer department</strong> with <strong>$3M+ P&amp;L</strong>, <strong>27 nationalities</strong>. Now founding AI products and consulting from Brazil.",
 			scrollCue: "Selected outcomes",
 			outcomesHeading: "Selected outcomes",
 			outcomes: [
 				{
 					eyebrow: "01 / Scale",
-					heading: "Scaled an engineering org from 30 to 60.",
-					body: "At Seven Peaks Software, promoted from Head of Backend to Head of Engineering within a year. Led 4 principals and 12 tech leads across 27 nationalities; owned <strong>$3M+ annual P&amp;L</strong>.",
+					heading: "Led an engineering team of 60.",
+					body: "At Seven Peaks Software, promoted from Head of Backend to Head of Engineering within a year. Led the 60-engineer department via 16 direct reports (4 principals, 12 tech leads) across 27 nationalities, with distributed teams in India and Eastern Europe.",
 				},
 				{
 					eyebrow: "02 / Retention",
-					heading: "Built a team engineers stayed in - and grew in.",
-					body: "Ran 1:1s at scale: bi-weekly with 12 direct reports plus quarterly 1:1s with every engineer in the department. Redesigned the interview process to filter for fit early. Created the Leader Development Program for tech leads. Quarterly attrition halved over the tenure.",
+					heading: "Halved quarterly attrition.",
+					body: "Bi-weekly 1:1s with 12 direct reports, quarterly 1:1s with every engineer in the department. Redesigned the interview process to filter for fit early. Created the Leader Development Program for tech leads.",
 				},
 				{
 					eyebrow: "03 / Revenue",
-					heading: "Turned engineering excellence into a revenue line.",
-					body: "Bi-monthly technical workshops (DDD, OWASP, Performance, AI) evolved into a paid enterprise AI training program. Clients include EGAT. Now running enterprise AI training across APAC and Brazil.",
+					heading: "Trained enterprise engineering teams on AI.",
+					body: "Two tracks: AI-augmented development (LLM workflows, agentic coding patterns) and building AI agents (n8n, LLM orchestration, production deployment). Both started as bi-monthly internal workshops, then became a paid enterprise program. Clients include a leading Thai utility.",
 				},
 			],
 			featuredHeading: "Featured writing",
@@ -53,6 +54,7 @@ export const ui = {
 				description:
 					"Engineering Director who scaled teams across Thailand and Brazil. Now founding AI products and consulting from São Paulo.",
 			},
+			eyebrow: "Profile",
 			heading: "About",
 			photoAlt: "Jose Barbosa, casual portrait",
 			hi: "Hi, I'm Jose.",
@@ -102,6 +104,7 @@ export const ui = {
 				description:
 					"Things I'm building, ventures I've founded, and code I've shared. Active SaaS products, past startups, and open source.",
 			},
+			eyebrow: "Work",
 			heading: "Portfolio",
 			lead: "Things I'm building, ventures I've founded, and code I've shared.",
 			now: {
@@ -157,6 +160,7 @@ export const ui = {
 				description:
 					"Get in touch with Jose Barbosa. For consulting inquiries, AI training, or anything that needs a real reply.",
 			},
+			eyebrow: "Channels",
 			heading: "Contact",
 			lead: "Drop a note. I'm interested in consulting, AI training engagements, and conversations about engineering at scale. The more specific your message, the faster the reply.",
 			form: {
@@ -195,6 +199,7 @@ export const ui = {
 				description:
 					"Notes on engineering leadership, scaling teams, AI-augmented work, and what I'm thinking about.",
 			},
+			eyebrow: "Notes",
 			heading: "Writing",
 			lead: "Notes on engineering leadership, scaling teams, AI-augmented work, and what I'm thinking about.",
 			featured: "Featured",
@@ -211,6 +216,7 @@ export const ui = {
 				description:
 					"CV of Jose Barbosa - Engineering Director with 15+ years scaling engineering teams and high-traffic systems across Southeast Asia and Latin America.",
 			},
+			eyebrow: "Resume",
 			heading: "CV",
 			print: "Print / Save PDF",
 			lead: "Engineering Director, 15+ years scaling teams and high-traffic systems across Southeast Asia and Latin America.",
@@ -220,8 +226,8 @@ export const ui = {
 			summary: {
 				label: "Summary",
 				body: [
-					"Engineering leader with <strong>15+ years</strong> scaling teams and high-traffic systems across Southeast Asia and Latin America. Promoted within a year from Head of Backend to Head of Engineering at Seven Peaks Software, scaling the department from <strong>30 to 60 engineers across 27+ nationalities</strong> (4 principals, 12 tech leads) while owning <strong>$3M+ annual P&amp;L</strong>. Hired 20+ engineers across Thailand and abroad, redesigned the interview process, and halved quarterly attrition over the tenure.",
-					"At Thoughtworks, led technical strategy for 50+ engineers across 9 squads serving a leading Australian airline, and delivered a real-time <strong>1.5TB</strong> Kafka migration pipeline with built-in PII compliance. Earlier scaled a global travel platform from <strong>5M to 20M+ daily requests</strong>. Today: founder of two AI-augmented B2B SaaS products, enterprise AI training partner across APAC and Brazil (clients include EGAT), and 7-year organizer of .NET Conf Thailand.",
+					"Engineering leader with <strong>15+ years</strong> scaling teams and high-traffic systems across Southeast Asia and Latin America. Promoted within a year from Head of Backend to Head of Engineering at Seven Peaks Software, scaling the department from <strong>30 to 60 engineers across 27+ nationalities</strong> (4 principals, 12 tech leads) while owning a <strong>multi-million USD annual P&amp;L</strong>. Hired 20+ engineers across Thailand and abroad, redesigned the interview process, and halved quarterly attrition over the tenure.",
+					"At Thoughtworks, led technical strategy for 50+ engineers across 9 squads serving a leading Australian airline, and delivered a real-time <strong>1.5TB</strong> Kafka migration pipeline with built-in PII compliance. Earlier scaled a global travel platform from <strong>5M to 20M+ daily requests</strong>. Today: founder of two AI-augmented B2B SaaS products, enterprise AI training partner across APAC and Brazil (clients include a leading Thai utility), and 7-year organizer of .NET Conf Thailand.",
 				],
 			},
 			workHeading: "Work history",
@@ -242,8 +248,8 @@ export const ui = {
 					title: "Seven Peaks Software",
 					role: "Head of Backend Engineering, Head of Engineering",
 					body: [
-						"<strong>Head of Backend.</strong> Joined to structure the backend department. Mapped strengths, weaknesses, and operational gaps in the first 90 days. Established weekly knowledge-sharing sessions, bi-monthly technical workshops (DDD, OWASP, AI, Performance), monthly team newsletters, and four governance teams (Onboarding, Process & Practices, Recruitment, Community & Mastery). The workshop program evolved into a revenue-generating product, delivering paid AI training to enterprise clients including EGAT.",
-						"<strong>Head of Engineering.</strong> Promoted within a year, unifying backend, web, and mobile under one department, managing 4 principals and 12 tech leads, scaling from 30 to 60 engineers across 27+ nationalities, with distributed teams in India and Eastern Europe. Owned $3M+ annual P&amp;L.",
+						"<strong>Head of Backend.</strong> Joined to structure the backend department. Mapped strengths, weaknesses, and operational gaps in the first 90 days. Established weekly knowledge-sharing sessions, bi-monthly technical workshops (DDD, OWASP, AI, Performance), monthly team newsletters, and four governance teams (Onboarding, Process & Practices, Recruitment, Community & Mastery). The workshop program evolved into a revenue-generating product, delivering paid AI training to enterprise clients including a leading Thai utility.",
+						"<strong>Head of Engineering.</strong> Promoted within a year, unifying backend, web, and mobile under one department, managing 4 principals and 12 tech leads, scaling from 30 to 60 engineers across 27+ nationalities, with distributed teams in India and Eastern Europe. Owned a multi-million USD annual P&amp;L.",
 						"Hired 20+ engineers across Thailand and abroad and redesigned the interview process to improve hiring quality and speed at scale. Maintained bi-weekly 1:1s with 12 direct reports and quarterly 1:1s with every engineer in the department, driving retention initiatives that halved quarterly attrition over the tenure.",
 						"Created the Leader Development Program (LDP) to develop tech leads. Led three full appraisal cycles using a custom-built tool to pull data and metrics about the engineering team. Delivered internal automation, saving 600K+ THB/year in operational and cloud costs.",
 					],
@@ -322,7 +328,7 @@ export const ui = {
 				},
 				{
 					label: "Operations & business",
-					body: "P&L management ($3M+ annual); budgeting & capacity planning; revenue forecasting; vendor & cost optimization; risk management; stakeholder management; hiring at scale; public speaking.",
+					body: "P&L management at multi-million USD scale; budgeting & capacity planning; revenue forecasting; vendor & cost optimization; risk management; stakeholder management; hiring at scale; public speaking.",
 				},
 				{
 					label: "AI & automation",
@@ -352,7 +358,7 @@ export const ui = {
 			home: "Início",
 			about: "Sobre",
 			portfolio: "Portfólio",
-			writing: "Escrita",
+			writing: "Blog",
 			cv: "CV",
 			contact: "Contato",
 		},
@@ -362,26 +368,27 @@ export const ui = {
 		home: {
 			meta: { title: "Diretor de Engenharia" },
 			heroName: "Jose Barbosa",
-			heroTitle: "Diretor de Engenharia - IA / SaaS / Construção de Times",
+			heroRole: "Diretor de Engenharia",
+			heroFocus: "AI Agents / SaaS / Team Building / Distributed Teams",
 			heroBlurb:
-				"15 anos construindo times de engenharia entre <strong>Tailândia e Brasil</strong>. Escalei a engenharia da Seven Peaks Software de <strong>30 para 60 pessoas, com 27 nacionalidades</strong>. Hoje fundando produtos de IA e atuando como consultor a partir do Brasil.",
+				"15 anos construindo times de engenharia entre Tailândia e Brasil. Ex-Thoughtworks; liderei um <strong>departamento de 60 engenheiros</strong> com <strong>P&amp;L de US$ 3M+</strong>, <strong>27 nacionalidades</strong>. Atualmente fundando produtos de IA e atuando como consultor no Brasil.",
 			scrollCue: "Resultados selecionados",
 			outcomesHeading: "Resultados selecionados",
 			outcomes: [
 				{
 					eyebrow: "01 / Escala",
-					heading: "Escalei uma engenharia de 30 para 60 pessoas.",
-					body: "Na Seven Peaks Software, fui promovido de Head de Backend para Head de Engenharia em menos de um ano. Liderei 4 principals e 12 tech leads de 27 nacionalidades; com <strong>P&amp;L anual de US$ 3M+</strong>.",
+					heading: "Liderei um time de engenharia de 60 pessoas.",
+					body: "Na Seven Peaks Software, fui promovido de Head de Backend para Head de Engenharia em menos de um ano. Liderei o departamento de 60 engenheiros via 16 reports diretos (4 principals, 12 tech leads) de 27 nacionalidades, com times distribuídos na Índia e Europa Oriental.",
 				},
 				{
 					eyebrow: "02 / Retenção",
-					heading: "Construí um time onde engenheiros ficavam - e cresciam.",
-					body: "Mantive 1:1s em escala: quinzenais com 12 reports diretos e trimestrais com cada engenheiro do departamento. Redesenhei o processo de entrevista para filtrar fit cedo. Criei o Leader Development Program para tech leads. A atrição trimestral caiu pela metade ao longo do período.",
+					heading: "Cortei a atrição trimestral pela metade.",
+					body: "1:1s quinzenais com 12 reports diretos e trimestrais com cada engenheiro do departamento. Redesenhei o processo de entrevista para filtrar fit cedo. Criei o Leader Development Program para tech leads.",
 				},
 				{
 					eyebrow: "03 / Receita",
-					heading: "Transformei excelência em engenharia em uma linha de receita.",
-					body: "Workshops técnicos bimensais (DDD, OWASP, Performance, IA) viraram um programa pago de treinamento corporativo em IA. Clientes incluem a EGAT. Hoje rodando treinamentos corporativos de IA pela APAC e Brasil.",
+					heading: "Treinei times de engenharia corporativos em IA.",
+					body: "Duas trilhas: desenvolvimento aumentado por IA (workflows com LLM, padrões de codificação com agentes) e construção de AI Agents (n8n, orquestração de LLM, deploy em produção). Ambas começaram como workshops internos bimensais, viraram um programa pago corporativo. Clientes incluem uma das principais empresas de energia da Tailândia.",
 				},
 			],
 			featuredHeading: "Em destaque",
@@ -392,6 +399,7 @@ export const ui = {
 				description:
 					"Diretor de Engenharia que escalou times na Tailândia e no Brasil. Agora fundando produtos de IA e consultando de São Paulo.",
 			},
+			eyebrow: "Perfil",
 			heading: "Sobre",
 			photoAlt: "Jose Barbosa, retrato casual",
 			hi: "Oi, eu sou o Jose.",
@@ -441,6 +449,7 @@ export const ui = {
 				description:
 					"Coisas que estou construindo, empresas que fundei, e código que compartilhei. SaaS em atividade, startups passadas, e open source.",
 			},
+			eyebrow: "Trabalho",
 			heading: "Portfólio",
 			lead: "Coisas que estou construindo, empresas que fundei, e código que compartilhei.",
 			now: {
@@ -496,6 +505,7 @@ export const ui = {
 				description:
 					"Entre em contato com Jose Barbosa. Para consultoria, treinamentos de IA, ou qualquer coisa que mereça uma resposta de verdade.",
 			},
+			eyebrow: "Canais",
 			heading: "Contato",
 			lead: "Manda uma mensagem. Tenho interesse em consultoria, treinamentos de IA, e conversas sobre engenharia em escala. Quanto mais específica a mensagem, mais rápida a resposta.",
 			form: {
@@ -530,11 +540,12 @@ export const ui = {
 		},
 		writing: {
 			meta: {
-				title: "Escrita",
+				title: "Blog",
 				description:
 					"Notas sobre liderança em engenharia, escalonamento de times, trabalho aumentado por IA, e o que ando pensando.",
 			},
-			heading: "Escrita",
+			eyebrow: "Notas",
+			heading: "Blog",
 			lead: "Notas sobre liderança em engenharia, escalonamento de times, trabalho aumentado por IA, e o que ando pensando.",
 			featured: "Em destaque",
 			tags: "Tags",
@@ -550,6 +561,7 @@ export const ui = {
 				description:
 					"CV de Jose Barbosa - Diretor de Engenharia com 15+ anos escalando times de engenharia e sistemas de alto tráfego pelo Sudeste Asiático e América Latina.",
 			},
+			eyebrow: "Currículo",
 			heading: "CV",
 			print: "Imprimir / Salvar PDF",
 			lead: "Diretor de Engenharia, 15+ anos escalando times e sistemas de alto tráfego pelo Sudeste Asiático e América Latina.",
@@ -559,8 +571,8 @@ export const ui = {
 			summary: {
 				label: "Resumo",
 				body: [
-					"Líder de engenharia com <strong>15+ anos</strong> escalando times e sistemas de alto tráfego pelo Sudeste Asiático e América Latina. Promovido em menos de um ano de Head de Backend para Head de Engenharia na Seven Peaks Software, escalando o departamento de <strong>30 para 60 engenheiros de 27+ nacionalidades</strong> (4 principals, 12 tech leads) com <strong>P&amp;L anual de US$ 3M+</strong>. Contratei 20+ engenheiros na Tailândia e no exterior, redesenhei o processo de entrevista, e cortei pela metade a atrição trimestral ao longo do período.",
-					"Na Thoughtworks, liderei a estratégia técnica para 50+ engenheiros em 9 squads atendendo uma das maiores companhias aéreas da Austrália, e entreguei um pipeline de migração Kafka em tempo real de <strong>1.5TB</strong> com compliance de PII embutido. Antes, escalei uma plataforma global de viagens de <strong>5M para 20M+ requisições diárias</strong>. Hoje: fundador de dois SaaS B2B aumentados por IA, parceiro de treinamento corporativo em IA pela APAC e Brasil (clientes incluem a EGAT), e há 7 anos organizador da .NET Conf Thailand.",
+					"Líder de engenharia com <strong>15+ anos</strong> escalando times e sistemas de alto tráfego pelo Sudeste Asiático e América Latina. Promovido em menos de um ano de Head de Backend para Head de Engenharia na Seven Peaks Software, escalando o departamento de <strong>30 para 60 engenheiros de 27+ nacionalidades</strong> (4 principals, 12 tech leads) com <strong>P&amp;L anual em milhões de USD</strong>. Contratei 20+ engenheiros na Tailândia e no exterior, redesenhei o processo de entrevista, e cortei pela metade a atrição trimestral ao longo do período.",
+					"Na Thoughtworks, liderei a estratégia técnica para 50+ engenheiros em 9 squads atendendo uma das maiores companhias aéreas da Austrália, e entreguei um pipeline de migração Kafka em tempo real de <strong>1.5TB</strong> com compliance de PII embutido. Antes, escalei uma plataforma global de viagens de <strong>5M para 20M+ requisições diárias</strong>. Hoje: fundador de dois SaaS B2B aumentados por IA, parceiro de treinamento corporativo em IA pela APAC e Brasil (clientes incluem uma das principais empresas de energia da Tailândia), e há 7 anos organizador da .NET Conf Thailand.",
 				],
 			},
 			workHeading: "Histórico profissional",
@@ -581,8 +593,8 @@ export const ui = {
 					title: "Seven Peaks Software",
 					role: "Head de Backend Engineering, Head de Engenharia",
 					body: [
-						"<strong>Head de Backend.</strong> Entrei para estruturar o departamento de backend. Mapeei pontos fortes, fracos e gaps operacionais nos primeiros 90 dias. Estabeleci sessões semanais de compartilhamento de conhecimento, workshops técnicos bimensais (DDD, OWASP, IA, Performance), newsletters mensais do time, e quatro times de governança (Onboarding, Process & Practices, Recruitment, Community & Mastery). O programa de workshops virou um produto gerador de receita, entregando treinamento pago em IA para clientes corporativos como a EGAT.",
-						"<strong>Head de Engenharia.</strong> Promovido em menos de um ano, unificando backend, web e mobile sob um único departamento, gerenciando 4 principals e 12 tech leads, escalando de 30 para 60 engenheiros de 27+ nacionalidades, com times distribuídos na Índia e Europa Oriental. P&amp;L anual de US$ 3M+.",
+						"<strong>Head de Backend.</strong> Entrei para estruturar o departamento de backend. Mapeei pontos fortes, fracos e gaps operacionais nos primeiros 90 dias. Estabeleci sessões semanais de compartilhamento de conhecimento, workshops técnicos bimensais (DDD, OWASP, IA, Performance), newsletters mensais do time, e quatro times de governança (Onboarding, Process & Practices, Recruitment, Community & Mastery). O programa de workshops virou um produto gerador de receita, entregando treinamento pago em IA para clientes corporativos incluindo uma das principais empresas de energia da Tailândia.",
+						"<strong>Head de Engenharia.</strong> Promovido em menos de um ano, unificando backend, web e mobile sob um único departamento, gerenciando 4 principals e 12 tech leads, escalando de 30 para 60 engenheiros de 27+ nacionalidades, com times distribuídos na Índia e Europa Oriental. P&amp;L anual em milhões de USD.",
 						"Contratei 20+ engenheiros na Tailândia e no exterior e redesenhei o processo de entrevista para melhorar a qualidade e a velocidade da contratação em escala. Mantive 1:1s quinzenais com 12 reports diretos e 1:1s trimestrais com cada engenheiro do departamento, com iniciativas de retenção que cortaram a atrição trimestral pela metade.",
 						"Criei o Leader Development Program (LDP) para desenvolver tech leads. Liderei três ciclos completos de avaliação usando uma ferramenta interna pra puxar dados e métricas do time de engenharia. Entreguei automação interna, economizando 600K+ THB/ano em custos operacionais e de cloud.",
 					],
@@ -661,7 +673,7 @@ export const ui = {
 				},
 				{
 					label: "Operações e negócio",
-					body: "Gestão de P&L (US$ 3M+ anual); orçamento e planejamento de capacidade; previsão de receita; otimização de fornecedores e custos; gestão de risco; gestão de stakeholders; contratação em escala; palestras públicas.",
+					body: "Gestão de P&L em escala de milhões de USD; orçamento e planejamento de capacidade; previsão de receita; otimização de fornecedores e custos; gestão de risco; gestão de stakeholders; contratação em escala; palestras públicas.",
 				},
 				{
 					label: "IA e automação",

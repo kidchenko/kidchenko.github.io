@@ -58,14 +58,19 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 ---
 
 <PageLayout meta={meta}>
-	<div class="mb-4 flex items-center gap-3">
-		<h1 class="title text-3xl sm:text-4xl">{t.heading}</h1>
-		<a class="text-accent" href="/rss.xml" target="_blank">
-			<span class="sr-only">{t.rssLabel}</span>
-			<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="mdi:rss" />
-		</a>
-	</div>
-	<p class="text-muted mb-12">{t.lead}</p>
+	{/* Editorial hero: same vocabulary as About / Portfolio / Contact, RSS icon inline with the title. */}
+	<header class="mb-8 sm:mb-10">
+		<p class="page-eyebrow mb-5">{t.eyebrow}</p>
+		<div class="flex items-center gap-3">
+			<h1 class="page-title">{t.heading}</h1>
+			<a class="text-accent hover:text-link transition-colors" href="/rss.xml" target="_blank">
+				<span class="sr-only">{t.rssLabel}</span>
+				<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="mdi:rss" />
+			</a>
+		</div>
+		<p class="page-lead mt-6 max-w-prose">{t.lead}</p>
+	</header>
+
 	<div class="grid sm:grid-cols-[3fr_1fr] sm:gap-x-8 sm:gap-y-16">
 		<div>
 			{

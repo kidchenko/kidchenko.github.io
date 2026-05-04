@@ -16,8 +16,12 @@ const meta = { title: t.meta.title, description: t.meta.description };
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-4 text-3xl sm:text-4xl">{t.heading}</h1>
-	<p class="text-muted mb-12">{t.lead}</p>
+	{/* Editorial hero: matches About / Portfolio vocabulary, no portrait. */}
+	<header class="mb-8 sm:mb-10">
+		<p class="page-eyebrow mb-5">{t.eyebrow}</p>
+		<h1 class="page-title">{t.heading}</h1>
+		<p class="page-lead mt-6 max-w-prose">{t.lead}</p>
+	</header>
 
 	<form
 		action="https://formspree.io/f/mzdozjng"
@@ -74,10 +78,8 @@ const meta = { title: t.meta.title, description: t.meta.description };
 		<button class="contact-submit" type="submit">{t.form.submit}</button>
 	</form>
 
-	<hr class="border-global-text/10 my-16" />
-
-	<section>
-		<h2 class="title mb-6 text-xl">{t.other.heading}</h2>
+	<section class="mt-20 border-t border-global-text/10 pt-16 sm:mt-24 sm:pt-20">
+		<h2 class="section-heading mb-8">{t.other.heading}</h2>
 		<div class="prose prose-cactus max-w-none">
 			<ul>
 				{

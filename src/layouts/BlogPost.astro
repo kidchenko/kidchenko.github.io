@@ -61,6 +61,14 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
 </BaseLayout>
 
 <script>
+	import mediumZoom from "medium-zoom";
+
+	mediumZoom(".prose img", {
+		background: "var(--color-global-bg)",
+		margin: 24,
+		scrollOffset: 40,
+	});
+
 	const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
 	const targetHeader = document.getElementById("blog-hero") as HTMLDivElement;
 
@@ -78,3 +86,16 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
 	const observer = new IntersectionObserver(callback);
 	observer.observe(targetHeader);
 </script>
+
+<style is:global>
+	.prose img {
+		cursor: zoom-in;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.medium-zoom-image,
+		.medium-zoom-overlay {
+			transition: none !important;
+		}
+	}
+</style>

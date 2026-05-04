@@ -41,7 +41,10 @@ const writingUrl = "/posts/";
 		<div class="relative flex h-full items-end px-6 pb-20 sm:items-center sm:px-12 sm:pb-0 lg:px-20">
 			<div class="max-w-xl">
 				<h1 class="title mb-4 text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">{t.heroName}</h1>
-				<p class="text-accent mb-8 text-lg font-semibold sm:text-xl">{t.heroTitle}</p>
+				<p class="text-accent text-lg font-semibold sm:text-xl">{t.heroRole}</p>
+				<p class="text-accent/75 mt-1 mb-8 text-sm font-normal tracking-wide sm:text-base">
+					{t.heroFocus}
+				</p>
 				<p class="text-base leading-relaxed sm:text-lg" set:html={t.heroBlurb} />
 			</div>
 		</div>

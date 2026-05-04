@@ -16,17 +16,24 @@ const meta = { title: t.meta.title, description: t.meta.description };
 ---
 
 <PageLayout meta={meta}>
-	<div class="mb-4 flex items-baseline justify-between gap-4 print:hidden">
-		<h1 class="title text-3xl sm:text-4xl">{t.heading}</h1>
-		<button
-			class="text-muted hover:text-accent text-xs font-semibold tracking-wider uppercase"
-			id="print-cv"
-			type="button"
-		>
-			{t.print}
-		</button>
-	</div>
-	<p class="text-muted mb-12 print:hidden">{t.lead}</p>
+	{/* Editorial hero — same vocabulary as About / Portfolio / Contact / Writing.
+	    Wrapped in print:hidden so the print stylesheet's cv-print-head takes over for paper. */}
+	<header class="mb-8 print:hidden sm:mb-10">
+		<div class="flex items-start justify-between gap-4">
+			<div>
+				<p class="page-eyebrow mb-5">{t.eyebrow}</p>
+				<h1 class="page-title">{t.heading}</h1>
+				<p class="page-lead mt-6 max-w-prose">{t.lead}</p>
+			</div>
+			<button
+				class="text-muted hover:text-accent shrink-0 text-xs font-semibold tracking-wider uppercase"
+				id="print-cv"
+				type="button"
+			>
+				{t.print}
+			</button>
+		</div>
+	</header>
 
 	<header class="cv-print-head">
 		<h1 class="cv-print-name">{t.printName}</h1>
@@ -79,7 +86,7 @@ const meta = { title: t.meta.title, description: t.meta.description };
 	<hr class="border-global-text/10 my-12" />
 
 	<section>
-		<h2 class="title mb-8 text-xl">{t.workHeading}</h2>
+		<h2 class="section-heading mb-8">{t.workHeading}</h2>
 		<div class="divide-y divide-global-text/10 border-y border-global-text/10">
 			{
 				t.work.map((job) => (
@@ -112,7 +119,7 @@ const meta = { title: t.meta.title, description: t.meta.description };
 	<hr class="border-global-text/10 my-12" />
 
 	<section>
-		<h2 class="title mb-8 text-xl">{t.eduHeading}</h2>
+		<h2 class="section-heading mb-8">{t.eduHeading}</h2>
 		<div class="divide-y divide-global-text/10 border-y border-global-text/10">
 			{
 				t.edu.map((item) => (
@@ -133,7 +140,7 @@ const meta = { title: t.meta.title, description: t.meta.description };
 	<hr class="border-global-text/10 my-12" />
 
 	<section>
-		<h2 class="title mb-8 text-xl">{t.skillsHeading}</h2>
+		<h2 class="section-heading mb-8">{t.skillsHeading}</h2>
 		<div class="space-y-8">
 			{
 				t.skills.map((skill) => (
@@ -310,7 +317,7 @@ const meta = { title: t.meta.title, description: t.meta.description };
 			color: #222;
 		}
 
-		h2.title {
+		h2.section-heading {
 			text-transform: uppercase;
 			letter-spacing: 0.12em;
 			font-size: 0.85rem !important;
@@ -320,6 +327,7 @@ const meta = { title: t.meta.title, description: t.meta.description };
 			margin-top: 1.5rem !important;
 			margin-bottom: 0.75rem !important;
 			font-family: inherit;
+			font-weight: 700;
 		}
 
 		.cv-section {
