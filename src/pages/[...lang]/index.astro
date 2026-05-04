@@ -2,13 +2,12 @@
 import { Image } from "astro:assets";
 import { type CollectionEntry } from "astro:content";
 import PostPreview from "@/components/blog/PostPreview.astro";
-import SocialList from "@/components/SocialList.astro";
 import { getAllPosts } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
-import headshot from "@/assets/img/jose-headshot.jpg";
+import portrait from "@/assets/img/jose-no-bg.png";
 import { type Lang, languages } from "@/i18n/ui";
-import { useTranslations } from "@/i18n/utils";
+import { localizeUrl, useTranslations } from "@/i18n/utils";
 
 export function getStaticPaths() {
 	return Object.keys(languages).map((lang) => ({
@@ -19,150 +18,804 @@ export function getStaticPaths() {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang).home;
+const tNav = useTranslations(lang).nav;
 
 const allPosts = (await getAllPosts()).sort(collectionDateSort) as CollectionEntry<"post">[];
 const featuredPost = allPosts.find((p) => p.data.pinned) ?? null;
-const writingUrl = "/posts/";
+
+const isPt = lang === "pt";
+
+// Maritime chapter index — design vocabulary, lightly localised.
+const chapters = isPt
+	? [
+			{ roman: "I",   title: "Saudação",        sub: tNav.home,      path: localizeUrl("/", lang),           folio: "001" },
+			{ roman: "II",  title: "Capitão",         sub: tNav.about,     path: localizeUrl("/about/", lang),     folio: "012" },
+			{ roman: "III", title: "Travessias",      sub: tNav.portfolio, path: localizeUrl("/portfolio/", lang), folio: "024" },
+			{ roman: "IV",  title: "Folha de Bordo",  sub: tNav.cv,        path: localizeUrl("/cv/", lang),        folio: "048" },
+			{ roman: "V",   title: "Diário",          sub: tNav.writing,   path: localizeUrl("/posts/", lang),     folio: "076" },
+			{ roman: "VI",  title: "Correspondência", sub: tNav.contact,   path: localizeUrl("/contact/", lang),   folio: "112" },
+		]
+	: [
+			{ roman: "I",   title: "Hailing",         sub: tNav.home,      path: localizeUrl("/", lang),           folio: "001" },
+			{ roman: "II",  title: "Captain",         sub: tNav.about,     path: localizeUrl("/about/", lang),     folio: "012" },
+			{ roman: "III", title: "Voyages",         sub: tNav.portfolio, path: localizeUrl("/portfolio/", lang), folio: "024" },
+			{ roman: "IV",  title: "Service Record",  sub: tNav.cv,        path: localizeUrl("/cv/", lang),        folio: "048" },
+			{ roman: "V",   title: "Logbook",         sub: tNav.writing,   path: localizeUrl("/posts/", lang),     folio: "076" },
+			{ roman: "VI",  title: "Correspondence",  sub: tNav.contact,   path: localizeUrl("/contact/", lang),   folio: "112" },
+		];
+
+const ui = isPt
+	? {
+			heroRunHead: "Atlas pessoal",
+			heroVol: "Volume MMXXVI",
+			heroCoords: "23°33′S  46°38′W — São Paulo, MMXXVI",
+			heroStandfirst:
+				"Quinze anos navegando times de engenharia entre a Tailândia e o Brasil. Hoje, fundando produtos de IA e ensinando organizações a usá-los bem.",
+			plateLabel: "O Capitão",
+			plateCaption: "São Paulo, Maio MMXXVI",
+			scrollCue: "Rumo 180° — Sumário",
+			indexEyebrow: "Sumário",
+			indexHeading: "Volume MMXXVI, em seis capítulos.",
+			indexSubheading: "Índice geral. Cada capítulo abre uma porção do trabalho.",
+			soundingsEyebrow: "Sondagens",
+			soundingsHeading: t.outcomesHeading,
+			fathomsLabel: "braças",
+			logbookEyebrow: "Do diário",
+			logbookHeading: t.featuredHeading,
+			colophonLabel: "Cólofon",
+			colophonBody:
+				"Editado, escrito e composto por Jose Barbosa. Volume MMXXVI — edição única, sob bandeira própria.",
+			colophonAlsoAt: "Também ancorado em",
+		}
+	: {
+			heroRunHead: "Personal Atlas",
+			heroVol: "Volume MMXXVI",
+			heroCoords: "23°33′S  46°38′W — São Paulo, MMXXVI",
+			heroStandfirst:
+				"Fifteen years steering engineering teams between Thailand and Brazil. Now founding AI products and teaching organisations to use them well.",
+			plateLabel: "The Captain",
+			plateCaption: "São Paulo, May MMXXVI",
+			scrollCue: "Bearing 180° — Contents",
+			indexEyebrow: "Contents",
+			indexHeading: "Volume MMXXVI, in six chapters.",
+			indexSubheading: "General index. Each chapter opens a portion of the work.",
+			soundingsEyebrow: "Soundings",
+			soundingsHeading: t.outcomesHeading,
+			fathomsLabel: "fathoms",
+			logbookEyebrow: "From the logbook",
+			logbookHeading: t.featuredHeading,
+			colophonLabel: "Colophon",
+			colophonBody:
+				"Edited, written and set by Jose Barbosa. Volume MMXXVI — one edition, sailing under its own colours.",
+			colophonAlsoAt: "Also moored at",
+		};
 ---
 
 <PageLayout meta={{ title: t.meta.title }}>
-	<section class="hero-fullbleed relative h-screen overflow-hidden">
-		<div class="absolute inset-0 sm:left-[48%]">
-			<Image
-				alt="Portrait of Jose Barbosa"
-				class="hero-photo h-full w-full object-cover object-[center_15%]"
-				loading="eager"
-				sizes="(min-width: 640px) 52vw, 100vw"
-				src={headshot}
-				widths={[640, 1024, 1600]}
-			/>
+	{/* ─── HERO / FRONTISPIECE ────────────────────────────────────── */}
+	<section class="logbook-fullbleed logbook-hero" aria-labelledby="frontispiece">
+		<div class="logbook-running-head">
+			<span class="rh-left">{ui.heroRunHead}</span>
+			<span class="rh-right">{ui.heroVol}</span>
 		</div>
 
-		<div class="relative flex h-full items-end px-6 pb-20 sm:items-center sm:px-12 sm:pb-0 lg:px-20">
-			<div class="max-w-xl">
-				<h1 class="title mb-4 text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">{t.heroName}</h1>
-				<p class="text-accent text-lg font-semibold sm:text-xl">{t.heroRole}</p>
-				<p class="text-accent/75 mt-1 mb-8 text-sm font-normal tracking-wide sm:text-base">
-					{t.heroFocus}
-				</p>
-				<p class="text-base leading-relaxed sm:text-lg" set:html={t.heroBlurb} />
+		<div class="logbook-hero-grid">
+			<div class="logbook-title-block">
+				<p class="logbook-coords">{ui.heroCoords}</p>
+				<h1 class="logbook-title" id="frontispiece">
+					<span class="logbook-title-line">Jose</span>
+					<span class="logbook-title-line is-italic">Barbosa</span>
+				</h1>
+				<div aria-hidden="true" class="logbook-rule"></div>
+				<p class="logbook-role">{t.heroRole}</p>
+				<p class="logbook-standfirst">{ui.heroStandfirst}</p>
 			</div>
+
+			<figure class="logbook-plate">
+				<p class="plate-label">{ui.plateLabel}</p>
+				<div class="plate-figure">
+					<div aria-hidden="true" class="plate-glow"></div>
+					<Image
+						alt="Portrait of Jose Barbosa"
+						class="plate-photo"
+						format="webp"
+						loading="eager"
+						sizes="(min-width: 880px) 46vw, 100vw"
+						src={portrait}
+						widths={[640, 1024, 1600]}
+					/>
+				</div>
+				<figcaption class="plate-caption">{ui.plateCaption}</figcaption>
+			</figure>
 		</div>
 
-		<a
-			class="text-muted hover:text-accent absolute bottom-8 left-6 z-10 inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase transition-colors sm:left-12 lg:left-20"
-			href="#outcomes"
-		>
-			<span>{t.scrollCue}</span>
-			<span aria-hidden="true" class="scroll-arrow">↓</span>
+		<a class="logbook-bearing" href="#contents">
+			<span aria-hidden="true" class="bearing-arrow">↓</span>
+			<span>{ui.scrollCue}</span>
 		</a>
 	</section>
 
-	<section class="mt-32" id="outcomes">
-		<h2 class="title mb-12 text-xl">{t.outcomesHeading}</h2>
+	{/* ─── INDEX / TABLE OF CONTENTS ──────────────────────────────── */}
+	<section class="logbook-section logbook-fullbleed" id="contents">
+		<div class="logbook-section-inner">
+			<header class="logbook-section-head">
+				<p class="section-eyebrow">{ui.indexEyebrow}</p>
+				<h2 class="section-heading">{ui.indexHeading}</h2>
+				<p class="section-sub">{ui.indexSubheading}</p>
+			</header>
 
-		<div class="divide-y divide-global-text/10 border-y border-global-text/10">
-			{
-				t.outcomes.map((o) => (
-					<article class="py-10 sm:grid sm:grid-cols-[8rem_1fr] sm:gap-12 sm:py-14">
-						<div class="text-accent mb-4 text-xs font-bold tracking-wider uppercase sm:mb-0">
-							{o.eyebrow}
-						</div>
-						<div>
-							<h3 class="mb-3 text-lg leading-snug font-bold sm:text-xl">{o.heading}</h3>
-							<p class="leading-relaxed" set:html={o.body} />
-						</div>
-					</article>
-				))
-			}
+			<ol class="contents-list" role="list">
+				{
+					chapters.map((ch) => (
+						<li class="contents-row">
+							<a class="contents-link" href={ch.path}>
+								<span class="contents-roman">{ch.roman}</span>
+								<span class="contents-title">{ch.title}</span>
+								<span class="contents-sub">{ch.sub}</span>
+								<span class="contents-folio">{ch.folio}</span>
+							</a>
+						</li>
+					))
+				}
+			</ol>
 		</div>
 	</section>
 
+	{/* ─── SOUNDINGS ─────────────────────────────────────────────── */}
+	<section class="logbook-section logbook-fullbleed">
+		<div class="logbook-section-inner">
+			<header class="logbook-section-head">
+				<p class="section-eyebrow">{ui.soundingsEyebrow}</p>
+				<h2 class="section-heading">{ui.soundingsHeading}</h2>
+			</header>
+
+			<div class="soundings-list">
+				{
+					t.outcomes.map((o, i) => {
+						const [num = "", label = ""] = o.eyebrow.split(" / ");
+						const depth = (i + 1) * 17 + 23;
+						return (
+							<article class="sounding">
+								<div class="sounding-meta">
+									<span class="sounding-no">No. {num.padStart(2, "0")}</span>
+									<span class="sounding-label">{label}</span>
+									<span class="sounding-bearing">
+										{depth} {ui.fathomsLabel}
+									</span>
+								</div>
+								<div class="sounding-body-block">
+									<h3 class="sounding-heading">{o.heading}</h3>
+									<p class="sounding-body" set:html={o.body} />
+								</div>
+							</article>
+						);
+					})
+				}
+			</div>
+		</div>
+	</section>
+
+	{/* ─── FROM THE LOGBOOK (featured writing) ───────────────────── */}
 	{
 		featuredPost && (
-			<section class="mt-20">
-				<h2 class="title mb-6 text-xl">
-					<a href={writingUrl}>{t.featuredHeading}</a>
-				</h2>
-				<div class="grid gap-1 sm:grid-cols-[auto_1fr]">
-					<PostPreview post={featuredPost} />
+			<section class="logbook-section logbook-fullbleed">
+				<div class="logbook-section-inner">
+					<header class="logbook-section-head">
+						<p class="section-eyebrow">{ui.logbookEyebrow}</p>
+						<h2 class="section-heading">{ui.logbookHeading}</h2>
+					</header>
+					<div class="logbook-post-card">
+						<PostPreview post={featuredPost} />
+					</div>
 				</div>
 			</section>
 		)
 	}
 
-	<section class="mt-20">
-		<SocialList />
+	{/* ─── COLOPHON ─────────────────────────────────────────────── */}
+	<section class="logbook-section logbook-fullbleed colophon-section">
+		<div class="logbook-section-inner colophon-inner">
+			<div aria-hidden="true" class="colophon-rose">
+				<svg height="72" viewBox="0 0 100 100" width="72" xmlns="http://www.w3.org/2000/svg">
+					<circle cx="50" cy="50" fill="none" r="46" stroke="currentColor" stroke-width="0.4"></circle>
+					<circle cx="50" cy="50" fill="none" r="34" stroke="currentColor" stroke-width="0.4"></circle>
+					<circle cx="50" cy="50" fill="currentColor" opacity="0.08" r="18"></circle>
+					<g stroke="currentColor" stroke-width="0.5">
+						<line x1="50" x2="50" y1="2" y2="98"></line>
+						<line x1="2" x2="98" y1="50" y2="50"></line>
+					</g>
+					<g opacity="0.45" stroke="currentColor" stroke-width="0.4">
+						<line x1="16" x2="84" y1="16" y2="84"></line>
+						<line x1="84" x2="16" y1="16" y2="84"></line>
+					</g>
+					<polygon fill="currentColor" points="50,4 47,50 50,4"></polygon>
+					<polygon fill="currentColor" opacity="0.55" points="50,96 53,50 50,96"></polygon>
+					<polygon fill="currentColor" opacity="0.7" points="46,50 50,2 50,50"></polygon>
+					<text fill="currentColor" font-family="serif" font-size="6" font-style="italic" text-anchor="middle" x="50" y="10">N</text>
+				</svg>
+			</div>
+			<div class="colophon-text">
+				<p class="colophon-label">{ui.colophonLabel}</p>
+				<p class="colophon-body">{ui.colophonBody}</p>
+				<p class="colophon-also">
+					{ui.colophonAlsoAt}{" "}
+					<a href="https://kidchenko.com" rel="noreferrer">kidchenko.com</a>
+					{" — "}
+					<a href="https://captbarbosa.com" rel="noreferrer">captbarbosa.com</a>
+				</p>
+			</div>
+		</div>
 	</section>
 </PageLayout>
 
 <style>
-	.hero-fullbleed {
+	.logbook-fullbleed {
 		margin-left: calc(50% - 50vw);
 		margin-right: calc(50% - 50vw);
 		width: 100vw;
 	}
-	.hero-photo {
+
+	/* ============================================================
+	   HERO / FRONTISPIECE
+	   ============================================================ */
+	.logbook-hero {
+		position: relative;
+		min-height: 100svh;
+		padding: 1rem 1.25rem 6.5rem;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+	}
+
+	/* running head — top-of-page chart bar */
+	.logbook-running-head {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		gap: 1rem;
+		align-items: baseline;
+		padding-block: 0.6rem;
+		border-top: 1px solid var(--color-global-text);
+		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 22%, transparent);
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		margin-top: 4rem;
+	}
+	.logbook-running-head .rh-right { text-align: right; }
+	.logbook-running-head .rh-left { color: var(--color-accent); font-weight: 600; }
+
+	.logbook-hero-grid {
+		flex: 1;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2.5rem;
+		align-items: center;
+		padding-top: 2.5rem;
+	}
+
+	/* title block */
+	.logbook-coords {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin: 0 0 1.5rem;
+		font-weight: 600;
+	}
+	.logbook-title {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: clamp(4rem, 13vw, 11rem);
+		line-height: 0.88;
+		letter-spacing: -0.045em;
+		color: var(--color-global-text);
+		margin: 0;
+		font-variation-settings: "opsz" 144, "SOFT" 30, "WONK" 0;
+	}
+	.logbook-title-line {
+		display: block;
+		font-variation-settings: "opsz" 144, "SOFT" 30, "WONK" 0;
+	}
+	.logbook-title-line.is-italic {
+		font-style: italic;
+		font-variation-settings: "opsz" 144, "SOFT" 70, "WONK" 1;
+		color: var(--color-accent);
+	}
+
+	.logbook-rule {
+		width: 5.5rem;
+		height: 1px;
+		background: var(--color-accent);
+		margin: 1.6rem 0 1.25rem;
+		transform-origin: left center;
+	}
+	.logbook-role {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.24em;
+		text-transform: uppercase;
+		color: var(--color-global-text);
+		margin: 0 0 1.25rem;
+		font-weight: 500;
+	}
+	.logbook-standfirst {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-style: italic;
+		font-size: clamp(1.0625rem, 1.4vw + 0.4rem, 1.4rem);
+		line-height: 1.45;
+		color: var(--color-global-text);
+		max-width: 32ch;
+		margin: 0;
+		font-variation-settings: "opsz" 18, "SOFT" 60, "WONK" 0;
+		text-wrap: balance;
+	}
+
+	/* portrait plate — no frame; the cutout sits on the page so it
+	   blends naturally. A soft brass halo behind gives weight, and the
+	   very bottom edge feathers into the bg. */
+	.logbook-plate {
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.85rem;
+	}
+	.plate-label {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		margin: 0;
+	}
+	.plate-figure {
+		position: relative;
+		aspect-ratio: 4 / 5;
+		isolation: isolate;
+	}
+	.plate-glow {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		background:
+			radial-gradient(
+				ellipse 70% 55% at 50% 65%,
+				color-mix(in oklab, var(--color-accent) 16%, transparent) 0%,
+				transparent 72%
+			);
+		filter: blur(36px);
+		opacity: 0.9;
+	}
+	.plate-photo {
+		position: relative;
+		z-index: 1;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		object-position: center bottom;
 		mask-image: linear-gradient(
 			to bottom,
-			rgba(0, 0, 0, 0.8) 0%,
-			rgba(0, 0, 0, 0.8) 30%,
-			rgba(0, 0, 0, 0.15) 60%,
-			transparent 100%
+			rgba(0, 0, 0, 1) 0%,
+			rgba(0, 0, 0, 1) 90%,
+			rgba(0, 0, 0, 0) 100%
 		);
 		-webkit-mask-image: linear-gradient(
 			to bottom,
-			rgba(0, 0, 0, 0.8) 0%,
-			rgba(0, 0, 0, 0.8) 30%,
-			rgba(0, 0, 0, 0.15) 60%,
-			transparent 100%
+			rgba(0, 0, 0, 1) 0%,
+			rgba(0, 0, 0, 1) 90%,
+			rgba(0, 0, 0, 0) 100%
 		);
 	}
-	@media (min-width: 640px) {
-		.hero-photo {
-			mask-image:
-				linear-gradient(to right, transparent 0, black 10rem),
-				linear-gradient(to top, transparent 0, black 10rem);
-			mask-composite: intersect;
-			-webkit-mask-image:
-				linear-gradient(to right, transparent 0, black 10rem),
-				linear-gradient(to top, transparent 0, black 10rem);
-			-webkit-mask-composite: source-in;
-		}
+	.plate-caption {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-muted);
 	}
-	.scroll-arrow {
+
+	/* bearing scroll cue */
+	.logbook-bearing {
+		position: absolute;
+		left: 1.25rem;
+		bottom: 1.5rem;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.65rem;
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		text-decoration: none;
+		transition: color 200ms ease;
+	}
+	.logbook-bearing:hover { color: var(--color-accent); }
+	.bearing-arrow {
 		display: inline-block;
-		animation: scroll-bounce 2s ease-in-out infinite;
+		animation: bearing-bob 2.4s ease-in-out infinite;
 	}
-	@keyframes scroll-bounce {
-		0%,
-		100% {
-			transform: translateY(0);
+	@keyframes bearing-bob {
+		0%, 100% { transform: translateY(0); opacity: 0.7; }
+		50%      { transform: translateY(3px); opacity: 1; }
+	}
+
+	@media (min-width: 880px) {
+		.logbook-hero { padding: 1.25rem 3rem 7.5rem; }
+		.logbook-running-head { margin-top: 4.75rem; }
+		.logbook-hero-grid {
+			grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+			gap: 4.5rem;
+			padding-top: 0;
 		}
-		50% {
-			transform: translateY(4px);
+		.logbook-bearing { left: 3rem; bottom: 2.25rem; }
+	}
+	@media (min-width: 1280px) {
+		.logbook-hero { padding: 1.5rem 5rem 9rem; }
+		.logbook-hero-grid { gap: 7rem; }
+		.logbook-bearing { left: 5rem; bottom: 3rem; }
+	}
+
+	/* ============================================================
+	   SHARED SECTION CHROME
+	   ============================================================ */
+	.logbook-section {
+		padding: 5.5rem 1.25rem;
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 18%, transparent);
+	}
+	.logbook-section-inner {
+		max-width: 78rem;
+		margin: 0 auto;
+	}
+	@media (min-width: 880px) { .logbook-section { padding: 8rem 3rem; } }
+	@media (min-width: 1280px) { .logbook-section { padding: 10rem 5rem; } }
+
+	.logbook-section-head {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+		margin-bottom: 4rem;
+	}
+	.section-eyebrow {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin: 0;
+		font-weight: 600;
+	}
+	.section-heading {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: clamp(2rem, 4vw + 0.5rem, 3.5rem);
+		line-height: 1.05;
+		letter-spacing: -0.025em;
+		color: var(--color-global-text);
+		margin: 0.5rem 0 0;
+		font-variation-settings: "opsz" 72, "SOFT" 30, "WONK" 0;
+		max-width: 24ch;
+		text-wrap: balance;
+	}
+	.section-sub {
+		font-family: var(--font-display);
+		font-style: italic;
+		font-size: clamp(1rem, 0.6vw + 0.85rem, 1.125rem);
+		line-height: 1.55;
+		color: var(--color-muted);
+		margin: 0.85rem 0 0;
+		max-width: 42ch;
+		font-variation-settings: "opsz" 18, "SOFT" 60;
+	}
+
+	/* ============================================================
+	   INDEX / TABLE OF CONTENTS
+	   ============================================================ */
+	.contents-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid var(--color-global-text);
+	}
+	.contents-row {
+		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 18%, transparent);
+	}
+	.contents-link {
+		display: grid;
+		grid-template-columns: 2.5rem 1fr auto;
+		grid-template-areas:
+			"roman title  folio"
+			".     sub    .";
+		column-gap: 1rem;
+		row-gap: 0.4rem;
+		padding: 1.6rem 0.25rem;
+		text-decoration: none;
+		color: var(--color-global-text);
+		transition: color 250ms ease, padding-left 350ms cubic-bezier(0.2, 0.6, 0.2, 1);
+	}
+	.contents-link:hover {
+		color: var(--color-accent);
+		padding-left: 0.75rem;
+	}
+	.contents-roman {
+		grid-area: roman;
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.16em;
+		color: var(--color-muted);
+		align-self: center;
+		font-weight: 600;
+	}
+	.contents-link:hover .contents-roman { color: var(--color-accent); }
+	.contents-title {
+		grid-area: title;
+		font-family: var(--font-display);
+		font-size: clamp(1.5rem, 3vw + 0.25rem, 2.5rem);
+		font-weight: 400;
+		letter-spacing: -0.02em;
+		line-height: 1.05;
+		font-variation-settings: "opsz" 36, "SOFT" 30, "WONK" 0;
+		align-self: baseline;
+	}
+	.contents-sub {
+		grid-area: sub;
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+	}
+	.contents-folio {
+		grid-area: folio;
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.18em;
+		color: var(--color-muted);
+		align-self: center;
+	}
+
+	@media (min-width: 880px) {
+		.contents-link {
+			grid-template-columns: 3.5rem minmax(0, 18rem) 1fr auto;
+			grid-template-areas: "roman title sub folio";
+			align-items: baseline;
+			padding: 2.25rem 0.5rem;
+		}
+		.contents-sub { text-align: left; }
+	}
+
+	/* ============================================================
+	   SOUNDINGS
+	   ============================================================ */
+	.soundings-list {
+		display: grid;
+		gap: 0;
+		border-top: 1px solid var(--color-global-text);
+	}
+	.sounding {
+		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 18%, transparent);
+		padding: 2.25rem 0;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1.25rem;
+	}
+	@media (min-width: 880px) {
+		.sounding {
+			grid-template-columns: 14rem 1fr;
+			gap: 4rem;
+			padding: 3rem 0;
 		}
 	}
+	.sounding-meta {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		padding-top: 0.4rem;
+	}
+	.sounding-no { color: var(--color-accent); font-weight: 700; }
+	.sounding-label { color: var(--color-global-text); font-weight: 500; }
+	.sounding-bearing { color: var(--color-muted); }
+	.sounding-heading {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: clamp(1.5rem, 2.4vw + 0.4rem, 2.25rem);
+		line-height: 1.12;
+		letter-spacing: -0.018em;
+		color: var(--color-global-text);
+		margin: 0 0 1rem;
+		font-variation-settings: "opsz" 36, "SOFT" 30, "WONK" 0;
+		max-width: 30ch;
+		text-wrap: balance;
+	}
+	.sounding-body {
+		font-family: var(--font-display);
+		font-size: 1.0625rem;
+		line-height: 1.65;
+		color: var(--color-global-text);
+		margin: 0;
+		max-width: 64ch;
+		font-variation-settings: "opsz" 16, "SOFT" 60;
+	}
+	.sounding-body :global(strong) {
+		font-weight: 600;
+		color: var(--color-global-text);
+	}
+
+	/* ============================================================
+	   LOGBOOK POST CARD WRAPPER
+	   ============================================================ */
+	.logbook-post-card {
+		border-top: 1px solid var(--color-global-text);
+		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 18%, transparent);
+		padding: 2.5rem 0;
+	}
+
+	/* ============================================================
+	   COLOPHON
+	   ============================================================ */
+	.colophon-section { border-top: 1px solid var(--color-global-text); }
+	.colophon-inner {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2rem;
+		align-items: center;
+		text-align: center;
+		justify-items: center;
+		max-width: 56rem;
+	}
+	@media (min-width: 880px) {
+		.colophon-inner {
+			grid-template-columns: auto 1fr;
+			gap: 3rem;
+			text-align: left;
+			justify-items: stretch;
+		}
+	}
+	.colophon-rose { color: var(--color-accent); }
+	.colophon-label {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin: 0 0 0.6rem;
+		font-weight: 600;
+	}
+	.colophon-body {
+		font-family: var(--font-display);
+		font-style: italic;
+		font-size: 1.0625rem;
+		line-height: 1.55;
+		color: var(--color-global-text);
+		margin: 0 0 0.85rem;
+		max-width: 52ch;
+		font-variation-settings: "opsz" 18, "SOFT" 60;
+	}
+	.colophon-also {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		margin: 0;
+	}
+	.colophon-also a {
+		color: var(--color-global-text);
+		text-decoration: none;
+		border-bottom: 1px dotted color-mix(in oklab, var(--color-global-text) 50%, transparent);
+		transition: color 200ms ease, border-color 200ms ease;
+	}
+	.colophon-also a:hover {
+		color: var(--color-accent);
+		border-bottom-color: var(--color-accent);
+	}
+
+	/* ============================================================
+	   HERO REVEAL ANIMATION
+	   ============================================================ */
+	.logbook-hero .logbook-coords,
+	.logbook-hero .logbook-title-line,
+	.logbook-hero .logbook-role,
+	.logbook-hero .logbook-standfirst,
+	.logbook-hero .plate-label,
+	.logbook-hero .plate-caption,
+	.logbook-hero .logbook-bearing {
+		opacity: 0;
+		transform: translateY(8px);
+		animation: logbook-reveal 700ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+	}
+	.logbook-hero .plate-photo,
+	.logbook-hero .plate-glow {
+		opacity: 0;
+		animation: logbook-fade 1100ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+	}
+	.logbook-hero .logbook-rule {
+		opacity: 0;
+		transform: scaleX(0);
+		animation: logbook-rule-draw 700ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+	}
+
+	.logbook-hero .logbook-coords { animation-delay: 100ms; }
+	.logbook-hero .logbook-title-line:nth-of-type(1) { animation-delay: 200ms; }
+	.logbook-hero .logbook-title-line:nth-of-type(2) { animation-delay: 320ms; }
+	.logbook-hero .logbook-rule { animation-delay: 480ms; }
+	.logbook-hero .logbook-role { animation-delay: 560ms; }
+	.logbook-hero .logbook-standfirst { animation-delay: 640ms; }
+	.logbook-hero .plate-label { animation-delay: 240ms; }
+	.logbook-hero .plate-glow { animation-delay: 200ms; }
+	.logbook-hero .plate-photo { animation-delay: 320ms; }
+	.logbook-hero .plate-caption { animation-delay: 720ms; }
+	.logbook-hero .logbook-bearing { animation-delay: 880ms; }
+
+	@keyframes logbook-reveal {
+		from { opacity: 0; transform: translateY(8px); }
+		to   { opacity: 1; transform: translateY(0); }
+	}
+	@keyframes logbook-fade {
+		from { opacity: 0; }
+		to   { opacity: 1; }
+	}
+	@keyframes logbook-rule-draw {
+		from { opacity: 0; transform: scaleX(0); }
+		to   { opacity: 1; transform: scaleX(1); }
+	}
+
 	@media (prefers-reduced-motion: reduce) {
-		.scroll-arrow {
+		.logbook-hero .logbook-coords,
+		.logbook-hero .logbook-title-line,
+		.logbook-hero .logbook-rule,
+		.logbook-hero .logbook-role,
+		.logbook-hero .logbook-standfirst,
+		.logbook-hero .plate-label,
+		.logbook-hero .plate-caption,
+		.logbook-hero .logbook-bearing,
+		.logbook-hero .plate-photo,
+		.logbook-hero .plate-glow {
 			animation: none;
+			opacity: 1;
+			transform: none;
 		}
+		.bearing-arrow { animation: none; opacity: 1; }
 	}
 </style>
 
 <style is:global>
+	/* ============================================================
+	   LOGBOOK PALETTE — homepage-only token overrides.
+	   Light: warm cream paper, ink-navy, brass.
+	   Dark : midnight chart, bone, brass.
+	   Header/footer inherit these because they read the same vars.
+	   ============================================================ */
 	body {
 		padding-top: 0 !important;
-		--color-global-bg: oklch(98.48% 0 0);
-		--color-global-text: oklch(26.99% 0.0096 235.05);
-		--color-muted: oklch(44.6% 0.03 256.802);
-		--color-link: oklch(55.44% 0.0431 185.69);
-		--color-accent: oklch(38% 0.13 245);
-		--color-accent-2: oklch(18.15% 0 0);
-		--color-quote: oklch(38% 0.13 245);
+		--color-global-bg: oklch(95.5% 0.012 84);   /* cream / chart paper   */
+		--color-global-text: oklch(22% 0.04 250);   /* deep ink-navy         */
+		--color-muted: oklch(45% 0.025 250);        /* softer navy           */
+		--color-link: oklch(50% 0.13 70);           /* brass link            */
+		--color-accent: oklch(58% 0.16 65);         /* brass / aged-sun      */
+		--color-accent-2: oklch(18% 0.04 250);      /* darker ink            */
+		--color-quote: oklch(58% 0.16 65);
 		background-color: var(--color-global-bg);
 		color: var(--color-global-text);
 	}
+	html[data-theme="dark"] body {
+		--color-global-bg: oklch(20% 0.025 250);    /* midnight chart        */
+		--color-global-text: oklch(92% 0.012 84);   /* bone                  */
+		--color-muted: oklch(72% 0.018 84);
+		--color-link: oklch(76% 0.14 75);
+		--color-accent: oklch(75% 0.14 70);         /* brass — brighter dark */
+		--color-accent-2: oklch(96% 0.012 84);
+		--color-quote: oklch(75% 0.14 70);
+	}
+
+	/* Header floats over the hero. Match the existing overlay treatment. */
 	#main-header {
 		position: absolute;
 		top: 0;
@@ -170,14 +823,21 @@ const writingUrl = "/posts/";
 		right: 0;
 		z-index: 20;
 		margin-bottom: 0 !important;
-		padding: 1rem 1rem;
+		padding: 1rem 1.25rem;
 	}
-	#main-header theme-toggle {
-		display: none;
+	@media (min-width: 880px) {
+		#main-header { padding: 1.5rem 3rem; }
 	}
-	@media (min-width: 640px) {
-		#main-header {
-			padding: 1.5rem 2rem;
-		}
+	@media (min-width: 1280px) {
+		#main-header { padding: 1.75rem 5rem; }
 	}
+
+	/* The Base layout constrains main to max-w-3xl; release the home page
+	   so the full-bleed sections actually fill the viewport. */
+	body > main#main { max-width: none; width: 100%; }
+	body { max-width: none !important; padding-left: 0 !important; padding-right: 0 !important; }
+
+	/* The colophon is the home page's signoff; the global footer would
+	   duplicate that role here, so we hide it on the home only. */
+	body > footer { display: none; }
 </style>

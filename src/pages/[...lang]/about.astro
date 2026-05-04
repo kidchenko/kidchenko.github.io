@@ -19,70 +19,347 @@ const meta = {
 	description: t.meta.description,
 };
 const contactUrl = localizeUrl("/contact", lang);
+
+const isPt = lang === "pt";
+const ui = isPt
+	? {
+			chapterEyebrow: "II — O Capitão",
+			portraitCaption: "São Paulo, MMXXVI",
+		}
+	: {
+			chapterEyebrow: "II — The Captain",
+			portraitCaption: "São Paulo, MMXXVI",
+		};
 ---
 
 <PageLayout meta={meta}>
-	{/* Editorial hero: eyebrow + page title + serif standfirst + portrait.
-	    Tight bottom margin because the standfirst leads into the body it introduces. */}
-	<header class="mb-8 sm:mb-10">
-		<div class="grid gap-10 sm:grid-cols-[1fr_14rem] sm:items-end sm:gap-12">
-			<div>
-				<p class="page-eyebrow mb-5">{t.eyebrow}</p>
-				<h1 class="page-title">{t.heading}</h1>
-				<p class="standfirst mt-6 max-w-prose">{t.hi}</p>
-			</div>
-			<div class="not-prose">
-				<Image
-					alt={t.photoAlt}
-					class="photo-fade w-full rounded-lg object-cover"
-					sizes="(min-width: 640px) 224px, 280px"
-					src={casual}
-					widths={[280, 448]}
-				/>
-			</div>
-		</div>
+	{/* ─── Chapter title ────────────────────────────────────────── */}
+	<header class="ab-chapter">
+		<p class="ab-chapter-eyebrow">{ui.chapterEyebrow}</p>
+		<h1 class="ab-chapter-heading">{t.hi}</h1>
 	</header>
 
-	{/* Bio narrative */}
-	<div class="prose prose-cactus max-w-none">
+	{/* ─── Frontispiece photo (full-bleed band) ──────────────────── */}
+	<figure class="ab-frontispiece">
+		<Image
+			alt={t.photoAlt}
+			class="ab-photo"
+			loading="eager"
+			sizes="100vw"
+			src={casual}
+			widths={[640, 1024, 1600, 2000]}
+		/>
+		<figcaption class="ab-caption">{ui.portraitCaption}</figcaption>
+	</figure>
+
+	{/* ─── Bio narrative ─────────────────────────────────────────── */}
+	<div class="ab-prose">
 		{t.intro.map((p) => <p>{p}</p>)}
 	</div>
 
-	{/* Now */}
-	<section class="mt-20 border-t border-global-text/10 pt-16 sm:mt-24 sm:pt-20">
-		<h2 class="section-heading mb-8">{t.now.heading}</h2>
-		<div class="prose prose-cactus max-w-none">
-			<ul>
-				{t.now.items.map((item) => <li set:html={item} />)}
-			</ul>
-		</div>
+	{/* ─── i. Now ────────────────────────────────────────────────── */}
+	<section class="ab-section">
+		<header class="ab-section-head">
+			<p class="ab-section-eyebrow">i</p>
+			<h2 class="ab-section-heading">{t.now.heading}</h2>
+		</header>
+		<ul class="ab-now-list">
+			{t.now.items.map((item) => <li class="ab-now-item" set:html={item} />)}
+		</ul>
 	</section>
 
-	{/* Beyond engineering */}
-	<section class="mt-20 border-t border-global-text/10 pt-16 sm:mt-24 sm:pt-20">
-		<h2 class="section-heading mb-8">{t.beyond.heading}</h2>
-		<div class="prose prose-cactus max-w-none">
+	{/* ─── ii. Beyond engineering ────────────────────────────────── */}
+	<section class="ab-section">
+		<header class="ab-section-head">
+			<p class="ab-section-eyebrow">ii</p>
+			<h2 class="ab-section-heading">{t.beyond.heading}</h2>
+		</header>
+		<div class="ab-prose ab-prose-tight">
 			{t.beyond.body.map((p) => <p set:html={p} />)}
 		</div>
 	</section>
 
-	{/* Reading & interests */}
-	<section class="mt-20 border-t border-global-text/10 pt-16 sm:mt-24 sm:pt-20">
-		<h2 class="section-heading mb-8">{t.reading.heading}</h2>
-		<div class="prose prose-cactus max-w-none">
-			<p>{t.reading.lead}</p>
-			<ul>
-				{t.reading.items.map((item) => <li set:html={item} />)}
-			</ul>
-			<p>{t.reading.closing}</p>
-		</div>
+	{/* ─── iii. Reading & interests ──────────────────────────────── */}
+	<section class="ab-section">
+		<header class="ab-section-head">
+			<p class="ab-section-eyebrow">iii</p>
+			<h2 class="ab-section-heading">{t.reading.heading}</h2>
+		</header>
+		<p class="ab-reading-lead">{t.reading.lead}</p>
+		<ul class="ab-reading-list">
+			{t.reading.items.map((item) => <li class="ab-reading-item" set:html={item} />)}
+		</ul>
+		<p class="ab-reading-closing">{t.reading.closing}</p>
 	</section>
 
-	{/* Connect */}
-	<section class="mt-20 border-t border-global-text/10 pt-16 sm:mt-24 sm:pt-20">
-		<h2 class="section-heading mb-8">{t.connect.heading}</h2>
-		<div class="prose prose-cactus max-w-none">
-			<p set:html={t.connect.body.replace("{contactUrl}", contactUrl)} />
-		</div>
+	{/* ─── iv. Connect ───────────────────────────────────────────── */}
+	<section class="ab-section">
+		<header class="ab-section-head">
+			<p class="ab-section-eyebrow">iv</p>
+			<h2 class="ab-section-heading">{t.connect.heading}</h2>
+		</header>
+		<p
+			class="ab-prose ab-prose-tight ab-connect"
+			set:html={t.connect.body.replace("{contactUrl}", contactUrl)}
+		/>
 	</section>
 </PageLayout>
+
+<style>
+	/* ============================================================
+	   CHAPTER TITLE
+	   ============================================================ */
+	.ab-chapter {
+		margin: 1rem 0 2.5rem;
+	}
+	.ab-chapter-eyebrow {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin: 0 0 1.5rem;
+		font-weight: 600;
+	}
+	.ab-chapter-heading {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: clamp(2.75rem, 7vw + 0.5rem, 5.5rem);
+		line-height: 0.98;
+		letter-spacing: -0.035em;
+		color: var(--color-global-text);
+		margin: 0;
+		font-variation-settings: "opsz" 96, "SOFT" 30, "WONK" 0;
+		max-width: 14ch;
+		text-wrap: balance;
+	}
+
+	/* ============================================================
+	   FRONTISPIECE — full-bleed image band
+	   ============================================================ */
+	.ab-frontispiece {
+		margin: 0 calc(50% - 50vw) 0;
+		width: 100vw;
+	}
+	.ab-photo {
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+		object-position: center 28%;
+		display: block;
+		mask-image: linear-gradient(
+			to bottom,
+			rgba(0, 0, 0, 1) 0%,
+			rgba(0, 0, 0, 1) 84%,
+			rgba(0, 0, 0, 0.45) 95%,
+			rgba(0, 0, 0, 0) 100%
+		);
+		-webkit-mask-image: linear-gradient(
+			to bottom,
+			rgba(0, 0, 0, 1) 0%,
+			rgba(0, 0, 0, 1) 84%,
+			rgba(0, 0, 0, 0.45) 95%,
+			rgba(0, 0, 0, 0) 100%
+		);
+	}
+	@media (min-width: 880px) {
+		.ab-photo {
+			aspect-ratio: 16 / 7;
+		}
+	}
+	.ab-caption {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		text-align: center;
+		margin: 0.75rem 0 0;
+	}
+
+	/* ============================================================
+	   PROSE — Newsreader body, optical-sized at reading scale
+	   ============================================================ */
+	.ab-prose {
+		font-family: var(--font-serif);
+		font-size: 1.0625rem;
+		line-height: 1.7;
+		color: var(--color-global-text);
+		margin: 3rem 0 0;
+		font-variation-settings: "opsz" 16;
+	}
+	.ab-prose p {
+		margin: 0 0 1.4rem;
+	}
+	.ab-prose p:last-child {
+		margin-bottom: 0;
+	}
+	.ab-prose-tight {
+		margin-top: 0;
+	}
+	.ab-prose :global(strong) {
+		font-weight: 600;
+		color: var(--color-accent-2);
+	}
+	.ab-prose :global(em) {
+		font-style: italic;
+	}
+	.ab-prose :global(a) {
+		color: var(--color-global-text);
+		text-decoration: underline;
+		text-decoration-color: color-mix(in oklab, var(--color-accent) 60%, transparent);
+		text-underline-offset: 3px;
+		text-decoration-thickness: 1px;
+		transition: color 200ms ease, text-decoration-color 200ms ease;
+	}
+	.ab-prose :global(a:hover) {
+		color: var(--color-accent);
+		text-decoration-color: var(--color-accent);
+	}
+
+	/* ============================================================
+	   SECTIONS — divided by a single hairline; numbered eyebrows
+	   ============================================================ */
+	.ab-section {
+		margin: 4rem 0 0;
+		padding-top: 4rem;
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 18%, transparent);
+	}
+	.ab-section-head {
+		margin-bottom: 2rem;
+		display: grid;
+		grid-template-columns: 2.5rem 1fr;
+		gap: 0.5rem 1rem;
+		align-items: baseline;
+	}
+	.ab-section-eyebrow {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.18em;
+		color: var(--color-accent);
+		margin: 0;
+		font-weight: 600;
+		font-style: italic;
+	}
+	.ab-section-heading {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: clamp(1.75rem, 2.5vw + 1rem, 2.5rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		color: var(--color-global-text);
+		margin: 0;
+		font-variation-settings: "opsz" 48, "SOFT" 30, "WONK" 0;
+		text-wrap: balance;
+	}
+
+	/* ============================================================
+	   NOW LIST — each row gets a hairline; bold leader handled in copy
+	   ============================================================ */
+	.ab-now-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+	}
+	.ab-now-item {
+		font-family: var(--font-serif);
+		font-size: 1.0625rem;
+		line-height: 1.6;
+		color: var(--color-global-text);
+		padding: 1.25rem 0;
+		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+		font-variation-settings: "opsz" 16;
+	}
+	.ab-now-item :global(strong) {
+		font-weight: 600;
+		color: var(--color-accent-2);
+		margin-right: 0.25rem;
+	}
+
+	/* ============================================================
+	   READING LIST
+	   ============================================================ */
+	.ab-reading-lead,
+	.ab-reading-closing {
+		font-family: var(--font-serif);
+		font-size: 1.0625rem;
+		line-height: 1.65;
+		color: var(--color-global-text);
+		margin: 0 0 1.5rem;
+		font-variation-settings: "opsz" 16;
+	}
+	.ab-reading-closing {
+		margin-top: 2rem;
+		margin-bottom: 0;
+		font-style: italic;
+		color: var(--color-muted);
+	}
+	.ab-reading-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+	}
+	.ab-reading-item {
+		font-family: var(--font-serif);
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--color-global-text);
+		padding: 0.85rem 0;
+		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+		font-variation-settings: "opsz" 16;
+	}
+	.ab-reading-item :global(strong) {
+		font-weight: 600;
+		color: var(--color-accent-2);
+		margin-right: 0.5rem;
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+	.ab-reading-item :global(em) {
+		font-style: italic;
+	}
+
+	/* ============================================================
+	   CONNECT
+	   ============================================================ */
+	.ab-connect :global(a) {
+		color: var(--color-accent-2);
+		text-decoration: underline;
+		text-decoration-color: var(--color-accent);
+		text-decoration-thickness: 1px;
+		text-underline-offset: 3px;
+	}
+	.ab-connect :global(a:hover) {
+		color: var(--color-accent);
+	}
+</style>
+
+<style is:global>
+	/* Logbook palette — same tokens as the home page so the book reads
+	   as one volume across pages. Light: warm cream + ink-navy + brass.
+	   Dark: midnight + bone + brass. */
+	body {
+		--color-global-bg: oklch(95.5% 0.012 84);
+		--color-global-text: oklch(22% 0.04 250);
+		--color-muted: oklch(45% 0.025 250);
+		--color-link: oklch(50% 0.13 70);
+		--color-accent: oklch(58% 0.16 65);
+		--color-accent-2: oklch(18% 0.04 250);
+		--color-quote: oklch(58% 0.16 65);
+		background-color: var(--color-global-bg);
+		color: var(--color-global-text);
+	}
+	html[data-theme="dark"] body {
+		--color-global-bg: oklch(20% 0.025 250);
+		--color-global-text: oklch(92% 0.012 84);
+		--color-muted: oklch(72% 0.018 84);
+		--color-link: oklch(76% 0.14 75);
+		--color-accent: oklch(75% 0.14 70);
+		--color-accent-2: oklch(96% 0.012 84);
+		--color-quote: oklch(75% 0.14 70);
+	}
+</style>

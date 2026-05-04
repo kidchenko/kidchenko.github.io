@@ -7,6 +7,8 @@
 @import "@fontsource-variable/roboto-mono/wght-italic.css";
 @import "@fontsource-variable/newsreader/standard.css";
 @import "@fontsource-variable/newsreader/standard-italic.css";
+@import "@fontsource-variable/fraunces/standard.css";
+@import "@fontsource-variable/fraunces/standard-italic.css";
 
 /* Metric-matched fallbacks. The system local() chain renders immediately,
    sized so its line box matches the real webfont. When the variable font
@@ -98,6 +100,11 @@
 		Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 	--font-serif:
 		"Newsreader Variable", "Newsreader Fallback", Georgia, "Iowan Old Style",
+		"Times New Roman", serif;
+	/* Display face — Fraunces variable. Used at hero scale on the new
+	   Logbook-themed pages; opsz/SOFT/WONK axes set inline where needed. */
+	--font-display:
+		"Fraunces Variable", "Newsreader Fallback", Georgia, "Iowan Old Style",
 		"Times New Roman", serif;
 }
 
