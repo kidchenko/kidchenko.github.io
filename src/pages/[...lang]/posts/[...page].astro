@@ -42,7 +42,7 @@ interface Props {
 const { page, uniqueTags, pinnedPosts, lang } = Astro.props;
 const t = useTranslations(lang).writing;
 
-const meta = { title: t.meta.title, description: t.meta.description };
+const meta = { title: t.meta.title, description: t.meta.description, ogImage: "/og-image/writing.png" };
 
 const paginationProps = {
 	...(page.url.prev && {

@@ -2,7 +2,7 @@ import type { AstroExpressiveCodeOptions } from "astro-expressive-code";
 import type { SiteConfig } from "@/types";
 
 export const siteConfig: SiteConfig = {
-	url: "https://kidchenko.dev/",
+	url: "https://kidchenko.github.io/",
 	title: "Jose Barbosa",
 	author: "Jose Barbosa",
 	description:
