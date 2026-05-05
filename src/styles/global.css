@@ -168,77 +168,10 @@
 	@import "./components/admonition.css";
 	@import "./components/github-card.css";
 
+	/* Underline-on-hover utility. Used by the GitHub-card markdown plugin
+	   and any link inside an `lb-fullbleed` block that opts out of prose. */
 	.cactus-link {
 		@apply hover:decoration-link underline underline-offset-2 hover:decoration-2;
-	}
-
-	/* Section headings on long-form pages. Mono, restrained, accent-2 ink. */
-	.title {
-		@apply text-accent-2 text-2xl font-semibold;
-		font-feature-settings: "ss01", "ss02";
-	}
-
-	/* Article H1 only. Serif, editorial, slightly tighter leading.
-	   Optical-sized via font-variation-settings so the type sits right at display sizes. */
-	.post-title {
-		font-family: var(--font-serif);
-		font-size: clamp(1.875rem, 2vw + 1.25rem, 2.5rem);
-		font-weight: 600;
-		line-height: 1.1;
-		letter-spacing: -0.015em;
-		color: var(--color-accent-2);
-		font-variation-settings: "opsz" 36;
-		text-wrap: balance;
-	}
-
-	/* Interior page hero pattern (About, Portfolio, Contact, Writing index).
-	   Eyebrow above, page title below, optional serif standfirst.
-	   The post-title (serif) is reserved for blog post H1s; interior pages
-	   stay mono so they read as part of the chrome system. */
-	.page-eyebrow {
-		@apply text-accent text-xs font-bold uppercase;
-		letter-spacing: 0.1em;
-	}
-
-	.page-title {
-		font-family: var(--font-mono);
-		@apply text-accent-2 text-4xl font-bold sm:text-5xl;
-		line-height: 1.05;
-		letter-spacing: -0.02em;
-	}
-
-	/* Editorial standfirst — serif italic lede.
-	   Reserved for the About page, where the personal greeting earns the
-	   editorial moment. Other interior pages use .page-lead instead. */
-	.standfirst {
-		font-family: var(--font-serif);
-		font-size: clamp(1.25rem, 1vw + 1rem, 1.625rem);
-		font-style: italic;
-		font-weight: 400;
-		line-height: 1.4;
-		color: var(--color-accent-2);
-		font-variation-settings: "opsz" 24;
-		text-wrap: balance;
-	}
-
-	/* Functional subtitle — mono, muted, slightly larger than body.
-	   The default lead for interior pages where the copy is descriptive
-	   (Portfolio, Contact, Writing, CV) rather than personal. Sits in the
-	   same slot as .standfirst so structural alignment carries across pages. */
-	.page-lead {
-		font-family: var(--font-mono);
-		@apply text-muted text-base font-normal sm:text-lg;
-		line-height: 1.55;
-	}
-
-	/* Section heading inside long-form interior pages.
-	   Sits between the page-title (h1) and body. Used for h2 inside About,
-	   Portfolio, Contact subsections. */
-	.section-heading {
-		@apply text-accent-2 text-2xl font-bold sm:text-3xl;
-		font-family: var(--font-mono);
-		line-height: 1.15;
-		letter-spacing: -0.01em;
 	}
 
 	/* Bottom-fade mask for portrait images on interior pages.
@@ -396,6 +329,86 @@
 			color 200ms ease,
 			text-decoration-color 200ms ease;
 	}
+	/* ─────────────────────────────────────────────────────────────
+	   POST ENTRY — hairline-divided log entries.
+	   Rendered by <PostPreview /> and used on /posts, /tags/[tag],
+	   and the home featured logbook block. Date sits in a 9rem side
+	   gutter on desktop; on mobile it stacks above the title.
+	   ───────────────────────────────────────────────────────────── */
+	.lb-entry-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+	}
+	.lb-entry {
+		padding: 1.5rem 0;
+		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.5rem;
+	}
+	@media (min-width: 880px) {
+		.lb-entry {
+			grid-template-columns: 9rem 1fr;
+			gap: 3rem;
+			padding: 1.85rem 0;
+			align-items: baseline;
+		}
+	}
+	.lb-entry-date {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		font-weight: 500;
+	}
+	.lb-entry-title {
+		font-family: var(--font-display);
+		font-size: clamp(1.25rem, 1.4vw + 0.6rem, 1.625rem);
+		font-weight: 400;
+		line-height: 1.15;
+		letter-spacing: -0.015em;
+		margin: 0;
+		font-variation-settings: "opsz" 30, "SOFT" 30, "WONK" 0;
+		text-wrap: pretty;
+	}
+	.lb-entry-title a {
+		color: var(--color-global-text);
+		text-decoration: none;
+		background-image: linear-gradient(to right, var(--color-accent), var(--color-accent));
+		background-repeat: no-repeat;
+		background-size: 0% 1px;
+		background-position: left bottom -0.05em;
+		transition:
+			background-size 280ms cubic-bezier(0.2, 0.7, 0.2, 1),
+			color 200ms ease;
+	}
+	.lb-entry-title a:hover {
+		color: var(--color-accent);
+		background-size: 100% 1px;
+	}
+	.lb-entry-draft {
+		font-family: var(--font-mono);
+		font-size: 0.625rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		font-weight: 600;
+		margin-right: 0.4rem;
+	}
+	.lb-entry-desc {
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--color-muted);
+		margin: 0.6rem 0 0;
+		font-variation-settings: "opsz" 16, "SOFT" 60;
+		max-width: 60ch;
+	}
+
 	.lb-prose a:hover {
 		color: var(--color-accent);
 		text-decoration-color: var(--color-accent);

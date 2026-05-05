@@ -5,17 +5,27 @@ import FormattedDate from "@/components/FormattedDate.astro";
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
 	post: CollectionEntry<"post">;
+	draftLabel?: string;
 	withDesc?: boolean;
 };
 
-const { as: Tag = "div", post, withDesc = false } = Astro.props;
+const {
+	as: Tag = "h3",
+	post,
+	draftLabel = "(Draft) ",
+	withDesc = true,
+} = Astro.props;
 ---
 
-<FormattedDate class="text-muted min-w-30 font-semibold" date={post.data.publishDate} />
-<Tag>
-	{post.data.draft && <span class="text-red-500">(Draft) </span>}
-	<a class="cactus-link" href={`/posts/${post.id}/`}>
-		{post.data.title}
-	</a>
-</Tag>
-{withDesc && <q class="line-clamp-3 italic">{post.data.description}</q>}
+<FormattedDate class="lb-entry-date" date={post.data.publishDate} />
+<div class="lb-entry-body">
+	<Tag class="lb-entry-title">
+		{post.data.draft && <span class="lb-entry-draft">{draftLabel}</span>}
+		<a href={`/posts/${post.id}/`}>{post.data.title}</a>
+	</Tag>
+	{
+		withDesc && post.data.description && (
+			<p class="lb-entry-desc">{post.data.description}</p>
+		)
+	}
+</div>

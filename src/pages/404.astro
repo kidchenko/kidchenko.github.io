@@ -2,12 +2,18 @@
 import PageLayout from "@/layouts/Base.astro";
 
 const meta = {
-	description: "Oops! It looks like this page is lost in space!",
-	title: "Oops! You found a missing page!",
+	description: "Off the chart — the page you were looking for is not here.",
+	title: "Off the chart",
 };
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-12">404 | Oops something went wrong</h1>
-	<p class="mb-8">Please use the navigation to find your way back</p>
+	<header class="lb-chapter">
+		<p class="lb-chapter-eyebrow">404 — Off the chart</p>
+		<h1 class="lb-chapter-heading">This page is not on the map.</h1>
+		<p class="lb-chapter-lead">
+			It may have been moved, renamed, or never existed. Use the navigation above
+			to get your bearings.
+		</p>
+	</header>
 </PageLayout>

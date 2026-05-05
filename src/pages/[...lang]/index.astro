@@ -280,9 +280,11 @@ const contactUrl = localizeUrl("/contact/", lang);
 						<p class="section-eyebrow">{ui.logbookEyebrow}</p>
 						<h2 class="section-heading">{ui.logbookHeading}</h2>
 					</header>
-					<div class="logbook-post-card">
-						<PostPreview post={featuredPost} />
-					</div>
+					<ul class="lb-entry-list" role="list">
+						<li class="lb-entry">
+							<PostPreview as="h3" post={featuredPost} />
+						</li>
+					</ul>
 				</div>
 			</section>
 		)
@@ -884,14 +886,6 @@ const contactUrl = localizeUrl("/contact/", lang);
 		color: var(--color-global-text);
 	}
 
-	/* ============================================================
-	   LOGBOOK POST CARD WRAPPER
-	   ============================================================ */
-	.logbook-post-card {
-		border-top: 1px solid var(--color-global-text);
-		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 18%, transparent);
-		padding: 2.5rem 0;
-	}
 
 	/* ============================================================
 	   HAILING / CTA — closing signoff with one direct action

@@ -63,10 +63,9 @@ const navLinks: { path: string; title: string }[] = [
 		font-family: var(--font-mono);
 	}
 
-	/* Inner wrapper keeps the imprint aligned with body content even when
-	   the host page (e.g. home) strips body padding for full-bleed layout.
-	   On constrained pages the body's max-w-3xl already contains it; here
-	   the max-width is a no-op. On home, this re-introduces the column. */
+	/* Inner wrapper spans the editorial column (78rem cap), with the same
+	   horizontal padding as the header so the imprint mirrors the
+	   running-head bar at the top of the page. */
 	.lb-footer-inner {
 		max-width: 78rem;
 		margin-inline: auto;
@@ -150,7 +149,7 @@ const navLinks: { path: string; title: string }[] = [
 			padding-top: 2.5rem;
 			padding-bottom: 2rem;
 			flex-direction: row;
-			align-items: flex-end;
+			align-items: baseline;
 			justify-content: space-between;
 			gap: 2rem;
 		}
@@ -164,17 +163,12 @@ const navLinks: { path: string; title: string }[] = [
 		.lb-footer-elsewhere-lang {
 			display: inline-flex;
 		}
-		.lb-footer-copyright {
-			order: 0;
-			padding-top: 0;
-			border-top: none;
-		}
 		.lb-footer-nav,
 		.lb-footer-elsewhere {
 			order: 0;
 			display: flex;
 			flex-wrap: wrap;
-			align-items: center;
+			align-items: baseline;
 			gap: 1.25rem;
 			padding-top: 0;
 			border-top: none;

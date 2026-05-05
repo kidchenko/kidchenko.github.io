@@ -2,7 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import type { GetStaticPaths, Page } from "astro";
 import { Icon } from "astro-icon/components";
-import FormattedDate from "@/components/FormattedDate.astro";
+import PostPreview from "@/components/blog/PostPreview.astro";
 import Pagination from "@/components/Paginator.astro";
 import { getAllPosts, getUniqueTags, groupPostsByYear } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
@@ -81,17 +81,10 @@ const ui = isPt ? { chapterEyebrow: "V — Diário" } : { chapterEyebrow: "V —
 				<header class="lb-section-head">
 					<h2 class="lb-section-heading">{t.featured}</h2>
 				</header>
-				<ul class="wr-list" role="list">
+				<ul class="lb-entry-list" role="list">
 					{pinnedPosts.map((p) => (
-						<li class="wr-entry">
-							<FormattedDate class="wr-entry-date" date={p.data.publishDate} />
-							<div class="wr-entry-body">
-								<h3 class="wr-entry-title">
-									{p.data.draft && <span class="wr-entry-draft">(Draft) </span>}
-									<a href={`/posts/${p.id}/`}>{p.data.title}</a>
-								</h3>
-								{p.data.description && <p class="wr-entry-desc">{p.data.description}</p>}
-							</div>
+						<li class="lb-entry">
+							<PostPreview as="h3" post={p} />
 						</li>
 					))}
 				</ul>
@@ -109,17 +102,10 @@ const ui = isPt ? { chapterEyebrow: "V — Diário" } : { chapterEyebrow: "V —
 						{yearKey}
 					</h2>
 				</header>
-				<ul class="wr-list" role="list">
+				<ul class="lb-entry-list" role="list">
 					{groupedByYear[yearKey]?.map((p) => (
-						<li class="wr-entry">
-							<FormattedDate class="wr-entry-date" date={p.data.publishDate} />
-							<div class="wr-entry-body">
-								<h3 class="wr-entry-title">
-									{p.data.draft && <span class="wr-entry-draft">(Draft) </span>}
-									<a href={`/posts/${p.id}/`}>{p.data.title}</a>
-								</h3>
-								{p.data.description && <p class="wr-entry-desc">{p.data.description}</p>}
-							</div>
+						<li class="lb-entry">
+							<PostPreview as="h3" post={p} />
 						</li>
 					))}
 				</ul>
@@ -182,85 +168,6 @@ const ui = isPt ? { chapterEyebrow: "V — Diário" } : { chapterEyebrow: "V —
 	   Fraunces — each year reads as a chapter break */
 	.wr-year-heading {
 		font-variation-settings: "opsz" 48, "SOFT" 30, "WONK" 0;
-	}
-
-	/* ============================================================
-	   POST LIST — hairline-divided log entries.
-	   On desktop: date in a side gutter (9rem) | title + desc.
-	   On mobile: date stacks above the title.
-	   ============================================================ */
-	.wr-list {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
-	}
-	.wr-entry {
-		padding: 1.5rem 0;
-		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: 0.5rem;
-	}
-	@media (min-width: 880px) {
-		.wr-entry {
-			grid-template-columns: 9rem 1fr;
-			gap: 3rem;
-			padding: 1.85rem 0;
-			align-items: baseline;
-		}
-	}
-	.wr-entry-date {
-		font-family: var(--font-mono);
-		font-size: 0.6875rem;
-		letter-spacing: 0.18em;
-		text-transform: uppercase;
-		color: var(--color-muted);
-		font-weight: 500;
-	}
-	.wr-entry-title {
-		font-family: var(--font-display);
-		font-size: clamp(1.25rem, 1.4vw + 0.6rem, 1.625rem);
-		font-weight: 400;
-		line-height: 1.15;
-		letter-spacing: -0.015em;
-		margin: 0;
-		font-variation-settings: "opsz" 30, "SOFT" 30, "WONK" 0;
-		text-wrap: pretty;
-	}
-	.wr-entry-title a {
-		color: var(--color-global-text);
-		text-decoration: none;
-		background-image: linear-gradient(to right, var(--color-accent), var(--color-accent));
-		background-repeat: no-repeat;
-		background-size: 0% 1px;
-		background-position: left bottom -0.05em;
-		transition:
-			background-size 280ms cubic-bezier(0.2, 0.7, 0.2, 1),
-			color 200ms ease;
-	}
-	.wr-entry-title a:hover {
-		color: var(--color-accent);
-		background-size: 100% 1px;
-	}
-	.wr-entry-draft {
-		font-family: var(--font-mono);
-		font-size: 0.625rem;
-		letter-spacing: 0.18em;
-		text-transform: uppercase;
-		color: var(--color-accent);
-		font-weight: 600;
-		margin-right: 0.4rem;
-	}
-	.wr-entry-desc {
-		font-family: var(--font-serif);
-		font-style: italic;
-		font-size: 1rem;
-		line-height: 1.55;
-		color: var(--color-muted);
-		margin: 0.6rem 0 0;
-		font-variation-settings: "opsz" 16, "SOFT" 60;
-		max-width: 60ch;
 	}
 
 	/* ============================================================
