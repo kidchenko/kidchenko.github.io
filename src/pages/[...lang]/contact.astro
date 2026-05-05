@@ -13,137 +13,302 @@ export function getStaticPaths() {
 const { lang } = Astro.props;
 const t = useTranslations(lang).contact;
 const meta = { title: t.meta.title, description: t.meta.description };
+
+const isPt = lang === "pt";
+const ui = isPt
+	? { chapterEyebrow: "VI — Correspondência" }
+	: { chapterEyebrow: "VI — Correspondence" };
 ---
 
 <PageLayout meta={meta}>
-	{/* Editorial hero: matches About / Portfolio vocabulary, no portrait. */}
-	<header class="mb-8 sm:mb-10">
-		<p class="page-eyebrow mb-5">{t.eyebrow}</p>
-		<h1 class="page-title">{t.heading}</h1>
-		<p class="page-lead mt-6 max-w-prose">{t.lead}</p>
+	{/* ─── Chapter title ────────────────────────────────────────── */}
+	<header class="lb-chapter">
+		<p class="lb-chapter-eyebrow">{ui.chapterEyebrow}</p>
+		<h1 class="lb-chapter-heading">{t.heading}</h1>
+		<p class="lb-chapter-lead">{t.lead}</p>
 	</header>
 
+	{/* ─── Form ─────────────────────────────────────────────────── */}
 	<form
 		action="https://formspree.io/f/mzdozjng"
-		class="space-y-6"
-		id="contact-form"
-		method="POST"
-		data-success={t.form.success}
+		class="ct-form"
 		data-error={t.form.error}
 		data-sending={t.form.sending}
 		data-submit={t.form.submit}
+		data-success={t.form.success}
+		id="contact-form"
+		method="POST"
 	>
-		<div>
-			<label class="contact-label" for="name">{t.form.name}</label>
-			<input autocomplete="name" class="contact-input" id="name" name="name" required type="text" />
+		<div class="ct-field">
+			<label class="ct-label" for="name">{t.form.name}</label>
+			<input autocomplete="name" class="ct-input" id="name" name="name" required type="text" />
 		</div>
 
-		<div>
-			<label class="contact-label" for="email">{t.form.email}</label>
-			<input
-				autocomplete="email"
-				class="contact-input"
-				id="email"
-				name="email"
-				required
-				type="email"
-			/>
+		<div class="ct-field">
+			<label class="ct-label" for="email">{t.form.email}</label>
+			<input autocomplete="email" class="ct-input" id="email" name="email" required type="email" />
 		</div>
 
-		<div>
-			<label class="contact-label" for="subject">
-				{t.form.subject}{" "}
-				<span class="text-muted text-xs">{t.form.subjectOptional}</span>
+		<div class="ct-field">
+			<label class="ct-label" for="subject">
+				{t.form.subject}
+				<span class="ct-label-aux">{t.form.subjectOptional}</span>
 			</label>
-			<input class="contact-input" id="subject" name="subject" type="text" />
+			<input class="ct-input" id="subject" name="subject" type="text" />
 		</div>
 
-		<div>
-			<label class="contact-label" for="message">{t.form.message}</label>
+		<div class="ct-field">
+			<label class="ct-label" for="message">{t.form.message}</label>
 			<textarea
-				class="contact-input min-h-40 resize-y"
+				class="ct-input ct-textarea"
 				id="message"
 				name="message"
 				required
 				rows="6"></textarea>
 		</div>
 
-		<div aria-hidden="true" class="hidden">
+		<div aria-hidden="true" class="ct-honeypot">
 			<label for="website">{t.form.honeypotLabel}</label>
 			<input id="website" name="_gotcha" tabindex="-1" type="text" />
 		</div>
 
-		<div id="form-feedback" aria-live="polite" class="text-sm"></div>
+		<p aria-live="polite" class="ct-feedback" id="form-feedback"></p>
 
-		<button class="contact-submit" type="submit">{t.form.submit}</button>
+		<button class="ct-submit" type="submit">
+			<span>{t.form.submit}</span>
+			<span aria-hidden="true">→</span>
+		</button>
 	</form>
 
-	<section class="mt-20 border-t border-global-text/10 pt-16 sm:mt-24 sm:pt-20">
-		<h2 class="section-heading mb-8">{t.other.heading}</h2>
-		<div class="prose prose-cactus max-w-none">
-			<ul>
-				{
-					t.other.items.map((item) => (
-						<li>
-							<a href={item.url} rel="noreferrer" target="_blank">
-								{item.name}
-							</a>
-							{` - ${item.note}`}
-						</li>
-					))
-				}
-			</ul>
-			<p class="text-muted text-sm">{t.other.footnote}</p>
-		</div>
+	{/* ─── Other ways to reach me ───────────────────────────────── */}
+	<section class="lb-section">
+		<header class="lb-section-head">
+			<h2 class="lb-section-heading">{t.other.heading}</h2>
+		</header>
+
+		<ul class="ct-channels" role="list">
+			{
+				t.other.items.map((item) => (
+					<li class="ct-channel">
+						<a class="ct-channel-link" href={item.url} rel="noreferrer" target="_blank">
+							<span class="ct-channel-name">{item.name}</span>
+							<span class="ct-channel-note">{item.note}</span>
+							<span aria-hidden="true" class="ct-channel-arrow">
+								↗
+							</span>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+
+		<p class="ct-footnote">{t.other.footnote}</p>
 	</section>
 </PageLayout>
 
 <style>
-	.contact-label {
-		display: block;
-		font-size: 0.875rem;
-		font-weight: 600;
-		margin-bottom: 0.4rem;
-		color: var(--color-global-text);
+	/* ============================================================
+	   FORM — editorial fields with bottom-border inputs.
+	   ============================================================ */
+	.ct-form {
+		max-width: 38rem;
+		margin: 0;
 	}
-	.contact-input {
+	.ct-field {
+		margin-bottom: 2.25rem;
+	}
+	.ct-label {
+		display: block;
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		font-weight: 600;
+		margin-bottom: 0.6rem;
+	}
+	.ct-label-aux {
+		margin-left: 0.5rem;
+		color: var(--color-muted);
+		font-weight: 500;
+		text-transform: lowercase;
+		letter-spacing: 0.08em;
+		font-size: 0.625rem;
+	}
+	.ct-input {
 		display: block;
 		width: 100%;
-		padding: 0.65rem 0.9rem;
-		border: 1px solid var(--color-global-text);
-		border-opacity: 0.2;
-		border-color: color-mix(in oklch, var(--color-global-text) 20%, transparent);
-		border-radius: 4px;
+		padding: 0.65rem 0;
+		border: 0;
+		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 25%, transparent);
 		background: transparent;
 		color: var(--color-global-text);
-		font-family: inherit;
-		font-size: 0.95rem;
-		transition: border-color 150ms ease;
+		font-family: var(--font-serif);
+		font-size: 1.0625rem;
+		line-height: 1.5;
+		font-variation-settings: "opsz" 16;
+		transition:
+			border-color 200ms ease,
+			padding-bottom 200ms ease;
 	}
-	.contact-input:focus {
+	.ct-input::placeholder {
+		color: var(--color-muted);
+		opacity: 0.5;
+	}
+	.ct-input:focus {
 		outline: none;
-		border-color: var(--color-accent);
+		border-bottom-color: var(--color-accent);
+		border-bottom-width: 2px;
+		padding-bottom: calc(0.65rem - 1px);
 	}
-	.contact-submit {
+	.ct-textarea {
+		min-height: 9rem;
+		resize: vertical;
+	}
+
+	.ct-honeypot {
+		position: absolute;
+		left: -10000px;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+	}
+
+	.ct-feedback {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		margin: 0 0 1rem;
+		font-weight: 600;
+		min-height: 1.2em;
+	}
+	.ct-feedback.is-success {
+		color: var(--color-accent);
+	}
+	.ct-feedback.is-error {
+		color: oklch(50% 0.18 25);
+	}
+
+	.ct-submit {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.5rem;
-		padding: 0.7rem 1.5rem;
-		background: var(--color-accent);
-		color: var(--color-global-bg);
-		border-radius: 4px;
+		gap: 0.6rem;
+		font-family: var(--font-mono);
+		font-size: 0.875rem;
 		font-weight: 600;
-		font-size: 0.95rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--color-accent-2);
+		background: transparent;
+		border: 0;
+		border-bottom: 1px solid var(--color-accent);
+		padding: 0.6rem 0;
 		cursor: pointer;
-		border: none;
-		transition: opacity 150ms ease;
+		transition:
+			color 200ms ease,
+			padding-left 250ms ease,
+			border-color 200ms ease;
 	}
-	.contact-submit:hover {
-		opacity: 0.9;
+	.ct-submit:hover {
+		color: var(--color-accent);
+		padding-left: 0.4rem;
 	}
-	.contact-submit:disabled {
+	.ct-submit:disabled {
 		opacity: 0.5;
 		cursor: not-allowed;
+		padding-left: 0;
+	}
+
+	/* ============================================================
+	   CHANNELS — secondary, hairline-divided list
+	   ============================================================ */
+	.ct-channels {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+	}
+	.ct-channel {
+		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+	}
+	.ct-channel-link {
+		display: grid;
+		grid-template-columns: minmax(0, 12rem) 1fr auto;
+		align-items: baseline;
+		gap: 1rem;
+		padding: 1.4rem 0.25rem;
+		text-decoration: none;
+		color: var(--color-global-text);
+		transition:
+			color 200ms ease,
+			padding-left 280ms cubic-bezier(0.2, 0.7, 0.2, 1);
+	}
+	.ct-channel-link:hover {
+		color: var(--color-accent);
+		padding-left: 0.85rem;
+	}
+	.ct-channel-name {
+		font-family: var(--font-display);
+		font-size: clamp(1.25rem, 1vw + 0.85rem, 1.5rem);
+		font-weight: 400;
+		letter-spacing: -0.015em;
+		font-variation-settings: "opsz" 30, "SOFT" 30;
+	}
+	.ct-channel-note {
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: 0.95rem;
+		line-height: 1.4;
+		color: var(--color-muted);
+		font-variation-settings: "opsz" 16, "SOFT" 60;
+	}
+	.ct-channel-arrow {
+		font-family: var(--font-mono);
+		color: var(--color-muted);
+		font-size: 1rem;
+		transition:
+			color 200ms ease,
+			transform 280ms ease;
+	}
+	.ct-channel-link:hover .ct-channel-arrow {
+		color: var(--color-accent);
+		transform: translate(2px, -2px);
+	}
+
+	@media (max-width: 640px) {
+		.ct-channel-link {
+			grid-template-columns: 1fr auto;
+			grid-template-areas:
+				"name arrow"
+				"note arrow";
+			gap: 0.25rem 1rem;
+			row-gap: 0.4rem;
+		}
+		.ct-channel-name {
+			grid-area: name;
+		}
+		.ct-channel-note {
+			grid-area: note;
+		}
+		.ct-channel-arrow {
+			grid-area: arrow;
+			align-self: center;
+		}
+	}
+
+	/* ============================================================
+	   FOOTNOTE
+	   ============================================================ */
+	.ct-footnote {
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: 0.9375rem;
+		line-height: 1.55;
+		color: var(--color-muted);
+		margin: 2.5rem 0 0;
+		max-width: 56ch;
+		font-variation-settings: "opsz" 16, "SOFT" 60;
 	}
 </style>
 
@@ -151,8 +316,9 @@ const meta = { title: t.meta.title, description: t.meta.description };
 	const form = document.getElementById("contact-form") as HTMLFormElement | null;
 	const feedback = document.getElementById("form-feedback");
 	const submitBtn = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+	const submitLabel = submitBtn?.querySelector<HTMLSpanElement>("span:first-child");
 
-	if (form && feedback && submitBtn) {
+	if (form && feedback && submitBtn && submitLabel) {
 		const successMsg = form.dataset.success ?? "Message sent.";
 		const errorMsg = form.dataset.error ?? "Something went wrong.";
 		const sendingMsg = form.dataset.sending ?? "Sending...";
@@ -161,9 +327,9 @@ const meta = { title: t.meta.title, description: t.meta.description };
 		form.addEventListener("submit", async (e) => {
 			e.preventDefault();
 			feedback.textContent = "";
-			feedback.className = "text-sm";
+			feedback.className = "ct-feedback";
 			submitBtn.disabled = true;
-			submitBtn.textContent = sendingMsg;
+			submitLabel.textContent = sendingMsg;
 
 			try {
 				const response = await fetch(form.action, {
@@ -174,17 +340,17 @@ const meta = { title: t.meta.title, description: t.meta.description };
 
 				if (response.ok) {
 					feedback.textContent = successMsg;
-					feedback.className = "text-sm font-semibold text-green-700 dark:text-green-400";
+					feedback.className = "ct-feedback is-success";
 					form.reset();
 				} else {
 					throw new Error("Form submission failed");
 				}
 			} catch {
 				feedback.textContent = errorMsg;
-				feedback.className = "text-sm font-semibold text-red-700 dark:text-red-400";
+				feedback.className = "ct-feedback is-error";
 			} finally {
 				submitBtn.disabled = false;
-				submitBtn.textContent = submitMsg;
+				submitLabel.textContent = submitMsg;
 			}
 		});
 	}

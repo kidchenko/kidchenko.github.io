@@ -2,7 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import type { GetStaticPaths, Page } from "astro";
 import { Icon } from "astro-icon/components";
-import PostPreview from "@/components/blog/PostPreview.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
 import Pagination from "@/components/Paginator.astro";
 import { getAllPosts, getUniqueTags, groupPostsByYear } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
@@ -55,98 +55,262 @@ const paginationProps = {
 
 const groupedByYear = groupPostsByYear(page.data);
 const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
+
+const isPt = lang === "pt";
+const ui = isPt ? { chapterEyebrow: "V — Diário" } : { chapterEyebrow: "V — Logbook" };
 ---
 
 <PageLayout meta={meta}>
-	{/* Editorial hero: same vocabulary as About / Portfolio / Contact, RSS icon inline with the title. */}
-	<header class="mb-8 sm:mb-10">
-		<p class="page-eyebrow mb-5">{t.eyebrow}</p>
-		<div class="flex items-center gap-3">
-			<h1 class="page-title">{t.heading}</h1>
-			<a class="text-accent hover:text-link transition-colors" href="/rss.xml" target="_blank">
+	{/* ─── Chapter title ────────────────────────────────────────── */}
+	<header class="lb-chapter">
+		<p class="lb-chapter-eyebrow">{ui.chapterEyebrow}</p>
+		<div class="wr-chapter-row">
+			<h1 class="lb-chapter-heading">{t.heading}</h1>
+			<a class="wr-rss" href="/rss.xml" target="_blank" rel="noreferrer">
 				<span class="sr-only">{t.rssLabel}</span>
-				<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="mdi:rss" />
+				<Icon aria-hidden="true" class="wr-rss-icon" focusable="false" name="mdi:rss" />
 			</a>
 		</div>
-		<p class="page-lead mt-6 max-w-prose">{t.lead}</p>
+		<p class="lb-chapter-lead">{t.lead}</p>
 	</header>
 
-	<div class="grid sm:grid-cols-[3fr_1fr] sm:gap-x-8 sm:gap-y-16">
-		<div>
-			{
-				pinnedPosts.length > 0 && (
-					<section class="mb-16">
-						<h2 class="title mb-6 text-xl">{t.featured}</h2>
-						<ul class="space-y-4" role="list">
-							{pinnedPosts.map((p) => (
-								<li class="grid gap-1 sm:grid-cols-[auto_1fr]">
-									<PostPreview post={p} />
-								</li>
-							))}
-						</ul>
-					</section>
-				)
-			}
-			{
-				descYearKeys.map((yearKey) => (
-					<section class="mb-16">
-						<h2 id={`year-${yearKey}`} class="title text-lg">
-							<span class="sr-only">{t.postsInYear}</span>
-							{yearKey}
-						</h2>
-						<ul class="mt-5 space-y-4 text-start">
-							{groupedByYear[yearKey]?.map((p) => (
-								<li class="grid gap-1 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
-									<PostPreview post={p} />
-								</li>
-							))}
-						</ul>
-					</section>
-				))
-			}
-			<Pagination {...paginationProps} />
-		</div>
-		{
-			!!uniqueTags.length && (
-				<aside>
-					<h2 class="title mb-4 flex items-center gap-1 text-lg">
-						<svg
-							aria-hidden="true"
-							class="h-6 w-6"
-							fill="none"
-							stroke="var(--color-muted)"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="1.5"
-							viewBox="0 0 24 24"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path d="M0 0h24v24H0z" fill="none" stroke="none" />
-							<path d="M7.859 6h-2.834a2.025 2.025 0 0 0 -2.025 2.025v2.834c0 .537 .213 1.052 .593 1.432l6.116 6.116a2.025 2.025 0 0 0 2.864 0l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-6.117 -6.116a2.025 2.025 0 0 0 -1.431 -.593z" />
-							<path d="M17.573 18.407l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-7.117 -7.116" />
-							<path d="M6 9h-.01" />
-						</svg>
-						{t.tags}
+	{/* ─── Featured ─────────────────────────────────────────────── */}
+	{
+		pinnedPosts.length > 0 && (
+			<section class="lb-section">
+				<header class="lb-section-head">
+					<h2 class="lb-section-heading">{t.featured}</h2>
+				</header>
+				<ul class="wr-list" role="list">
+					{pinnedPosts.map((p) => (
+						<li class="wr-entry">
+							<FormattedDate class="wr-entry-date" date={p.data.publishDate} />
+							<div class="wr-entry-body">
+								<h3 class="wr-entry-title">
+									{p.data.draft && <span class="wr-entry-draft">(Draft) </span>}
+									<a href={`/posts/${p.id}/`}>{p.data.title}</a>
+								</h3>
+								{p.data.description && <p class="wr-entry-desc">{p.data.description}</p>}
+							</div>
+						</li>
+					))}
+				</ul>
+			</section>
+		)
+	}
+
+	{/* ─── Year groups ──────────────────────────────────────────── */}
+	{
+		descYearKeys.map((yearKey) => (
+			<section class="lb-section">
+				<header class="lb-section-head">
+					<h2 class="lb-section-heading wr-year-heading" id={`year-${yearKey}`}>
+						<span class="sr-only">{t.postsInYear}</span>
+						{yearKey}
 					</h2>
-					<ul class="flex flex-wrap gap-2">
-						{uniqueTags.map((tag) => (
-							<li>
-								<a class="cactus-link flex items-center justify-center" href={`/tags/${tag}/`}>
-									<span aria-hidden="true">#</span>
-									<span class="sr-only">{t.tags}</span>
-									{tag}
-								</a>
-							</li>
-						))}
-					</ul>
-					<span class="mt-4 block sm:text-end">
-						<a class="hover:text-link" href="/tags/">
-							{t.viewAll} <span aria-hidden="true">→</span>
-							<span class="sr-only">{t.viewAllSr}</span>
-						</a>
-					</span>
-				</aside>
-			)
-		}
-	</div>
+				</header>
+				<ul class="wr-list" role="list">
+					{groupedByYear[yearKey]?.map((p) => (
+						<li class="wr-entry">
+							<FormattedDate class="wr-entry-date" date={p.data.publishDate} />
+							<div class="wr-entry-body">
+								<h3 class="wr-entry-title">
+									{p.data.draft && <span class="wr-entry-draft">(Draft) </span>}
+									<a href={`/posts/${p.id}/`}>{p.data.title}</a>
+								</h3>
+								{p.data.description && <p class="wr-entry-desc">{p.data.description}</p>}
+							</div>
+						</li>
+					))}
+				</ul>
+			</section>
+		))
+	}
+
+	<Pagination {...paginationProps} />
+
+	{/* ─── Tags ─────────────────────────────────────────────────── */}
+	{
+		!!uniqueTags.length && (
+			<section class="lb-section">
+				<header class="lb-section-head">
+					<h2 class="lb-section-heading">{t.tags}</h2>
+				</header>
+				<ul class="wr-tag-list" role="list">
+					{uniqueTags.map((tag) => (
+						<li>
+							<a class="wr-tag" href={`/tags/${tag}/`}>
+								<span aria-hidden="true">#</span>
+								<span class="sr-only">{t.tags}</span>
+								{tag}
+							</a>
+						</li>
+					))}
+				</ul>
+				<a class="wr-tags-all" href="/tags/">
+					{t.viewAll} <span aria-hidden="true">→</span>
+					<span class="sr-only">{t.viewAllSr}</span>
+				</a>
+			</section>
+		)
+	}
 </PageLayout>
+
+<style>
+	/* Page-specific styles. Shared chrome (lb-chapter, lb-section,
+	   lb-prose, lb-fullbleed) + palette live in global.css. */
+
+	/* Chapter row — heading sits inline with the RSS icon */
+	.wr-chapter-row {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+	.wr-rss {
+		color: var(--color-muted);
+		transition: color 200ms ease;
+	}
+	.wr-rss:hover {
+		color: var(--color-accent);
+	}
+	.wr-rss-icon {
+		height: 1.5rem;
+		width: 1.5rem;
+	}
+
+	/* Year heading uses the same scale as section headings but in
+	   Fraunces — each year reads as a chapter break */
+	.wr-year-heading {
+		font-variation-settings: "opsz" 48, "SOFT" 30, "WONK" 0;
+	}
+
+	/* ============================================================
+	   POST LIST — hairline-divided log entries.
+	   On desktop: date in a side gutter (9rem) | title + desc.
+	   On mobile: date stacks above the title.
+	   ============================================================ */
+	.wr-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+	}
+	.wr-entry {
+		padding: 1.5rem 0;
+		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.5rem;
+	}
+	@media (min-width: 880px) {
+		.wr-entry {
+			grid-template-columns: 9rem 1fr;
+			gap: 3rem;
+			padding: 1.85rem 0;
+			align-items: baseline;
+		}
+	}
+	.wr-entry-date {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		font-weight: 500;
+	}
+	.wr-entry-title {
+		font-family: var(--font-display);
+		font-size: clamp(1.25rem, 1.4vw + 0.6rem, 1.625rem);
+		font-weight: 400;
+		line-height: 1.15;
+		letter-spacing: -0.015em;
+		margin: 0;
+		font-variation-settings: "opsz" 30, "SOFT" 30, "WONK" 0;
+		text-wrap: pretty;
+	}
+	.wr-entry-title a {
+		color: var(--color-global-text);
+		text-decoration: none;
+		background-image: linear-gradient(to right, var(--color-accent), var(--color-accent));
+		background-repeat: no-repeat;
+		background-size: 0% 1px;
+		background-position: left bottom -0.05em;
+		transition:
+			background-size 280ms cubic-bezier(0.2, 0.7, 0.2, 1),
+			color 200ms ease;
+	}
+	.wr-entry-title a:hover {
+		color: var(--color-accent);
+		background-size: 100% 1px;
+	}
+	.wr-entry-draft {
+		font-family: var(--font-mono);
+		font-size: 0.625rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		font-weight: 600;
+		margin-right: 0.4rem;
+	}
+	.wr-entry-desc {
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--color-muted);
+		margin: 0.6rem 0 0;
+		font-variation-settings: "opsz" 16, "SOFT" 60;
+		max-width: 60ch;
+	}
+
+	/* ============================================================
+	   TAG LIST — small mono caps badges, no boxes
+	   ============================================================ */
+	.wr-tag-list {
+		list-style: none;
+		margin: 0 0 2rem;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.6rem 1.5rem;
+	}
+	.wr-tag {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		font-weight: 500;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-global-text);
+		text-decoration: none;
+		padding: 0.3rem 0;
+		border-bottom: 1px solid transparent;
+		transition:
+			color 200ms ease,
+			border-color 200ms ease;
+	}
+	.wr-tag:hover {
+		color: var(--color-accent);
+		border-bottom-color: var(--color-accent);
+	}
+
+	.wr-tags-all {
+		display: inline-flex;
+		align-items: center;
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-accent-2);
+		text-decoration: none;
+		border-bottom: 1px solid var(--color-accent);
+		padding-bottom: 0.4rem;
+		transition:
+			color 200ms ease,
+			padding-left 250ms ease;
+	}
+	.wr-tags-all:hover {
+		color: var(--color-accent);
+		padding-left: 0.4rem;
+	}
+</style>

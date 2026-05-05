@@ -1,6 +1,7 @@
 ---
 import type { MarkdownHeading } from "astro";
 import { generateToc } from "@/utils/generateToc";
+import { getLangFromUrl } from "@/i18n/utils";
 import TOCHeading from "./TOCHeading.astro";
 
 interface Props {
@@ -8,15 +9,78 @@ interface Props {
 }
 
 const { headings } = Astro.props;
-
 const toc = generateToc(headings);
+const lang = getLangFromUrl(Astro.url);
+const isPt = lang === "pt";
+const label = isPt ? "Sumário" : "Contents";
 ---
 
-<details open class="lg:sticky lg:top-12 lg:order-2 lg:-me-32 lg:basis-64">
-	<summary class="title hover:marker:text-accent cursor-pointer text-lg">Table of Contents</summary>
-	<nav class="ms-4 lg:w-full">
-		<ol class="mt-4">
+<details class="lb-toc" open>
+	<summary class="lb-toc-summary">
+		<span class="lb-toc-eyebrow">{label}</span>
+		<span aria-hidden="true" class="lb-toc-toggle">+</span>
+	</summary>
+	<nav aria-label={label} class="lb-toc-nav">
+		<ol class="lb-toc-list">
 			{toc.map((heading) => <TOCHeading heading={heading} />)}
 		</ol>
 	</nav>
 </details>
+
+<style>
+	.lb-toc {
+		margin-bottom: 2.5rem;
+	}
+	@media (min-width: 1024px) {
+		.lb-toc {
+			position: sticky;
+			top: 2rem;
+			order: 2;
+			margin-inline-end: -8rem;
+			flex-basis: 14rem;
+			flex-shrink: 0;
+			margin-bottom: 0;
+		}
+	}
+
+	.lb-toc-summary {
+		cursor: pointer;
+		list-style: none;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 18%, transparent);
+		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+		padding: 0.65rem 0;
+	}
+	.lb-toc-summary::-webkit-details-marker {
+		display: none;
+	}
+	.lb-toc-eyebrow {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		font-weight: 600;
+	}
+	.lb-toc-toggle {
+		font-family: var(--font-mono);
+		font-size: 0.875rem;
+		color: var(--color-muted);
+		transition: transform 200ms ease;
+	}
+	.lb-toc[open] .lb-toc-toggle {
+		transform: rotate(45deg);
+	}
+
+	.lb-toc-nav {
+		margin-top: 0.85rem;
+	}
+	.lb-toc-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+</style>

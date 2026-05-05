@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import FormattedDate from "@/components/FormattedDate.astro";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 
 interface Props {
 	content: CollectionEntry<"post">;
@@ -13,72 +14,185 @@ const {
 	readingTime,
 } = Astro.props;
 
-const dateTimeOptions: Intl.DateTimeFormatOptions = {
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const isPt = lang === "pt";
+
+const dateOpts: Intl.DateTimeFormatOptions = {
+	year: "numeric",
 	month: "long",
+	day: "numeric",
 };
+
+const ui = isPt
+	? { chapterEyebrow: "V — Diário", draft: "Rascunho", updated: "Atualizado" }
+	: { chapterEyebrow: "V — Logbook", draft: "Draft", updated: "Updated" };
 ---
 
 {
 	data.coverImage && (
-		<div class="mb-6 aspect-video">
+		<figure class="lb-cover lb-fullbleed">
 			<Image
 				alt={data.coverImage.alt}
-				layout="constrained"
-				width={748}
-				height={420}
+				class="lb-cover-img"
+				height={900}
 				priority
 				src={data.coverImage.src}
+				width={1600}
 			/>
-		</div>
+		</figure>
 	)
 }
-{data.draft ? <span class="text-base text-red-500">(Draft)</span> : null}
-<h1 class="post-title mb-3">
-	{data.title}
-</h1>
-<div class="flex flex-wrap items-center gap-x-3 gap-y-2">
-	<p class="font-semibold">
-		<FormattedDate date={data.publishDate} dateTimeOptions={dateTimeOptions} /> /{" "}
-		{readingTime}
-	</p>
-	{
-		data.updatedDate && (
-			<span class="bg-quote/5 text-quote rounded-lg px-2 py-1">
-				Updated:
-				<FormattedDate class="ms-1" date={data.updatedDate} dateTimeOptions={dateTimeOptions} />
-			</span>
-		)
-	}
-</div>
-{
-	!!data.tags?.length && (
-		<div class="mt-2">
-			<svg
-				aria-hidden="true"
-				class="inline-block h-6 w-6"
-				fill="none"
-				focusable="false"
-				stroke="var(--color-muted)"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				stroke-width="1.5"
-				viewBox="0 0 24 24"
-				xmlns="http://www.w3.org/2000/svg"
-			>
-				<path d="M0 0h24v24H0z" fill="none" stroke="none" />
-				<path d="M7.859 6h-2.834a2.025 2.025 0 0 0 -2.025 2.025v2.834c0 .537 .213 1.052 .593 1.432l6.116 6.116a2.025 2.025 0 0 0 2.864 0l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-6.117 -6.116a2.025 2.025 0 0 0 -1.431 -.593z" />
-				<path d="M17.573 18.407l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-7.117 -7.116" />
-				<path d="M6 9h-.01" />
-			</svg>
-			{data.tags.map((tag, i) => (
+
+<header class="lb-post-masthead">
+	<p class="lb-chapter-eyebrow">{ui.chapterEyebrow}</p>
+	{data.draft && <p class="lb-post-draft">({ui.draft})</p>}
+	<h1 class="lb-post-title">{data.title}</h1>
+	{data.description && <p class="lb-post-standfirst">{data.description}</p>}
+
+	<div class="lb-post-meta">
+		<FormattedDate class="lb-post-meta-date" date={data.publishDate} dateTimeOptions={dateOpts} />
+		<span aria-hidden="true" class="lb-post-meta-sep">—</span>
+		<span>{readingTime}</span>
+		{
+			data.updatedDate && (
 				<>
-					{/* prettier-ignore */}
-					<span class="contents">
-						<a class="cactus-link inline-block before:content-['#']" data-pagefind-filter={`tag:${tag}`} href={`/tags/${tag}/`}><span class="sr-only">View more blogs with the tag&nbsp;</span>{tag}
-						</a>{i < data.tags.length - 1 && ", "}
+					<span aria-hidden="true" class="lb-post-meta-sep">
+						—
+					</span>
+					<span>
+						{ui.updated}{" "}
+						<FormattedDate date={data.updatedDate} dateTimeOptions={dateOpts} />
 					</span>
 				</>
-			))}
-		</div>
-	)
-}
+			)
+		}
+	</div>
+
+	{
+		!!data.tags?.length && (
+			<ul class="lb-post-tags" role="list">
+				{data.tags.map((tag) => (
+					<li>
+						<a class="lb-post-tag" data-pagefind-filter={`tag:${tag}`} href={`/tags/${tag}/`}>
+							<span aria-hidden="true">#</span>
+							{tag}
+						</a>
+					</li>
+				))}
+			</ul>
+		)
+	}
+</header>
+
+<style>
+	/* COVER — full-bleed band with feathered bottom edge, mirrors the
+	   about-page frontispiece treatment. */
+	.lb-cover {
+		margin: 0 calc(50% - 50vw) 3rem;
+		width: 100vw;
+	}
+	.lb-cover-img {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+		display: block;
+		mask-image: linear-gradient(
+			to bottom,
+			rgba(0, 0, 0, 1) 0%,
+			rgba(0, 0, 0, 1) 88%,
+			rgba(0, 0, 0, 0.5) 96%,
+			rgba(0, 0, 0, 0) 100%
+		);
+		-webkit-mask-image: linear-gradient(
+			to bottom,
+			rgba(0, 0, 0, 1) 0%,
+			rgba(0, 0, 0, 1) 88%,
+			rgba(0, 0, 0, 0.5) 96%,
+			rgba(0, 0, 0, 0) 100%
+		);
+	}
+
+	/* MASTHEAD */
+	.lb-post-masthead {
+		margin: 0 0 3rem;
+	}
+	.lb-post-draft {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		font-weight: 700;
+		margin: 0 0 0.75rem;
+	}
+	.lb-post-title {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: clamp(2.25rem, 4vw + 1rem, 3.75rem);
+		line-height: 1.05;
+		letter-spacing: -0.025em;
+		color: var(--color-global-text);
+		margin: 0 0 1.5rem;
+		font-variation-settings: "opsz" 96, "SOFT" 30, "WONK" 0;
+		text-wrap: balance;
+		max-width: 24ch;
+	}
+	.lb-post-standfirst {
+		font-family: var(--font-display);
+		font-style: italic;
+		font-weight: 400;
+		font-size: clamp(1.125rem, 0.8vw + 0.85rem, 1.375rem);
+		line-height: 1.4;
+		color: var(--color-global-text);
+		margin: 0 0 2rem;
+		max-width: 42ch;
+		font-variation-settings: "opsz" 24, "SOFT" 60;
+		text-wrap: pretty;
+	}
+
+	.lb-post-meta {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		margin: 0 0 1rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem 0.75rem;
+		align-items: center;
+		font-weight: 500;
+	}
+	.lb-post-meta-date {
+		color: var(--color-accent);
+		font-weight: 600;
+	}
+	.lb-post-meta-sep {
+		opacity: 0.4;
+	}
+
+	.lb-post-tags {
+		list-style: none;
+		margin: 1.5rem 0 0;
+		padding: 1.25rem 0 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem 1.25rem;
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+	}
+	.lb-post-tag {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-global-text);
+		text-decoration: none;
+		font-weight: 500;
+		transition: color 200ms ease;
+	}
+	.lb-post-tag:hover {
+		color: var(--color-accent);
+	}
+</style>

@@ -7,8 +7,6 @@
 @import "@fontsource-variable/roboto-mono/wght-italic.css";
 @import "@fontsource-variable/newsreader/standard.css";
 @import "@fontsource-variable/newsreader/standard-italic.css";
-@import "@fontsource-variable/fraunces/standard.css";
-@import "@fontsource-variable/fraunces/standard-italic.css";
 
 /* Metric-matched fallbacks. The system local() chain renders immediately,
    sized so its line box matches the real webfont. When the variable font
@@ -44,52 +42,54 @@
 /* use a selector-based strategy for dark mode */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-/* register custom colour properties */
+/* Register custom colour properties.
+   The Logbook palette: warm cream paper, neutral dark ink (no navy
+   tint — pure ink-on-paper), and mustard / aged-honey as the single
+   accent. Warm-dominant editorial formula, all temperatures agreeing. */
 @property --color-global-bg {
 	syntax: "<color>";
 	inherits: true;
-	initial-value: oklch(98.48% 0 0);
+	initial-value: oklch(95.5% 0.012 84);
 }
 @property --color-global-text {
 	syntax: "<color>";
 	inherits: true;
-	initial-value: oklch(26.99% 0.0096 235.05);
+	initial-value: oklch(20% 0 0);
 }
 @property --color-muted {
 	syntax: "<color>";
 	inherits: true;
-	initial-value: oklch(44.6% 0.03 256.802);
+	initial-value: oklch(50% 0 0);
 }
 @property --color-link {
 	syntax: "<color>";
 	inherits: true;
-	initial-value: oklch(55.44% 0.0431 185.69);
+	initial-value: oklch(60% 0.14 88);
 }
 @property --color-accent {
 	syntax: "<color>";
 	inherits: true;
-	initial-value: oklch(38% 0.13 245);
+	initial-value: oklch(64% 0.14 88);
 }
 @property --color-accent-2 {
 	syntax: "<color>";
 	inherits: true;
-	initial-value: oklch(18.15% 0 0);
+	initial-value: oklch(15% 0 0);
 }
 @property --color-quote {
 	syntax: "<color>";
 	inherits: true;
-	initial-value: oklch(38% 0.13 245);
+	initial-value: oklch(64% 0.14 88);
 }
 
-/* you could refactor below to use light-dark(), depending on your target audience */
 @theme {
-	--color-global-bg: oklch(98.48% 0 0);
-	--color-global-text: oklch(26.99% 0.0096 235.05);
-	--color-muted: oklch(44.6% 0.03 256.802);
-	--color-link: oklch(55.44% 0.0431 185.69);
-	--color-accent: oklch(38% 0.13 245);
-	--color-accent-2: oklch(18.15% 0 0);
-	--color-quote: oklch(38% 0.13 245);
+	--color-global-bg: oklch(95.5% 0.012 84);
+	--color-global-text: oklch(20% 0 0);
+	--color-muted: oklch(50% 0 0);
+	--color-link: oklch(60% 0.14 88);
+	--color-accent: oklch(64% 0.14 88);
+	--color-accent-2: oklch(15% 0 0);
+	--color-quote: oklch(64% 0.14 88);
 
 	/* The Captain's Log type stack. Roboto Mono is the body voice;
 	   Newsreader is the editorial accent for post H1s, blockquotes, and the JB monogram.
@@ -101,10 +101,11 @@
 	--font-serif:
 		"Newsreader Variable", "Newsreader Fallback", Georgia, "Iowan Old Style",
 		"Times New Roman", serif;
-	/* Display face — Fraunces variable. Used at hero scale on the new
-	   Logbook-themed pages; opsz/SOFT/WONK axes set inline where needed. */
+	/* Display face — same Newsreader family as body, just driven hard
+	   on the optical-size axis at hero scale. Single editorial family
+	   keeps the volume cohesive. */
 	--font-display:
-		"Fraunces Variable", "Newsreader Fallback", Georgia, "Iowan Old Style",
+		"Newsreader Variable", "Newsreader Fallback", Georgia, "Iowan Old Style",
 		"Times New Roman", serif;
 }
 
@@ -120,13 +121,13 @@
 
 		&[data-theme="dark"] {
 			color-scheme: dark;
-			--color-global-bg: oklch(23.64% 0.0045 248);
-			--color-global-text: oklch(83.54% 0 264);
-			--color-muted: oklch(70.7% 0.022 261.325);
-			--color-link: oklch(70.44% 0.1133 349);
-			--color-accent: oklch(80% 0.08 235);
-			--color-accent-2: oklch(94.66% 0 0);
-			--color-quote: oklch(94.8% 0.106 136.49);
+			--color-global-bg: oklch(20% 0.025 250);
+			--color-global-text: oklch(92% 0.012 84);
+			--color-muted: oklch(72% 0.018 84);
+			--color-link: oklch(78% 0.13 90);
+			--color-accent: oklch(78% 0.13 90);
+			--color-accent-2: oklch(96% 0.012 84);
+			--color-quote: oklch(78% 0.13 90);
 		}
 
 		--color-mode-transition-duration: 300ms;
@@ -255,6 +256,149 @@
 			rgba(0, 0, 0, 0.4) 92%,
 			transparent 100%
 		);
+	}
+
+	/* ─────────────────────────────────────────────────────────────
+	   LOGBOOK chrome — shared across redesigned pages.
+	   Page-level title block: chapter eyebrow + heading + lead.
+	   Section block: numbered eyebrow + heading + optional meta.
+	   Editorial body prose. Full-bleed escape utility.
+	   Page-specific layouts (frontispieces, venture cards, hero
+	   compositions) stay scoped to their pages.
+	   ───────────────────────────────────────────────────────────── */
+
+	/* Full-bleed escape — break out of the constrained main column */
+	.lb-fullbleed {
+		margin-left: calc(50% - 50vw);
+		margin-right: calc(50% - 50vw);
+		width: 100vw;
+	}
+
+	/* Chapter title block */
+	.lb-chapter {
+		margin: 1rem 0 3rem;
+	}
+	.lb-chapter-eyebrow {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin: 0 0 1.5rem;
+		font-weight: 600;
+	}
+	.lb-chapter-heading {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: clamp(2.75rem, 7vw + 0.5rem, 5.5rem);
+		line-height: 0.98;
+		letter-spacing: -0.035em;
+		color: var(--color-global-text);
+		margin: 0;
+		font-variation-settings: "opsz" 96, "SOFT" 30, "WONK" 0;
+		max-width: 14ch;
+		text-wrap: balance;
+	}
+	.lb-chapter-lead {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-style: italic;
+		font-size: clamp(1.0625rem, 0.7vw + 0.85rem, 1.25rem);
+		line-height: 1.5;
+		color: var(--color-global-text);
+		max-width: 48ch;
+		margin: 1.75rem 0 0;
+		font-variation-settings: "opsz" 18, "SOFT" 60;
+		text-wrap: pretty;
+	}
+
+	/* Section block — divided by hairline; numbered eyebrows */
+	.lb-section {
+		margin: 4rem 0 0;
+		padding-top: 4rem;
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 18%, transparent);
+	}
+	.lb-section-head {
+		margin-bottom: 2rem;
+		display: grid;
+		grid-template-columns: 2.5rem 1fr auto;
+		column-gap: 1rem;
+		row-gap: 0.4rem;
+		align-items: baseline;
+	}
+	/* Pin children to specific columns so the heading sits in the
+	   1fr slot even when the eyebrow or meta is absent. Without these,
+	   CSS grid auto-places the heading into column 1 (2.5rem wide) and
+	   the title wraps one word per line. */
+	.lb-section-eyebrow {
+		grid-column: 1;
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.18em;
+		color: var(--color-accent);
+		margin: 0;
+		font-weight: 600;
+		font-style: italic;
+	}
+	.lb-section-heading {
+		grid-column: 2;
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: clamp(1.75rem, 2.5vw + 1rem, 2.5rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		color: var(--color-global-text);
+		margin: 0;
+		font-variation-settings: "opsz" 48, "SOFT" 30, "WONK" 0;
+		text-wrap: balance;
+	}
+	.lb-section-meta {
+		grid-column: 3;
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		margin: 0;
+		font-weight: 500;
+	}
+
+	/* Editorial body prose — Newsreader, optical-sized */
+	.lb-prose {
+		font-family: var(--font-serif);
+		font-size: 1.0625rem;
+		line-height: 1.7;
+		color: var(--color-global-text);
+		margin: 0;
+		max-width: 60ch;
+		font-variation-settings: "opsz" 16;
+	}
+	.lb-prose p {
+		margin: 0 0 1.4rem;
+	}
+	.lb-prose p:last-child {
+		margin-bottom: 0;
+	}
+	.lb-prose strong {
+		font-weight: 600;
+		color: var(--color-accent-2);
+	}
+	.lb-prose em {
+		font-style: italic;
+	}
+	.lb-prose a {
+		color: var(--color-global-text);
+		text-decoration: underline;
+		text-decoration-color: color-mix(in oklab, var(--color-accent) 60%, transparent);
+		text-underline-offset: 3px;
+		text-decoration-thickness: 1px;
+		transition:
+			color 200ms ease,
+			text-decoration-color 200ms ease;
+	}
+	.lb-prose a:hover {
+		color: var(--color-accent);
+		text-decoration-color: var(--color-accent);
 	}
 }
 

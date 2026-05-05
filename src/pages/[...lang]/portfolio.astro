@@ -13,36 +13,38 @@ export function getStaticPaths() {
 const { lang } = Astro.props;
 const t = useTranslations(lang).portfolio;
 const meta = { title: t.meta.title, description: t.meta.description };
+
+const isPt = lang === "pt";
+const ui = isPt
+	? { chapterEyebrow: "III — Travessias" }
+	: { chapterEyebrow: "III — Voyages" };
 ---
 
 <PageLayout meta={meta}>
-	{/* Editorial hero: same vocabulary as About, no portrait. */}
-	<header class="mb-8 sm:mb-10">
-		<p class="page-eyebrow mb-5">{t.eyebrow}</p>
-		<h1 class="page-title">{t.heading}</h1>
-		<p class="page-lead mt-6 max-w-prose">{t.lead}</p>
+	{/* ─── Chapter title ────────────────────────────────────────── */}
+	<header class="lb-chapter">
+		<p class="lb-chapter-eyebrow">{ui.chapterEyebrow}</p>
+		<h1 class="lb-chapter-heading">{t.heading}</h1>
+		<p class="lb-chapter-lead">{t.lead}</p>
 	</header>
 
-	{/* Building now */}
-	<section class="mt-12 sm:mt-16">
-		<div class="mb-8 flex items-baseline justify-between gap-4">
-			<h2 class="section-heading">{t.now.heading}</h2>
-			<span class="text-muted text-xs font-semibold tracking-wider uppercase">
-				{t.now.eyebrow}
-			</span>
-		</div>
+	{/* ─── i. Building now ──────────────────────────────────────── */}
+	<section class="lb-section">
+		<header class="lb-section-head">
+			<p class="lb-section-eyebrow">i</p>
+			<h2 class="lb-section-heading">{t.now.heading}</h2>
+			<p class="lb-section-meta">{t.now.eyebrow}</p>
+		</header>
 
-		<div class="divide-y divide-global-text/10 border-y border-global-text/10">
+		<div class="pf-now-list">
 			{
 				t.now.items.map((item) => (
-					<article class="py-8 sm:grid sm:grid-cols-[8rem_1fr] sm:gap-8 sm:py-10">
-						<div class="text-accent mb-3 text-xs font-bold tracking-wider uppercase sm:mb-0">
-							{item.label}
-						</div>
-						<div>
-							<h3 class="mb-2 text-lg font-bold sm:text-xl">{item.title}</h3>
-							<p class="text-muted mb-3 text-sm">{item.subtitle}</p>
-							<p class="leading-relaxed">{item.body}</p>
+					<article class="pf-venture">
+						<p class="pf-venture-status">{item.label}</p>
+						<div class="pf-venture-body-block">
+							<h3 class="pf-venture-title">{item.title}</h3>
+							<p class="pf-venture-subtitle">{item.subtitle}</p>
+							<p class="pf-venture-body">{item.body}</p>
 						</div>
 					</article>
 				))
@@ -50,38 +52,195 @@ const meta = { title: t.meta.title, description: t.meta.description };
 		</div>
 	</section>
 
-	{/* Past ventures */}
-	<section class="mt-20 border-t border-global-text/10 pt-16 sm:mt-24 sm:pt-20">
-		<h2 class="section-heading mb-8">{t.past.heading}</h2>
+	{/* ─── ii. Past ventures ────────────────────────────────────── */}
+	<section class="lb-section">
+		<header class="lb-section-head">
+			<p class="lb-section-eyebrow">ii</p>
+			<h2 class="lb-section-heading">{t.past.heading}</h2>
+		</header>
 
-		<div class="divide-y divide-global-text/10 border-y border-global-text/10">
+		<ol class="pf-past-list">
 			{
 				t.past.items.map((item) => (
-					<article class="py-8 sm:grid sm:grid-cols-[8rem_1fr] sm:gap-8 sm:py-10">
-						<div class="text-muted mb-3 text-xs font-bold tracking-wider uppercase sm:mb-0">
-							{item.period}
+					<li class="pf-past-entry">
+						<span class="pf-past-period">{item.period}</span>
+						<div class="pf-past-body-block">
+							<h3 class="pf-past-title">{item.title}</h3>
+							<p class="pf-past-subtitle">{item.subtitle}</p>
+							<p class="pf-past-body">{item.body}</p>
 						</div>
-						<div>
-							<h3 class="mb-2 text-lg font-bold sm:text-xl">{item.title}</h3>
-							<p class="text-muted mb-3 text-sm">{item.subtitle}</p>
-							<p class="leading-relaxed">{item.body}</p>
-						</div>
-					</article>
+					</li>
 				))
 			}
-		</div>
+		</ol>
 	</section>
 
-	{/* Open source */}
-	<section class="mt-20 border-t border-global-text/10 pt-16 sm:mt-24 sm:pt-20">
-		<h2 class="section-heading mb-8">{t.oss.heading}</h2>
-		<div class="prose prose-cactus max-w-none">
-			<p>{t.oss.body}</p>
-			<p>
-				<a href="https://github.com/kidchenko" rel="noreferrer" target="_blank">
-					{t.oss.link}
-				</a>
-			</p>
-		</div>
+	{/* ─── iii. Open source ─────────────────────────────────────── */}
+	<section class="lb-section">
+		<header class="lb-section-head">
+			<p class="lb-section-eyebrow">iii</p>
+			<h2 class="lb-section-heading">{t.oss.heading}</h2>
+		</header>
+		<p class="lb-prose">{t.oss.body}</p>
+		<a class="pf-oss-link" href="https://github.com/kidchenko" rel="noreferrer" target="_blank">
+			{t.oss.link}
+		</a>
 	</section>
 </PageLayout>
+
+<style>
+	/* Page-specific styles only. Shared chrome (chapter title, sections,
+	   prose, full-bleed) lives in global.css under .lb-*. */
+
+	/* ============================================================
+	   BUILDING NOW
+	   Featured editorial entries — large title, italic subtitle,
+	   serif body. On desktop, the status label sits in a side gutter.
+	   ============================================================ */
+	.pf-now-list {
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+	}
+	.pf-venture {
+		padding: 2.25rem 0;
+		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1rem;
+	}
+	@media (min-width: 880px) {
+		.pf-venture {
+			grid-template-columns: 12rem 1fr;
+			gap: 4rem;
+			padding: 2.75rem 0;
+			align-items: baseline;
+		}
+	}
+	.pf-venture-status {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin: 0;
+		font-weight: 700;
+		padding-top: 0.4rem;
+	}
+	.pf-venture-title {
+		font-family: var(--font-display);
+		font-size: clamp(1.75rem, 2vw + 0.75rem, 2.5rem);
+		font-weight: 400;
+		line-height: 1.05;
+		letter-spacing: -0.02em;
+		color: var(--color-global-text);
+		margin: 0;
+		font-variation-settings: "opsz" 48, "SOFT" 30, "WONK" 0;
+	}
+	.pf-venture-subtitle {
+		font-family: var(--font-display);
+		font-style: italic;
+		font-size: clamp(1.0625rem, 0.6vw + 0.85rem, 1.25rem);
+		line-height: 1.4;
+		color: var(--color-global-text);
+		margin: 0.4rem 0 0;
+		font-variation-settings: "opsz" 18, "SOFT" 60;
+		max-width: 50ch;
+		text-wrap: pretty;
+	}
+	.pf-venture-body {
+		font-family: var(--font-serif);
+		font-size: 1.0625rem;
+		line-height: 1.65;
+		color: var(--color-global-text);
+		margin: 1.25rem 0 0;
+		font-variation-settings: "opsz" 16;
+		max-width: 60ch;
+	}
+
+	/* ============================================================
+	   PAST VENTURES
+	   Compact chronological list — period in the gutter, body right.
+	   ============================================================ */
+	.pf-past-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+	}
+	.pf-past-entry {
+		padding: 1.75rem 0;
+		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.75rem;
+	}
+	@media (min-width: 880px) {
+		.pf-past-entry {
+			grid-template-columns: 12rem 1fr;
+			gap: 4rem;
+			align-items: baseline;
+		}
+	}
+	.pf-past-period {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		font-weight: 600;
+		padding-top: 0.4rem;
+	}
+	.pf-past-title {
+		font-family: var(--font-display);
+		font-size: clamp(1.375rem, 1.2vw + 0.85rem, 1.625rem);
+		font-weight: 400;
+		line-height: 1.1;
+		letter-spacing: -0.015em;
+		color: var(--color-global-text);
+		margin: 0;
+		font-variation-settings: "opsz" 30, "SOFT" 30;
+	}
+	.pf-past-subtitle {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		margin: 0.4rem 0 0.85rem;
+		font-weight: 500;
+	}
+	.pf-past-body {
+		font-family: var(--font-serif);
+		font-size: 1rem;
+		line-height: 1.6;
+		color: var(--color-global-text);
+		margin: 0;
+		font-variation-settings: "opsz" 16;
+		max-width: 60ch;
+	}
+
+	/* ============================================================
+	   OPEN SOURCE — outbound link styled as a brass-underlined badge
+	   ============================================================ */
+	.pf-oss-link {
+		display: inline-flex;
+		align-items: center;
+		font-family: var(--font-mono);
+		font-size: 0.8125rem;
+		font-weight: 600;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-accent-2);
+		text-decoration: none;
+		border-bottom: 1px solid var(--color-accent);
+		padding-bottom: 0.4rem;
+		margin-top: 2rem;
+		transition:
+			color 200ms ease,
+			border-color 200ms ease,
+			padding-left 250ms ease;
+	}
+	.pf-oss-link:hover {
+		color: var(--color-accent);
+		padding-left: 0.4rem;
+	}
+</style>

@@ -27,31 +27,26 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
 		title,
 	}}
 >
-	<article class="grow break-words" data-pagefind-body>
-		<div id="blog-hero" class="mb-12"><Masthead content={post} readingTime={readingTime} /></div>
-		<div class="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
+	<article class="lb-post" data-pagefind-body>
+		<div class="lb-post-hero" id="blog-hero"><Masthead content={post} readingTime={readingTime} /></div>
+		<div class="lb-post-grid">
 			{!!headings.length && <TOC headings={headings} />}
-			<div
-				class="prose prose-sm prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-muted prose-headings:hover:before:text-accent sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none"
-			>
+			<div class="lb-article">
 				<slot />
 				<WebMentions />
 			</div>
 		</div>
 	</article>
-	<button
-		class="hover:border-link fixed end-4 bottom-8 z-90 flex h-10 w-10 translate-y-28 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 text-3xl opacity-0 transition-all transition-discrete duration-300 data-[show=true]:translate-y-0 data-[show=true]:opacity-100 sm:end-8 sm:h-12 sm:w-12 dark:bg-zinc-700"
-		data-show="false"
-		id="to-top-btn"
-	>
+
+	<button class="lb-to-top" data-show="false" id="to-top-btn">
 		<span class="sr-only">Back to top</span>
 		<svg
 			aria-hidden="true"
-			class="h-6 w-6"
+			class="lb-to-top-icon"
 			fill="none"
 			focusable="false"
 			stroke="currentColor"
-			stroke-width="2"
+			stroke-width="1.5"
 			viewBox="0 0 24 24"
 			xmlns="http://www.w3.org/2000/svg"
 		>
@@ -63,7 +58,7 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
 <script>
 	import mediumZoom from "medium-zoom";
 
-	mediumZoom(".prose img", {
+	mediumZoom(".lb-article img", {
 		background: "var(--color-global-bg)",
 		margin: 24,
 		scrollOffset: 40,
@@ -74,7 +69,6 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
 
 	function callback(entries: IntersectionObserverEntry[]) {
 		entries.forEach((entry) => {
-			// only show the scroll to top button when the heading is out of view
 			scrollBtn.dataset.show = (!entry.isIntersecting).toString();
 		});
 	}
@@ -87,11 +81,266 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
 	observer.observe(targetHeader);
 </script>
 
-<style is:global>
-	.prose img {
+<style>
+	.lb-post {
+		flex-grow: 1;
+		word-break: break-word;
+	}
+	.lb-post-hero {
+		margin-bottom: 3rem;
+	}
+	.lb-post-grid {
+		display: flex;
+		flex-direction: column;
+		gap: 2.5rem;
+	}
+	@media (min-width: 1024px) {
+		.lb-post-grid {
+			flex-direction: row;
+			align-items: flex-start;
+			justify-content: space-between;
+			gap: 4rem;
+		}
+	}
+
+	/* ============================================================
+	   ARTICLE — editorial body for rendered markdown.
+	   Newsreader for body, Fraunces for headings, mono for code.
+	   ============================================================ */
+	.lb-article {
+		font-family: var(--font-serif);
+		font-size: 1.0625rem;
+		line-height: 1.75;
+		color: var(--color-global-text);
+		font-variation-settings: "opsz" 16;
+		max-width: 38rem;
+		flex: 1 1 auto;
+	}
+
+	.lb-article :global(p) {
+		margin: 0 0 1.4rem;
+	}
+	.lb-article :global(p:last-child) {
+		margin-bottom: 0;
+	}
+
+	.lb-article :global(h2),
+	.lb-article :global(h3),
+	.lb-article :global(h4),
+	.lb-article :global(h5),
+	.lb-article :global(h6) {
+		font-family: var(--font-display);
+		font-weight: 500;
+		color: var(--color-global-text);
+		letter-spacing: -0.015em;
+		text-wrap: balance;
+		font-variation-settings: "opsz" 36, "SOFT" 30, "WONK" 0;
+		scroll-margin-top: 2rem;
+	}
+	.lb-article :global(h2) {
+		font-size: clamp(1.5rem, 1.5vw + 0.85rem, 1.875rem);
+		font-weight: 400;
+		line-height: 1.15;
+		margin: 3rem 0 1rem;
+		font-variation-settings: "opsz" 48, "SOFT" 30, "WONK" 0;
+	}
+	.lb-article :global(h3) {
+		font-size: clamp(1.25rem, 1vw + 0.75rem, 1.5rem);
+		font-weight: 500;
+		line-height: 1.2;
+		margin: 2.25rem 0 0.75rem;
+	}
+	.lb-article :global(h4) {
+		font-size: 1.125rem;
+		font-weight: 600;
+		margin: 1.75rem 0 0.5rem;
+	}
+
+	/* Auto-linked headings — anchor sits in the gutter */
+	.lb-article :global(h2 a),
+	.lb-article :global(h3 a),
+	.lb-article :global(h4 a) {
+		color: inherit;
+		text-decoration: none;
+		position: relative;
+	}
+	.lb-article :global(h2 a:hover::before),
+	.lb-article :global(h3 a:hover::before),
+	.lb-article :global(h4 a:hover::before) {
+		color: var(--color-accent);
+	}
+	@media (min-width: 640px) {
+		.lb-article :global(h2 a::before),
+		.lb-article :global(h3 a::before),
+		.lb-article :global(h4 a::before) {
+			content: "#";
+			position: absolute;
+			margin-inline-start: -1rem;
+			color: var(--color-muted);
+			font-family: var(--font-mono);
+			font-weight: 400;
+			font-size: 0.85em;
+			top: 0.15em;
+			transition: color 200ms ease;
+		}
+	}
+
+	.lb-article :global(a) {
+		color: var(--color-global-text);
+		text-decoration: underline;
+		text-decoration-color: color-mix(in oklab, var(--color-accent) 60%, transparent);
+		text-decoration-thickness: 1px;
+		text-underline-offset: 3px;
+		transition:
+			color 200ms ease,
+			text-decoration-color 200ms ease;
+	}
+	.lb-article :global(a:hover) {
+		color: var(--color-accent);
+		text-decoration-color: var(--color-accent);
+	}
+
+	.lb-article :global(strong) {
+		font-weight: 600;
+		color: var(--color-accent-2);
+	}
+	.lb-article :global(em) {
+		font-style: italic;
+	}
+
+	.lb-article :global(ul),
+	.lb-article :global(ol) {
+		margin: 0 0 1.4rem;
+		padding-left: 1.5rem;
+	}
+	.lb-article :global(ul) {
+		list-style: none;
+	}
+	.lb-article :global(ul > li) {
+		position: relative;
+	}
+	.lb-article :global(ul > li::before) {
+		content: "—";
+		position: absolute;
+		left: -1.25rem;
+		color: var(--color-accent);
+		font-family: var(--font-mono);
+	}
+	.lb-article :global(ol) {
+		list-style: decimal;
+	}
+	.lb-article :global(li) {
+		margin: 0 0 0.5rem;
+	}
+
+	.lb-article :global(blockquote) {
+		border-left: 2px solid var(--color-accent);
+		padding-left: 1.25rem;
+		margin: 2rem 0;
+		font-family: var(--font-display);
+		font-style: italic;
+		font-size: 1.125rem;
+		line-height: 1.5;
+		color: var(--color-quote);
+		font-variation-settings: "opsz" 24, "SOFT" 60;
+	}
+	.lb-article :global(blockquote p) {
+		margin: 0 0 0.75rem;
+	}
+
+	.lb-article :global(code:not(pre code)) {
+		font-family: var(--font-mono);
+		font-size: 0.875em;
+		padding: 0.15em 0.4em;
+		border-radius: 0.25em;
+		background: color-mix(in oklab, var(--color-accent) 12%, transparent);
+		color: var(--color-accent-2);
+	}
+
+	.lb-article :global(hr) {
+		border: 0;
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 20%, transparent);
+		margin: 2.5rem 0;
+	}
+
+	.lb-article :global(img) {
+		display: block;
+		margin: 2rem auto;
+		max-width: 100%;
+		height: auto;
 		cursor: zoom-in;
 	}
 
+	.lb-article :global(table) {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 2rem 0;
+		font-size: 0.95rem;
+	}
+	.lb-article :global(th),
+	.lb-article :global(td) {
+		padding: 0.6rem 0.85rem;
+		text-align: left;
+		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+	}
+	.lb-article :global(th) {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		font-weight: 600;
+		border-bottom-color: var(--color-global-text);
+	}
+
+	/* ============================================================
+	   BACK-TO-TOP — quiet, brass on hover, restrained
+	   ============================================================ */
+	.lb-to-top {
+		position: fixed;
+		inset-inline-end: 1rem;
+		bottom: 1.5rem;
+		z-index: 90;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 2.5rem;
+		width: 2.5rem;
+		border: 1px solid color-mix(in oklab, var(--color-global-text) 25%, transparent);
+		background: var(--color-global-bg);
+		color: var(--color-muted);
+		cursor: pointer;
+		opacity: 0;
+		transform: translateY(7rem);
+		transition:
+			transform 300ms ease,
+			opacity 300ms ease,
+			color 200ms ease,
+			border-color 200ms ease;
+	}
+	.lb-to-top:hover {
+		color: var(--color-accent);
+		border-color: var(--color-accent);
+	}
+	.lb-to-top[data-show="true"] {
+		opacity: 1;
+		transform: translateY(0);
+	}
+	@media (min-width: 640px) {
+		.lb-to-top {
+			inset-inline-end: 2rem;
+			bottom: 2rem;
+			height: 3rem;
+			width: 3rem;
+		}
+	}
+	.lb-to-top-icon {
+		height: 1.25rem;
+		width: 1.25rem;
+	}
+</style>
+
+<style is:global>
 	@media (prefers-reduced-motion: reduce) {
 		.medium-zoom-image,
 		.medium-zoom-overlay {

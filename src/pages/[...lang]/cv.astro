@@ -13,417 +13,311 @@ export function getStaticPaths() {
 const { lang } = Astro.props;
 const t = useTranslations(lang).cv;
 const meta = { title: t.meta.title, description: t.meta.description };
+
+const isPt = lang === "pt";
+const ui = isPt
+	? {
+			chapterEyebrow: "IV — Folha de Bordo",
+			fullRecordLabel: "Para o registro completo",
+		}
+	: {
+			chapterEyebrow: "IV — Service Record",
+			fullRecordLabel: "For the full record",
+		};
 ---
 
 <PageLayout meta={meta}>
-	{/* Editorial hero — same vocabulary as About / Portfolio / Contact / Writing.
-	    Wrapped in print:hidden so the print stylesheet's cv-print-head takes over for paper. */}
-	<header class="mb-8 print:hidden sm:mb-10">
-		<div class="flex items-start justify-between gap-4">
-			<div>
-				<p class="page-eyebrow mb-5">{t.eyebrow}</p>
-				<h1 class="page-title">{t.heading}</h1>
-				<p class="page-lead mt-6 max-w-prose">{t.lead}</p>
-			</div>
-			<button
-				class="text-muted hover:text-accent shrink-0 text-xs font-semibold tracking-wider uppercase"
-				id="print-cv"
-				type="button"
-			>
-				{t.print}
-			</button>
-		</div>
+	{/* ─── Chapter title ────────────────────────────────────────── */}
+	<header class="lb-chapter">
+		<p class="lb-chapter-eyebrow">{ui.chapterEyebrow}</p>
+		<h1 class="lb-chapter-heading">{t.heading}</h1>
+		<p class="lb-chapter-lead">{t.lead}</p>
 	</header>
 
-	<header class="cv-print-head">
-		<h1 class="cv-print-name">{t.printName}</h1>
-		<p class="cv-print-title">{t.printTitle}</p>
-		<div class="cv-print-contact">
-			<p>{t.contact.locationPrint}</p>
-			<p>
-				<a href="mailto:kidchenko@gmail.com">kidchenko@gmail.com</a>
-				&nbsp;&nbsp;
-				<a href="https://github.com/kidchenko" rel="noreferrer" target="_blank"
-					>github.com/kidchenko</a
-				>
-				&nbsp;&nbsp;
-				<a href="https://linkedin.com/in/kidchenko" rel="noreferrer" target="_blank"
-					>linkedin.com/in/kidchenko</a
-				>
-			</p>
-		</div>
-	</header>
-
-	<div class="print:hidden">
-		<section class="cv-section">
-			<div class="cv-label">{t.contact.label}</div>
-			<div class="space-y-1">
-				<p>{t.contact.location}</p>
-				<p><a href="mailto:kidchenko@gmail.com">kidchenko@gmail.com</a></p>
-				<p>
-					<a href="https://github.com/kidchenko" rel="noreferrer" target="_blank"
-						>github.com/kidchenko</a
-					>
-				</p>
-				<p>
-					<a href="https://linkedin.com/in/kidchenko" rel="noreferrer" target="_blank"
-						>linkedin.com/in/kidchenko</a
-					>
-				</p>
-			</div>
-		</section>
-
-		<hr class="border-global-text/10 my-12" />
-	</div>
-
-	<section class="cv-section">
-		<div class="cv-label">{t.summary.label}</div>
-		<div class="prose prose-cactus max-w-none">
-			{t.summary.body.map((p) => <p set:html={p} />)}
-		</div>
-	</section>
-
-	<hr class="border-global-text/10 my-12" />
-
-	<section>
-		<h2 class="section-heading mb-8">{t.workHeading}</h2>
-		<div class="divide-y divide-global-text/10 border-y border-global-text/10">
+	{/* ─── Work history ─────────────────────────────────────────── */}
+	<section class="lb-section">
+		<header class="lb-section-head">
+			<h2 class="lb-section-heading">{t.workHeading}</h2>
+		</header>
+		<ol class="cv-list">
 			{
 				t.work.map((job) => (
-					<article class="cv-job">
-						<div class="cv-meta">
-							<div class="font-bold">{job.period}</div>
-							<div class="text-muted">
+					<li class="cv-entry">
+						<div class="cv-entry-meta">
+							<span class="cv-entry-period">{job.period}</span>
+							<span class="cv-entry-location">
 								{job.location}
 								{"locationNote" in job && job.locationNote ? (
-									<span class="text-xs"> {job.locationNote}</span>
+									<span class="cv-entry-location-note">{job.locationNote}</span>
 								) : null}
-							</div>
+							</span>
 						</div>
-						<div>
-							<h3 class="cv-job-title">{job.title}</h3>
-							{"role" in job && job.role ? <p class="cv-role">{job.role}</p> : null}
-							<div class="prose prose-cactus max-w-none">
+						<div class="cv-entry-body">
+							<h3 class="cv-entry-title">{job.title}</h3>
+							{"role" in job && job.role ? <p class="cv-entry-role">{job.role}</p> : null}
+							<div class="cv-entry-prose lb-prose">
 								{job.body.map((p) => (
 									<p set:html={p} />
 								))}
 							</div>
-							<p class="cv-stack">{job.stack}</p>
+							<p class="cv-entry-stack">{job.stack}</p>
 						</div>
-					</article>
+					</li>
 				))
 			}
-		</div>
+		</ol>
 	</section>
 
-	<hr class="border-global-text/10 my-12" />
-
-	<section>
-		<h2 class="section-heading mb-8">{t.eduHeading}</h2>
-		<div class="divide-y divide-global-text/10 border-y border-global-text/10">
+	{/* ─── Education ────────────────────────────────────────────── */}
+	<section class="lb-section">
+		<header class="lb-section-head">
+			<h2 class="lb-section-heading">{t.eduHeading}</h2>
+		</header>
+		<ol class="cv-list">
 			{
 				t.edu.map((item) => (
-					<article class="cv-job">
-						<div class="cv-meta">
-							<div class="font-bold">{item.period}</div>
+					<li class="cv-entry cv-entry--compact">
+						<div class="cv-entry-meta">
+							<span class="cv-entry-period">{item.period}</span>
 						</div>
-						<div>
-							<h3 class="cv-job-title">{item.title}</h3>
-							<p class="cv-role">{item.role}</p>
+						<div class="cv-entry-body">
+							<h3 class="cv-entry-title cv-entry-title--small">{item.title}</h3>
+							<p class="cv-entry-role">{item.role}</p>
 						</div>
-					</article>
+					</li>
 				))
 			}
-		</div>
+		</ol>
 	</section>
 
-	<hr class="border-global-text/10 my-12" />
-
-	<section>
-		<h2 class="section-heading mb-8">{t.skillsHeading}</h2>
-		<div class="space-y-8">
+	{/* ─── Skills ───────────────────────────────────────────────── */}
+	<section class="lb-section">
+		<header class="lb-section-head">
+			<h2 class="lb-section-heading">{t.skillsHeading}</h2>
+		</header>
+		<ul class="cv-skills-list" role="list">
 			{
 				t.skills.map((skill) => (
-					<div class="cv-skills-row">
-						<h3 class="cv-skills-label">{skill.label}</h3>
-						<p>{skill.body}</p>
-					</div>
+					<li class="cv-skill">
+						<h3 class="cv-skill-label">{skill.label}</h3>
+						<p class="cv-skill-body">{skill.body}</p>
+					</li>
 				))
 			}
-		</div>
+		</ul>
 	</section>
 
-	<hr class="border-global-text/10 my-12" />
-
-	<section class="cv-section">
-		<div class="cv-label">{t.community.label}</div>
-		<div class="prose prose-cactus max-w-none">
-			<p set:html={t.community.body} />
-		</div>
+	{/* ─── Continuous learning ──────────────────────────────────── */}
+	<section class="lb-section">
+		<header class="lb-section-head">
+			<h2 class="lb-section-heading">{t.learning.label}</h2>
+		</header>
+		<p class="lb-prose" set:html={t.learning.body} />
 	</section>
 
-	<hr class="border-global-text/10 my-12" />
-
-	<section class="cv-section">
-		<div class="cv-label">{t.learning.label}</div>
-		<div class="prose prose-cactus max-w-none">
-			<p set:html={t.learning.body} />
-		</div>
+	{/* ─── Community & speaking ─────────────────────────────────── */}
+	<section class="lb-section">
+		<header class="lb-section-head">
+			<h2 class="lb-section-heading">{t.community.label}</h2>
+		</header>
+		<p class="lb-prose" set:html={t.community.body} />
 	</section>
 
-	<hr class="border-global-text/10 my-12" />
+	{/* ─── Languages ────────────────────────────────────────────── */}
+	<section class="lb-section">
+		<header class="lb-section-head">
+			<h2 class="lb-section-heading">{t.languages.label}</h2>
+		</header>
+		<p class="lb-prose">{t.languages.body}</p>
+	</section>
 
-	<section class="cv-section">
-		<div class="cv-label">{t.languages.label}</div>
-		<div>
-			<p>{t.languages.body}</p>
-		</div>
+	{/* ─── For the full record (LinkedIn) ───────────────────────── */}
+	<section class="cv-footer">
+		<p class="cv-footer-label">{ui.fullRecordLabel}</p>
+		<a class="cv-footer-link" href="https://linkedin.com/in/kidchenko" rel="noreferrer" target="_blank">
+			linkedin.com/in/kidchenko <span aria-hidden="true">→</span>
+		</a>
 	</section>
 </PageLayout>
 
 <style>
-	.cv-section {
-		display: grid;
-		gap: 1rem;
+	/* Page-specific styles. Shared chrome (lb-chapter, lb-section,
+	   lb-prose) lives in global.css. */
+
+	/* ============================================================
+	   ENTRY LIST — work history & education.
+	   Single-column rows: meta strip (period + location) sits on top,
+	   then title / role / body / stack stack below at full width.
+	   ============================================================ */
+	.cv-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
 	}
-	@media (min-width: 640px) {
-		.cv-section {
-			grid-template-columns: 8rem 1fr;
-			gap: 2rem;
-		}
+	.cv-entry {
+		padding: 2.25rem 0;
+		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
 	}
-	.cv-label {
+	.cv-entry--compact {
+		padding: 1.25rem 0;
+	}
+
+	.cv-entry-meta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.4rem 1.5rem;
+		margin-bottom: 1.1rem;
+	}
+	.cv-entry-period {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
 		color: var(--color-accent);
-		font-size: 0.75rem;
 		font-weight: 700;
-		letter-spacing: 0.05em;
-		text-transform: uppercase;
 	}
-	.cv-job {
-		padding-top: 2rem;
-		padding-bottom: 2rem;
-		display: grid;
+	.cv-entry-location {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		font-weight: 500;
+	}
+	.cv-entry-location-note {
+		font-size: 0.625rem;
+		opacity: 0.75;
+		margin-left: 0.4rem;
+	}
+
+	.cv-entry-title {
+		font-family: var(--font-display);
+		font-size: clamp(1.5rem, 1.5vw + 0.85rem, 1.875rem);
+		font-weight: 400;
+		line-height: 1.1;
+		letter-spacing: -0.015em;
+		color: var(--color-global-text);
+		margin: 0 0 0.4rem;
+		font-variation-settings: "opsz" 48, "SOFT" 30, "WONK" 0;
+	}
+	.cv-entry-title--small {
+		font-size: clamp(1.125rem, 0.6vw + 0.85rem, 1.25rem);
+	}
+	.cv-entry-role {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		margin: 0 0 1.25rem;
+		font-weight: 500;
+	}
+	.cv-entry-prose {
+		font-size: 1rem;
+		line-height: 1.65;
+		max-width: 65ch;
+	}
+	.cv-entry-prose :global(p) {
+		margin: 0 0 1rem;
+	}
+	.cv-entry-prose :global(p:last-child) {
+		margin-bottom: 0;
+	}
+	.cv-entry-stack {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		margin: 1.25rem 0 0;
+		font-weight: 500;
+	}
+
+	.cv-entry--compact .cv-entry-role {
+		margin-bottom: 0;
+	}
+
+	/* ============================================================
+	   SKILLS — same single-column shape: label as eyebrow, body below
+	   ============================================================ */
+	.cv-skills-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+	}
+	.cv-skill {
+		padding: 1.5rem 0;
+		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
+	}
+	.cv-skill-label {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin: 0 0 0.6rem;
+	}
+	.cv-skill-body {
+		font-family: var(--font-serif);
+		font-size: 1rem;
+		line-height: 1.65;
+		color: var(--color-global-text);
+		margin: 0;
+		font-variation-settings: "opsz" 16;
+		max-width: 65ch;
+	}
+
+	/* ============================================================
+	   FULL-RECORD FOOTER — LinkedIn link, end-of-document mark
+	   ============================================================ */
+	.cv-footer {
+		margin: 5rem 0 0;
+		padding-top: 4rem;
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 18%, transparent);
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
 		gap: 1rem;
 	}
-	@media (min-width: 640px) {
-		.cv-job {
-			grid-template-columns: 8rem 1fr;
-			gap: 2rem;
-			padding-top: 2.5rem;
-			padding-bottom: 2.5rem;
-		}
-	}
-	.cv-meta {
-		font-size: 0.75rem;
-		letter-spacing: 0.025em;
+	.cv-footer-label {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.2em;
 		text-transform: uppercase;
-	}
-	.cv-job-title {
-		font-size: 1.125rem;
-		font-weight: 700;
-		margin-bottom: 0.25rem;
-	}
-	@media (min-width: 640px) {
-		.cv-job-title {
-			font-size: 1.25rem;
-		}
-	}
-	.cv-role {
 		color: var(--color-muted);
+		margin: 0;
+		font-weight: 500;
+	}
+	.cv-footer-link {
+		display: inline-flex;
+		align-items: center;
+		font-family: var(--font-mono);
 		font-size: 0.875rem;
-		margin-bottom: 0.75rem;
-	}
-	.cv-stack {
-		color: var(--color-muted);
-		font-size: 0.75rem;
-		letter-spacing: 0.025em;
-		margin-top: 1rem;
-	}
-	.cv-skills-row {
-		display: grid;
-		gap: 0.5rem;
-	}
-	@media (min-width: 640px) {
-		.cv-skills-row {
-			grid-template-columns: 12rem 1fr;
-			gap: 2rem;
-		}
-	}
-	.cv-skills-label {
-		color: var(--color-accent);
-		font-size: 0.75rem;
-		font-weight: 700;
-		letter-spacing: 0.05em;
+		font-weight: 600;
+		letter-spacing: 0.16em;
 		text-transform: uppercase;
+		color: var(--color-accent-2);
+		text-decoration: none;
+		border-bottom: 1px solid var(--color-accent);
+		padding-bottom: 0.4rem;
+		transition:
+			color 200ms ease,
+			border-color 200ms ease,
+			padding-left 250ms ease;
 	}
-
-	.cv-print-head {
-		display: none;
-	}
-
-	@media print {
-		.cv-job,
-		.cv-section,
-		.cv-skills-row {
-			page-break-inside: avoid;
-		}
-		hr {
-			display: none;
-		}
-
-		.cv-print-head {
-			display: block;
-			text-align: center;
-			padding-bottom: 1.25rem;
-			border-bottom: 1px solid #ccc;
-			margin-bottom: 1.5rem;
-		}
-		.cv-print-name {
-			font-family: Georgia, "Times New Roman", serif;
-			font-size: 2.25rem;
-			font-weight: 700;
-			letter-spacing: -0.01em;
-			margin-bottom: 0.35rem;
-		}
-		.cv-print-title {
-			text-transform: uppercase;
-			letter-spacing: 0.18em;
-			font-size: 0.8rem;
-			color: #666;
-			margin-bottom: 0.85rem;
-		}
-		.cv-print-contact {
-			font-size: 0.8rem;
-			line-height: 1.6;
-		}
-		.cv-print-contact p {
-			margin: 0.15rem 0;
-		}
-		.cv-print-contact a {
-			color: #666;
-			text-decoration: none;
-		}
-
-		.cv-screen-only {
-			display: none !important;
-		}
-
-		body {
-			font-family: Georgia, "Times New Roman", serif !important;
-			font-size: 0.92rem;
-			line-height: 1.55;
-			padding: 0 !important;
-			max-width: none !important;
-			color: #222;
-		}
-
-		h2.section-heading {
-			text-transform: uppercase;
-			letter-spacing: 0.12em;
-			font-size: 0.85rem !important;
-			color: var(--color-accent);
-			border-bottom: 1px solid #ccc;
-			padding-bottom: 0.4rem;
-			margin-top: 1.5rem !important;
-			margin-bottom: 0.75rem !important;
-			font-family: inherit;
-			font-weight: 700;
-		}
-
-		.cv-section {
-			display: block !important;
-			grid-template-columns: none !important;
-			gap: 0 !important;
-			margin-bottom: 1rem;
-		}
-		.cv-label {
-			display: none !important;
-		}
-
-		.cv-job {
-			display: block !important;
-			grid-template-columns: none !important;
-			padding: 0.85rem 0 !important;
-			gap: 0 !important;
-			border-bottom: none !important;
-		}
-		.cv-meta {
-			float: right;
-			text-align: right;
-			margin-left: 1rem;
-			font-size: 0.85rem;
-			text-transform: none;
-			letter-spacing: 0;
-		}
-		.cv-meta > .font-bold {
-			font-weight: 600;
-		}
-		.cv-meta > .text-muted {
-			font-size: 0.78rem;
-			color: #777;
-		}
-		.cv-job-title {
-			font-size: 1.05rem;
-			font-weight: 700;
-			margin-bottom: 0.15rem;
-		}
-		.cv-role {
-			color: #666;
-			font-style: italic;
-			font-size: 0.9rem;
-			margin-bottom: 0.4rem;
-		}
-		.cv-stack {
-			clear: both;
-			font-style: italic;
-			font-size: 0.78rem;
-			color: #777;
-			margin-top: 0.5rem;
-			letter-spacing: 0;
-			text-transform: none;
-		}
-
-		.cv-skills-row {
-			display: block !important;
-			grid-template-columns: none !important;
-			gap: 0 !important;
-			margin-bottom: 0.85rem;
-		}
-		.cv-skills-label {
-			display: inline-block !important;
-			text-transform: uppercase;
-			letter-spacing: 0.05em;
-			font-size: 0.78rem;
-			color: var(--color-accent);
-			margin-right: 0.5rem;
-			margin-bottom: 0.15rem;
-		}
-		.cv-skills-row p {
-			display: block;
-			margin: 0;
-		}
-
-		.divide-y > * + *,
-		.border-y {
-			border: none !important;
-		}
-
-		a {
-			color: inherit !important;
-			text-decoration: none !important;
-		}
-
-		.prose p {
-			margin: 0.45rem 0 !important;
-		}
-
-		@page {
-			margin: 1.5cm 1.5cm;
-		}
+	.cv-footer-link:hover {
+		color: var(--color-accent);
+		padding-left: 0.4rem;
 	}
 </style>
 
 <style is:global>
+	/* If someone hits Cmd+P, hide nav/footer chrome and let the page
+	   print as-is — the LOGBOOK service record is the artifact. */
 	@media print {
 		#main-header,
 		body > footer {
@@ -435,8 +329,3 @@ const meta = { title: t.meta.title, description: t.meta.description };
 		}
 	}
 </style>
-
-<script>
-	const printBtn = document.getElementById("print-cv");
-	printBtn?.addEventListener("click", () => window.print());
-</script>

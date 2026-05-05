@@ -10,10 +10,12 @@ import type { SiteMeta } from "@/types";
 
 interface Props {
 	meta: SiteMeta;
+	wide?: boolean;
 }
 
 const {
 	meta: { articleDate, description = siteConfig.description, ogImage, title },
+	wide = false,
 } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const htmlLang = lang === "pt" ? "pt-BR" : "en";
@@ -25,11 +27,14 @@ const htmlLang = lang === "pt" ? "pt-BR" : "en";
 		<ThemeProvider />
 	</head>
 	<body
-		class="bg-global-bg text-global-text mx-auto flex min-h-screen max-w-3xl flex-col px-4 pt-4 font-mono text-sm font-normal antialiased sm:px-8 sm:pt-6 lg:pt-7"
+		class="bg-global-bg text-global-text flex min-h-screen flex-col font-mono text-sm font-normal antialiased"
 	>
 		<SkipLink />
 		<Header />
-		<main id="main">
+		<main
+			class:list={["flex-1", { "mx-auto w-full max-w-3xl px-4 sm:px-8": !wide }]}
+			id="main"
+		>
 			<slot />
 		</main>
 		<Footer />

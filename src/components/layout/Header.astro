@@ -13,6 +13,7 @@ const markSvg = fs.readFileSync(
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang).nav;
+const tCommon = useTranslations(lang).common;
 const menuLinks: { path: string; title: string }[] = [
 	{ path: localizeUrl("/", lang), title: t.home },
 	{ path: localizeUrl("/about/", lang), title: t.about },
@@ -21,18 +22,20 @@ const menuLinks: { path: string; title: string }[] = [
 	{ path: localizeUrl("/cv/", lang), title: t.cv },
 	{ path: localizeUrl("/contact/", lang), title: t.contact },
 ];
+const romanNumerals = ["I", "II", "III", "IV", "V", "VI"];
 ---
 
-<header class="group relative z-10 mb-12 flex items-center sm:mb-16" id="main-header">
+<header class="lb-header group relative z-10 flex items-center" id="main-header">
 	<a aria-current={false} aria-label="Jose Barbosa - home" class="logo-link" href={localizeUrl("/", lang)}>
 		<span aria-hidden="true" class="logo-mark" set:html={markSvg} />
+		<span class="logo-wordmark">Jose Barbosa</span>
 	</a>
 	<nav
 		aria-label="Main menu"
-		class="bg-global-bg/95 fixed inset-x-0 top-0 z-40 hidden h-screen flex-col items-stretch px-8 pt-24 pb-10 backdrop-blur-md group-[.menu-open]:flex sm:static sm:inset-auto sm:z-auto sm:ms-8 sm:flex sm:h-auto sm:flex-row sm:items-center sm:gap-0 sm:bg-transparent sm:p-0 sm:backdrop-blur-none"
+		class="nav-menu bg-global-bg/95 fixed inset-x-0 top-0 z-40 hidden flex-col items-stretch overflow-y-auto px-8 pt-24 backdrop-blur-md group-[.menu-open]:flex sm:static sm:inset-auto sm:z-auto sm:ms-8 sm:flex sm:h-auto sm:flex-row sm:items-center sm:gap-0 sm:overflow-visible sm:bg-transparent sm:p-0 sm:backdrop-blur-none"
 		id="navigation-menu"
 	>
-		<div class="flex flex-1 flex-col gap-1 sm:flex-row sm:gap-0">
+		<div class="nav-list flex flex-1 flex-col sm:flex-row sm:gap-0">
 			{
 				menuLinks.map((link, i) => (
 					<a
@@ -44,15 +47,15 @@ const menuLinks: { path: string; title: string }[] = [
 						href={link.path}
 					>
 						<span aria-hidden="true" class="nav-link-num">
-							{String(i + 1).padStart(2, "0")}
+							{romanNumerals[i]}
 						</span>
 						<span class="nav-link-label">{link.title}</span>
 					</a>
 				))
 			}
 		</div>
-		<div class="mt-auto flex items-center justify-between border-t border-global-text/10 pt-6 sm:hidden">
-			<span class="text-muted text-xs font-semibold uppercase tracking-wider">Language</span>
+		<div class="nav-foot mt-auto sm:hidden">
+			<span class="nav-foot-eyebrow">{tCommon.languageLabel}</span>
 			<LanguageToggle />
 		</div>
 	</nav>
@@ -280,10 +283,35 @@ const menuLinks: { path: string; title: string }[] = [
 </script>
 
 <style>
+	/* ──────────────────────────────────────────────────────────────
+	   Header chrome — spans the full viewport with editorial padding,
+	   matching the home page hero overlay. The home page additionally
+	   pulls this header into absolute positioning over the hero via
+	   its own scoped style; on every other page the header sits at
+	   the top in normal flow with a generous bottom margin.
+	   ────────────────────────────────────────────────────────────── */
+	.lb-header {
+		padding: 1rem 1.25rem;
+		margin-bottom: 3rem;
+	}
+	@media (min-width: 880px) {
+		.lb-header {
+			padding: 1.5rem 3rem;
+			margin-bottom: 4rem;
+		}
+	}
+	@media (min-width: 1280px) {
+		.lb-header {
+			padding: 1.75rem 5rem;
+		}
+	}
+
 	.logo-link {
 		display: inline-flex;
 		align-items: center;
+		gap: 0.85rem;
 		color: var(--color-global-text);
+		text-decoration: none;
 		transition: color 150ms ease;
 	}
 	.logo-link:hover {
@@ -291,8 +319,9 @@ const menuLinks: { path: string; title: string }[] = [
 	}
 	.logo-mark {
 		display: inline-block;
-		height: 3rem;
-		width: 3rem;
+		height: 2.75rem;
+		width: 2.75rem;
+		flex-shrink: 0;
 	}
 	.logo-mark :global(svg) {
 		display: block;
@@ -310,38 +339,104 @@ const menuLinks: { path: string; title: string }[] = [
 	}
 	@media (min-width: 640px) {
 		.logo-mark {
-			height: 3.5rem;
-			width: 3.5rem;
+			height: 3.25rem;
+			width: 3.25rem;
+		}
+	}
+	@media (min-width: 1280px) {
+		.logo-mark {
+			height: 3.75rem;
+			width: 3.75rem;
+		}
+	}
+
+	/* Wordmark — small mono caps next to the compass, like a
+	   publisher's imprint line. */
+	.logo-wordmark {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		font-weight: 600;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		white-space: nowrap;
+		line-height: 1;
+	}
+	@media (min-width: 640px) {
+		.logo-wordmark {
+			font-size: 0.75rem;
+			letter-spacing: 0.2em;
+		}
+	}
+	/* On the narrowest phones, hide the wordmark so the right-side
+	   chrome (search/theme/hamburger) doesn't crowd. */
+	@media (max-width: 380px) {
+		.logo-wordmark {
+			display: none;
+		}
+	}
+
+	/* ──────────────────────────────────────────────────────────────
+	   Mobile menu shell — full-screen overlay that respects iOS
+	   dynamic toolbars and the home-indicator safe area so the
+	   language footer is never hidden behind browser chrome.
+	   ────────────────────────────────────────────────────────────── */
+	.nav-menu {
+		height: 100dvh;
+		padding-bottom: max(2.5rem, calc(env(safe-area-inset-bottom) + 1.5rem));
+	}
+	@supports not (height: 100dvh) {
+		.nav-menu {
+			height: 100vh;
+		}
+	}
+	@media (min-width: 640px) {
+		.nav-menu {
+			height: auto;
+			padding-bottom: 0;
 		}
 	}
 
 	/* ──────────────────────────────────────────────────────────────
 	   Nav links — refined to read as chrome, not body.
-	   Mobile (full-screen menu): mono medium with leading numerals.
+	   Mobile (full-screen menu): editorial chapter list — Roman numeral
+	   gutter, display-font label, hairline dividers between rows.
 	   Desktop: small mono caps, letter-spaced, with a brass underline
 	   that draws in on hover and stays under the current page.
 	   ────────────────────────────────────────────────────────────── */
+	.nav-list {
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 18%, transparent);
+	}
 	.nav-link {
 		position: relative;
-		display: block;
-		padding: 0.75rem 0;
+		display: grid;
+		grid-template-columns: 2.25rem 1fr;
+		align-items: baseline;
+		column-gap: 1rem;
+		padding: 1.1rem 0;
 		font-family: var(--font-mono);
 		text-decoration: none;
 		color: var(--color-global-text);
+		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
 		transition: color 200ms ease;
 	}
 	.nav-link-num {
-		display: inline-block;
-		font-size: 0.6875rem;
-		letter-spacing: 0.1em;
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.16em;
 		color: var(--color-muted);
-		margin-right: 0.85rem;
+		font-weight: 600;
 		transition: color 200ms ease;
 	}
 	.nav-link-label {
-		font-size: 1.5rem;
-		font-weight: 500;
-		letter-spacing: 0;
+		font-family: var(--font-display);
+		font-size: clamp(1.75rem, 8vw, 2.5rem);
+		font-weight: 400;
+		line-height: 1.05;
+		letter-spacing: -0.02em;
+		font-variation-settings:
+			"opsz" 36,
+			"SOFT" 30,
+			"WONK" 0;
 	}
 	.nav-link:hover,
 	.nav-link.is-current {
@@ -352,19 +447,46 @@ const menuLinks: { path: string; title: string }[] = [
 		color: var(--color-accent);
 	}
 
+	.nav-foot {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 18%, transparent);
+	}
+	.nav-foot-eyebrow {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		font-weight: 600;
+		color: var(--color-accent);
+	}
+
 	@media (min-width: 640px) {
+		.nav-list {
+			border-top: none;
+		}
+		.nav-foot {
+			display: none;
+		}
 		.nav-link {
 			display: inline-block;
 			padding: 0.45rem 0.9rem;
+			border-bottom: none;
 		}
 		.nav-link-num {
 			display: none;
 		}
 		.nav-link-label {
+			font-family: var(--font-mono);
 			font-size: 0.6875rem;
 			font-weight: 600;
 			letter-spacing: 0.2em;
 			text-transform: uppercase;
+			line-height: inherit;
+			font-variation-settings: normal;
 		}
 		.nav-link::after {
 			content: "";

@@ -10,14 +10,14 @@ const {
 } = Astro.props;
 ---
 
-<li class={`${depth > 2 ? "ms-2" : ""}`}>
-	<a
-		class={`line-clamp-2 hover:text-accent ${depth <= 2 ? "mt-3" : "mt-2 text-xs"}`}
-		href={`#${slug}`}><span aria-hidden="true" class="me-0.5">#</span>{text}</a
-	>
+<li class:list={["lb-toc-item", depth > 2 ? "is-sub" : ""]}>
+	<a class="lb-toc-link" href={`#${slug}`}>
+		<span aria-hidden="true" class="lb-toc-num">§</span>
+		<span class="lb-toc-text">{text}</span>
+	</a>
 	{
 		!!children.length && (
-			<ol>
+			<ol class="lb-toc-list">
 				{children.map((subheading) => (
 					<Astro.self heading={subheading} />
 				))}
@@ -25,3 +25,41 @@ const {
 		)
 	}
 </li>
+
+<style>
+	.lb-toc-item {
+		margin: 0;
+	}
+	.lb-toc-item.is-sub {
+		margin-left: 1rem;
+	}
+	.lb-toc-link {
+		display: flex;
+		gap: 0.5rem;
+		padding: 0.4rem 0;
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.04em;
+		color: var(--color-global-text);
+		text-decoration: none;
+		transition: color 200ms ease;
+	}
+	.lb-toc-item.is-sub .lb-toc-link {
+		font-size: 0.6875rem;
+		color: var(--color-muted);
+	}
+	.lb-toc-link:hover {
+		color: var(--color-accent);
+	}
+	.lb-toc-num {
+		color: var(--color-accent);
+		flex-shrink: 0;
+		opacity: 0.7;
+	}
+	.lb-toc-link:hover .lb-toc-num {
+		opacity: 1;
+	}
+	.lb-toc-text {
+		line-height: 1.4;
+	}
+</style>

@@ -61,16 +61,15 @@ export const ui = {
 			intro: [
 				"I grew up in São Paulo and started writing code professionally in 2010. By 2017 I was in Bangkok - first as a senior engineer at Jetabroad, then a tech lead at Thoughtworks, and most recently as Head of Engineering at Seven Peaks Software, where I scaled a 30-person backend team into a 60-engineer department across 27 nationalities.",
 				"Eight years and a lot of conferences, hires, and retros later, I'm back in Brazil. I came home at the end of 2025 with a clearer sense of what I want to build next: leverage what I've learned about scaling teams to scale a product instead.",
-				"I'm currently founding two AI-augmented B2B SaaS products - Vera, a company-data enrichment platform, and a .NET SaaS for AI-augmented backend development - while running enterprise AI training across APAC and Brazil, and consulting selectively.",
+				"I'm currently founding two AI-augmented B2B SaaS products - Vera, a company-data enrichment platform, and a .NET SaaS template to speed up new projects - while running enterprise AI training across APAC and Brazil, and consulting selectively.",
 				"I read a lot, lift weights, organize meetups, and care about treating engineers like adults.",
 			],
 			now: {
 				heading: "Now",
 				items: [
-					"<strong>Building.</strong> Vera (AI-driven company data enrichment) and a .NET SaaS for AI-augmented backend development.",
+					"<strong>Building.</strong> Vera (AI-driven company data enrichment) and a .NET SaaS template to speed up new projects.",
 					"<strong>Training.</strong> Running enterprise AI workshops (n8n, LLM workflows, automation) for clients across APAC and Brazil.",
 					"<strong>Consulting.</strong> Selectively, on engineering architecture, AI integration, and team scaling.",
-					"<strong>Writing.</strong> First posts coming soon.",
 				],
 			},
 			beyond: {
@@ -120,8 +119,8 @@ export const ui = {
 					{
 						label: "Building",
 						title: ".NET SaaS",
-						subtitle: "AI-augmented backend boilerplate for .NET developers",
-						body: "A SaaS that generates production-ready .NET backend boilerplate using AI. Speeds up project bootstrapping while keeping the generated code idiomatic and maintainable.",
+						subtitle: "Template to speed up new .NET projects",
+						body: "A .NET SaaS template that accelerates new project bootstrapping with production-ready, idiomatic backend code that's easy to maintain.",
 					},
 				],
 			},
@@ -210,6 +209,11 @@ export const ui = {
 			rssLabel: "RSS feed",
 			pagination: { prev: "← Previous Page", next: "Next Page →" },
 		},
+		footer: {
+			elsewhere: "Elsewhere",
+			navigate: "Navigate",
+			rss: "RSS",
+		},
 		cv: {
 			meta: {
 				title: "CV",
@@ -237,7 +241,7 @@ export const ui = {
 					location: "Brazil",
 					title: "Founder & Technical Consultant",
 					body: [
-						"After scaling Seven Peaks Software's engineering department, transitioned to full-time founder and technical consultant. Building two AI-augmented B2B SaaS products: <strong>Vera</strong> (AI-driven company data enrichment platform) and <strong>.NET SaaS</strong> (AI boilerplate generator for .NET developers).",
+						"After scaling Seven Peaks Software's engineering department, transitioned to full-time founder and technical consultant. Building two AI-augmented B2B SaaS products: <strong>Vera</strong> (AI-driven company data enrichment platform) and <strong>.NET SaaS</strong> (template to speed up new .NET projects).",
 						"Running end-to-end product operations - B2B sales, customer support, marketing - via AI automation pipelines. Delivering AI and automation training (n8n, LLM workflows) for SMBs in Brazil. Technical consulting on backend architecture, AI integration, and system audits. Working on open-source projects and community.",
 					],
 					stack: "AI, LLMs, n8n, SaaS, B2B Sales, .NET, Node.js, Product Operations",
@@ -406,16 +410,15 @@ export const ui = {
 			intro: [
 				"Cresci em São Paulo e comecei a programar profissionalmente em 2010. Em 2017 eu já estava em Bangkok - primeiro como engenheiro sênior na Jetabroad, depois tech lead na Thoughtworks, e mais recentemente Head de Engenharia na Seven Peaks Software, onde escalei um time de backend de 30 pessoas para um departamento de 60 engenheiros de 27 nacionalidades.",
 				"Oito anos e muitas conferências, contratações e retros depois, voltei pro Brasil. Cheguei em casa no fim de 2025 com uma ideia mais clara do que quero construir: usar o que aprendi escalando times pra escalar um produto.",
-				"Atualmente estou fundando dois produtos B2B SaaS aumentados por IA - Vera, uma plataforma de enriquecimento de dados corporativos, e um SaaS em .NET para desenvolvimento backend aumentado por IA - enquanto ministro treinamentos corporativos de IA em toda a APAC e no Brasil, e atuo como consultor de forma seletiva.",
+				"Atualmente estou fundando dois produtos B2B SaaS aumentados por IA - Vera, uma plataforma de enriquecimento de dados corporativos, e um template SaaS em .NET para acelerar novos projetos - enquanto ministro treinamentos corporativos de IA em toda a APAC e no Brasil, e atuo como consultor de forma seletiva.",
 				"Eu leio bastante, treino musculação, organizo meetups, e me importo em tratar engenheiros como adultos.",
 			],
 			now: {
 				heading: "Agora",
 				items: [
-					"<strong>Construindo.</strong> Vera (enriquecimento de dados corporativos com IA) e um SaaS em .NET para desenvolvimento backend aumentado por IA.",
+					"<strong>Construindo.</strong> Vera (enriquecimento de dados corporativos com IA) e um template SaaS em .NET para acelerar novos projetos.",
 					"<strong>Treinando.</strong> Workshops corporativos de IA (n8n, workflows com LLM, automação) para clientes na APAC e no Brasil.",
 					"<strong>Consultando.</strong> De forma seletiva, em arquitetura de engenharia, integração de IA e escalonamento de times.",
-					"<strong>Escrevendo.</strong> Primeiros posts em breve.",
 				],
 			},
 			beyond: {
@@ -465,8 +468,8 @@ export const ui = {
 					{
 						label: "Construindo",
 						title: ".NET SaaS",
-						subtitle: "Boilerplate backend aumentado por IA para devs .NET",
-						body: "Um SaaS que gera boilerplate backend .NET pronto pra produção usando IA. Acelera o bootstrap de projetos mantendo o código gerado idiomático e fácil de manter.",
+						subtitle: "Template para acelerar novos projetos .NET",
+						body: "Um template SaaS em .NET que acelera o bootstrap de novos projetos com código backend pronto pra produção, idiomático e fácil de manter.",
 					},
 				],
 			},
@@ -555,6 +558,11 @@ export const ui = {
 			rssLabel: "Feed RSS",
 			pagination: { prev: "← Página anterior", next: "Próxima página →" },
 		},
+		footer: {
+			elsewhere: "Em outros lugares",
+			navigate: "Navegação",
+			rss: "RSS",
+		},
 		cv: {
 			meta: {
 				title: "CV",
@@ -582,7 +590,7 @@ export const ui = {
 					location: "Brasil",
 					title: "Fundador e Consultor Técnico",
 					body: [
-						"Após escalar o departamento de engenharia da Seven Peaks Software, transicionei para fundador em tempo integral e consultor técnico. Construindo dois produtos B2B SaaS aumentados por IA: <strong>Vera</strong> (plataforma de enriquecimento de dados corporativos com IA) e <strong>.NET SaaS</strong> (gerador de boilerplate IA para desenvolvedores .NET).",
+						"Após escalar o departamento de engenharia da Seven Peaks Software, transicionei para fundador em tempo integral e consultor técnico. Construindo dois produtos B2B SaaS aumentados por IA: <strong>Vera</strong> (plataforma de enriquecimento de dados corporativos com IA) e <strong>.NET SaaS</strong> (template para acelerar novos projetos .NET).",
 						"Operando o produto ponta a ponta - vendas B2B, suporte ao cliente, marketing - via pipelines de automação com IA. Entregando treinamentos de IA e automação (n8n, workflows com LLM) para PMEs no Brasil. Consultoria técnica em arquitetura backend, integração de IA e auditoria de sistemas. Trabalhando em projetos open source e comunidade.",
 					],
 					stack: "IA, LLMs, n8n, SaaS, Vendas B2B, .NET, Node.js, Operações de Produto",
