@@ -44,7 +44,7 @@ const card = {
 	nameLine2: "Barbosa",
 	standfirst:
 		"Engineering Director. Fifteen years scaling teams across Thailand and Brazil. Now founding AI products.",
-	footLeft: "kidchenko.dev",
+	footLeft: "josebarbosa.dev",
 	footRight: "Vol. MMXXVI, No. 01",
 };
 

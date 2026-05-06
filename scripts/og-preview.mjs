@@ -53,7 +53,7 @@ const card = {
 	tickLat: "23°33′S",
 	tickLon: "46°38′W",
 	signature: "Signed, jb",
-	footLeft: "kidchenko.dev",
+	footLeft: "josebarbosa.dev",
 	footRight: "Est. MMXII, Bangkok, São Paulo",
 };
 

@@ -1,6 +1,6 @@
-# kidchenko.dev
+# josebarbosa.dev
 
-Personal website of **Jose Barbosa** — Engineering Director, founder, and writer on engineering leadership, AI, and SaaS. Live at [kidchenko.dev](https://kidchenko.dev/).
+Personal website of **Jose Barbosa** — Engineering Director, founder, and writer on engineering leadership, AI, and SaaS. Live at [josebarbosa.dev](https://josebarbosa.dev/).
 
 Built on top of [Astro Cactus](https://github.com/chrismwilliams/astro-theme-cactus) and redesigned in 2026.
 

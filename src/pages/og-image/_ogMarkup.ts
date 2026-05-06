@@ -3,7 +3,7 @@
 //   - "post"  head: the post title at an auto-fit size (used for blog posts)
 // Shared shell: watermark compass bleeding off the upper-right, top eyebrow row
 // (chapter on the left, coordinates or filing date on the right), italic
-// standfirst, footer rule with kidchenko.dev | Vol. MMXXVI, No. xx.
+// standfirst, footer rule with josebarbosa.dev | Vol. MMXXVI, No. xx.
 
 const colors = {
 	bg: "#f4ead9",
@@ -236,7 +236,7 @@ export const ogMarkup = (fields: OgFields, compassDataUri: string) => {
 								type: "span",
 								props: {
 									style: { color: colors.ink, fontWeight: 600 },
-									children: "kidchenko.dev",
+									children: "josebarbosa.dev",
 								},
 							},
 							{ type: "span", props: { children: fields.footRight } },
