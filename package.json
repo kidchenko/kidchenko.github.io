@@ -23,7 +23,7 @@
 		"@fontsource-variable/newsreader": "^5.2.10",
 		"@fontsource-variable/roboto-mono": "^5.2.8",
 		"@tailwindcss/vite": "4.2.1",
-		"astro": "6.2.1",
+		"astro": "6.4.6",
 		"astro-expressive-code": "^0.41.7",
 		"astro-icon": "^1.1.5",
 		"astro-robots-txt": "^1.0.0",
