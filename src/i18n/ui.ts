@@ -106,21 +106,71 @@ export const ui = {
 			eyebrow: "Work",
 			heading: "Portfolio",
 			lead: "Things I'm building, ventures I've founded, and code I've shared.",
-			now: {
-				heading: "Building now",
-				eyebrow: "2026",
+			apps: {
+				heading: "Apps",
+				lead: "Things I've shipped, and a couple still in the yard. Short list, on purpose.",
+				visit: "Open →",
+				filter: {
+					label: "Filter",
+					all: "All",
+					free: "Free",
+					paid: "Paid",
+				},
 				items: [
 					{
-						label: "Building",
-						title: "Vera",
-						subtitle: "AI-driven company data enrichment platform",
-						body: "B2B SaaS that pulls and enriches company data using AI for sales teams, analysts, and operators who need clean, current information about their pipeline. Product operations - sales, support, marketing - run through AI automation pipelines.",
+						slug: "cota",
+						status: "Shipped",
+						kind: "App",
+						pricing: "Free",
+						pricingKey: "free",
+						title: "Cota",
+						subtitle: "Your Claude usage limits, in the tray",
+						body: "A ring in the menu bar that fills as your Claude usage does, and tells you when you're about to run out. One megabyte, no account, no telemetry.",
+						stack: "Rust · macOS · Windows",
+						href: "https://josebarbosa.dev/cota/",
+						imageAlt: "The Cota tray panel, weekly usage at 88 percent in amber",
+						iconAlt: "Cota usage ring",
 					},
 					{
-						label: "Building",
+						slug: "cantos",
+						status: "Shipped",
+						kind: "App",
+						pricing: "Free",
+						pricingKey: "free",
+						title: "Cantos",
+						subtitle: "macOS-style hot corners for Windows",
+						body: "Throw the cursor into a corner and something happens: Task View, show desktop, lock, a screenshot, or any program you like. It waits a beat before firing, so stray moves do nothing. One executable, no account, no network.",
+						stack: "Rust · Windows",
+						href: "https://josebarbosa.dev/cantos/",
+						imageAlt:
+							"The Cantos settings window, with a display diagram and an action on each corner",
+						iconAlt: "Cantos app icon",
+					},
+					{
+						slug: "vera",
+						status: "Building",
+						kind: "SaaS",
+						pricing: "Paid",
+						pricingKey: "paid",
+						title: "Vera",
+						subtitle: "AI-driven company data enrichment",
+						body: "Finds and enriches company data with AI. Built for sales teams and analysts who want clean, current information about their pipeline without the manual digging.",
+						stack: "AI · B2B · SaaS",
+						imageAlt: "The Vera partnership inbox, three matched companies with match scores",
+						iconAlt: "Vera network mark",
+					},
+					{
+						slug: "dotnet-saas",
+						status: "Building",
+						kind: "SaaS",
+						pricing: "Paid",
+						pricingKey: "paid",
 						title: ".NET SaaS",
 						subtitle: "Template to speed up new .NET projects",
-						body: "A .NET SaaS template that accelerates new project bootstrapping with production-ready, idiomatic backend code that's easy to maintain.",
+						body: "A template for starting .NET products quickly: production-ready, idiomatic backend code that stays easy to maintain after launch.",
+						stack: ".NET · SaaS",
+						imageAlt: "The .NET SaaS billing page, with plan, amount, and payment history",
+						iconAlt: ".NET SaaS grid mark",
 					},
 				],
 			},
@@ -226,7 +276,11 @@ export const ui = {
 			lead: "Engineering Director, 15+ years scaling teams and high-traffic systems across Southeast Asia and Latin America.",
 			printName: "Jose Barbosa",
 			printTitle: "Director of Engineering",
-			contact: { label: "Contact", location: "São Paulo, BR / Bangkok, TH", locationPrint: "São Paulo, BR \u00a0\u00a0 Bangkok, TH" },
+			contact: {
+				label: "Contact",
+				location: "São Paulo, BR / Bangkok, TH",
+				locationPrint: "São Paulo, BR \u00a0\u00a0 Bangkok, TH",
+			},
 			summary: {
 				label: "Summary",
 				body: [
@@ -257,7 +311,8 @@ export const ui = {
 						"Hired 20+ engineers across Thailand and abroad and redesigned the interview process to improve hiring quality and speed at scale. Maintained bi-weekly 1:1s with 12 direct reports and quarterly 1:1s with every engineer in the department, driving retention initiatives that halved quarterly attrition over the tenure.",
 						"Created the Leader Development Program (LDP) to develop tech leads. Led three full appraisal cycles using a custom-built tool to pull data and metrics about the engineering team. Delivered internal automation, saving 600K+ THB/year in operational and cloud costs.",
 					],
-					stack: "Enterprise AI Training, Team Scaling, P&L Management, Distributed Teams, Engineering Culture, Azure, AWS",
+					stack:
+						"Enterprise AI Training, Team Scaling, P&L Management, Distributed Teams, Engineering Culture, Azure, AWS",
 				},
 				{
 					period: "01/2020 - 08/2022",
@@ -268,7 +323,8 @@ export const ui = {
 						"Led technical strategy and delivery for a 50+ person account across 9 squads, developing an omnichannel API for a leading Australian airline. Owned architecture, testing strategy, and the full development lifecycle.",
 						"Designed and delivered a real-time data migration pipeline processing <strong>1.5TB+</strong> using Kafka, with built-in reconciliation and PII compliance for sensitive government data. Performance partner for 2 engineers, providing ongoing mentoring and career development. Recognized as senior leadership both by the client and within Thoughtworks.",
 					],
-					stack: ".NET, AWS, Kafka, Distributed Systems, Data Migration, PII Compliance, Architecture, Mentoring",
+					stack:
+						".NET, AWS, Kafka, Distributed Systems, Data Migration, PII Compliance, Architecture, Mentoring",
 				},
 				{
 					period: "01/2019 - 09/2023",
@@ -289,7 +345,8 @@ export const ui = {
 					body: [
 						"First international role. Scaled platform from <strong>5M to 20M daily requests</strong>, growing infrastructure from 20 to 100 AWS instances. Optimized GDS query logging to consolidate redundant API calls, reducing AWS costs by ~$2K+/month. Built data pipelines for business reporting. Owned bi-weekly release cycles with A/B testing.",
 					],
-					stack: ".NET, AWS, High-Scale Systems, Performance Optimization, Cost Reduction, Data Pipelines",
+					stack:
+						".NET, AWS, High-Scale Systems, Performance Optimization, Cost Reduction, Data Pipelines",
 				},
 				{
 					period: "2010 - 2017",
@@ -425,7 +482,7 @@ export const ui = {
 				heading: "Além da engenharia",
 				body: [
 					"Já fundei algumas empresas antes dessa. <strong>Rose</strong> foi uma startup da época da faculdade que virou finalista do Microsoft Imagine Cup e captou mais de US$ 100 mil. <strong>Unline</strong> veio depois com US$ 15 mil de seed. Mais tarde, enquanto trabalhava em tempo integral em Bangkok, fundei o <strong>Isho Group</strong>, uma pequena operação de mineração na Tailândia que retornou 2x sobre os custos operacionais via otimização de compras e cadeia de suprimentos.",
-				"Co-organizo o <strong>.NET Conf Thailand</strong>, a maior conferência .NET da Tailândia (~200 participantes, 7 anos e contando), e já palestrei em conferências pela América Latina e Sudeste Asiático. Eu invisto, treino, e passo muitos fins de semana em pipelines de automação com IA.",
+					"Co-organizo o <strong>.NET Conf Thailand</strong>, a maior conferência .NET da Tailândia (~200 participantes, 7 anos e contando), e já palestrei em conferências pela América Latina e Sudeste Asiático. Eu invisto, treino, e passo muitos fins de semana em pipelines de automação com IA.",
 				],
 			},
 			reading: {
@@ -455,21 +512,72 @@ export const ui = {
 			eyebrow: "Trabalho",
 			heading: "Portfólio",
 			lead: "Coisas que estou construindo, empresas que fundei, e código que compartilhei.",
-			now: {
-				heading: "Construindo agora",
-				eyebrow: "2026",
+			apps: {
+				heading: "Apps",
+				lead: "Coisas que já lancei, e um par ainda no estaleiro. Lista curta, de propósito.",
+				visit: "Abrir →",
+				filter: {
+					label: "Filtrar",
+					all: "Todos",
+					free: "Grátis",
+					paid: "Pago",
+				},
 				items: [
 					{
-						label: "Construindo",
-						title: "Vera",
-						subtitle: "Plataforma de enriquecimento de dados corporativos com IA",
-						body: "B2B SaaS que extrai e enriquece dados de empresas usando IA, para times de vendas, analistas e operadores que precisam de informação limpa e atualizada sobre o pipeline. Operações do produto - vendas, suporte, marketing - rodam via pipelines de automação com IA.",
+						slug: "cota",
+						status: "Lançado",
+						kind: "App",
+						pricing: "Grátis",
+						pricingKey: "free",
+						title: "Cota",
+						subtitle: "Seus limites de uso do Claude, na bandeja",
+						body: "Um anel na barra de menu que enche conforme o seu uso do Claude, e avisa quando você está perto de estourar. Um megabyte, sem conta, sem telemetria.",
+						stack: "Rust · macOS · Windows",
+						href: "https://josebarbosa.dev/cota/",
+						imageAlt: "O painel do Cota na bandeja, uso semanal em 88 por cento, em âmbar",
+						iconAlt: "Anel de uso do Cota",
 					},
 					{
-						label: "Construindo",
+						slug: "cantos",
+						status: "Lançado",
+						kind: "App",
+						pricing: "Grátis",
+						pricingKey: "free",
+						title: "Cantos",
+						subtitle: "Hot corners estilo macOS para Windows",
+						body: "Joga o cursor num canto e alguma coisa acontece: Task View, mostrar a área de trabalho, bloquear, um print, ou qualquer programa. Ele espera um instante antes de disparar, então movimentos acidentais não fazem nada. Um executável, sem conta, sem rede.",
+						stack: "Rust · Windows",
+						href: "https://josebarbosa.dev/cantos/",
+						imageAlt:
+							"A janela de configurações do Cantos, com o diagrama da tela e uma ação em cada canto",
+						iconAlt: "Ícone do Cantos",
+					},
+					{
+						slug: "vera",
+						status: "Construindo",
+						kind: "SaaS",
+						pricing: "Pago",
+						pricingKey: "paid",
+						title: "Vera",
+						subtitle: "Enriquecimento de dados corporativos com IA",
+						body: "Busca e enriquece dados de empresas com IA. Feito para times de vendas e analistas que querem informação limpa e atualizada sobre o pipeline, sem garimpo manual.",
+						stack: "IA · B2B · SaaS",
+						imageAlt: "A inbox de parcerias da Vera, três empresas com índice de compatibilidade",
+						iconAlt: "Marca de rede da Vera",
+					},
+					{
+						slug: "dotnet-saas",
+						status: "Construindo",
+						kind: "SaaS",
+						pricing: "Pago",
+						pricingKey: "paid",
 						title: ".NET SaaS",
 						subtitle: "Template para acelerar novos projetos .NET",
-						body: "Um template SaaS em .NET que acelera o bootstrap de novos projetos com código backend pronto pra produção, idiomático e fácil de manter.",
+						body: "Um template para começar produtos .NET rápido: código backend pronto pra produção, idiomático e fácil de manter depois do lançamento.",
+						stack: ".NET · SaaS",
+						imageAlt:
+							"A página de cobrança do .NET SaaS, com plano, valor e histórico de pagamentos",
+						iconAlt: "Marca em grade do .NET SaaS",
 					},
 				],
 			},
@@ -538,7 +646,7 @@ export const ui = {
 					},
 				],
 				footnote:
-					"Aviso: prospecção fria, spam genérico de recrutador, e pedidos de \"papo rápido\" sem contexto costumam ser arquivados.",
+					'Aviso: prospecção fria, spam genérico de recrutador, e pedidos de "papo rápido" sem contexto costumam ser arquivados.',
 			},
 		},
 		writing: {
@@ -575,7 +683,11 @@ export const ui = {
 			lead: "Diretor de Engenharia, 15+ anos escalando times e sistemas de alto tráfego pelo Sudeste Asiático e América Latina.",
 			printName: "Jose Barbosa",
 			printTitle: "Diretor de Engenharia",
-			contact: { label: "Contato", location: "São Paulo, BR / Bangkok, TH", locationPrint: "São Paulo, BR \u00a0\u00a0 Bangkok, TH" },
+			contact: {
+				label: "Contato",
+				location: "São Paulo, BR / Bangkok, TH",
+				locationPrint: "São Paulo, BR \u00a0\u00a0 Bangkok, TH",
+			},
 			summary: {
 				label: "Resumo",
 				body: [
@@ -606,7 +718,8 @@ export const ui = {
 						"Contratei 20+ engenheiros na Tailândia e no exterior e redesenhei o processo de entrevista para melhorar a qualidade e a velocidade da contratação em escala. Mantive 1:1s quinzenais com 12 reports diretos e 1:1s trimestrais com cada engenheiro do departamento, com iniciativas de retenção que cortaram a atrição trimestral pela metade.",
 						"Criei o Leader Development Program (LDP) para desenvolver tech leads. Liderei três ciclos completos de avaliação usando uma ferramenta interna pra puxar dados e métricas do time de engenharia. Entreguei automação interna, economizando 600K+ THB/ano em custos operacionais e de cloud.",
 					],
-					stack: "Treinamento Corporativo de IA, Escalonamento de Times, Gestão de P&L, Times Distribuídos, Cultura de Engenharia, Azure, AWS",
+					stack:
+						"Treinamento Corporativo de IA, Escalonamento de Times, Gestão de P&L, Times Distribuídos, Cultura de Engenharia, Azure, AWS",
 				},
 				{
 					period: "01/2020 - 08/2022",
@@ -617,7 +730,8 @@ export const ui = {
 						"Liderei a estratégia técnica e a entrega de uma conta de 50+ pessoas em 9 squads, desenvolvendo uma API omnichannel para uma das maiores companhias aéreas da Austrália. Responsável pela arquitetura, estratégia de testes, e ciclo completo de desenvolvimento.",
 						"Projetei e entreguei um pipeline de migração de dados em tempo real processando <strong>1.5TB+</strong> usando Kafka, com reconciliação e compliance de PII embutidos para dados governamentais sensíveis. Performance partner de 2 engenheiros, com mentoria contínua e desenvolvimento de carreira. Reconhecido como senior leadership tanto pelo cliente quanto dentro da Thoughtworks.",
 					],
-					stack: ".NET, AWS, Kafka, Sistemas Distribuídos, Migração de Dados, Compliance PII, Arquitetura, Mentoria",
+					stack:
+						".NET, AWS, Kafka, Sistemas Distribuídos, Migração de Dados, Compliance PII, Arquitetura, Mentoria",
 				},
 				{
 					period: "01/2019 - 09/2023",
@@ -638,7 +752,8 @@ export const ui = {
 					body: [
 						"Primeira posição internacional. Escalei a plataforma de <strong>5M para 20M de requisições diárias</strong>, crescendo a infraestrutura de 20 para 100 instâncias AWS. Otimizei o logging de queries GDS pra consolidar chamadas de API redundantes, reduzindo custo AWS em ~US$ 2K+/mês. Construí pipelines de dados para reporting de negócio. Responsável por ciclos de release quinzenais com A/B testing.",
 					],
-					stack: ".NET, AWS, Sistemas de Alta Escala, Otimização de Performance, Redução de Custos, Pipelines de Dados",
+					stack:
+						".NET, AWS, Sistemas de Alta Escala, Otimização de Performance, Redução de Custos, Pipelines de Dados",
 				},
 				{
 					period: "2010 - 2017",

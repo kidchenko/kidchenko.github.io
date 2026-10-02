@@ -1,4 +1,14 @@
 ---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import cantosIconUrl from "@/assets/img/apps/cantos-icon.svg?url";
+import cantosSettings from "@/assets/img/apps/cantos-settings.png";
+import cotaIconUrl from "@/assets/img/apps/cota-icon.svg?url";
+import cotaPanel from "@/assets/img/apps/cota-panel.png";
+import dotnetSaasBilling from "@/assets/img/apps/dotnet-saas-billing.png";
+import dotnetSaasIconUrl from "@/assets/img/apps/dotnet-saas-icon.svg?url";
+import veraIconUrl from "@/assets/img/apps/vera-icon.svg?url";
+import veraInbox from "@/assets/img/apps/vera-inbox.png";
 import { type Lang, languages } from "@/i18n/ui";
 import { useTranslations } from "@/i18n/utils";
 import PageLayout from "@/layouts/Base.astro";
@@ -12,12 +22,29 @@ export function getStaticPaths() {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang).portfolio;
-const meta = { title: t.meta.title, description: t.meta.description, ogImage: "/og-image/portfolio.png" };
+const meta = {
+	title: t.meta.title,
+	description: t.meta.description,
+	ogImage: "/og-image/portfolio.png",
+};
 
 const isPt = lang === "pt";
-const ui = isPt
-	? { chapterEyebrow: "III — Travessias" }
-	: { chapterEyebrow: "III — Voyages" };
+const ui = isPt ? { chapterEyebrow: "III — Travessias" } : { chapterEyebrow: "III — Voyages" };
+
+type AppItem = (typeof t.apps.items)[number] & {
+	href?: string;
+	imageAlt?: string;
+	iconAlt?: string;
+};
+
+const visuals: Record<string, { icon: string; shot: ImageMetadata }> = {
+	cota: { icon: cotaIconUrl, shot: cotaPanel },
+	cantos: { icon: cantosIconUrl, shot: cantosSettings },
+	vera: { icon: veraIconUrl, shot: veraInbox },
+	"dotnet-saas": { icon: dotnetSaasIconUrl, shot: dotnetSaasBilling },
+};
+
+const appItems: AppItem[] = [...t.apps.items];
 ---
 
 <PageLayout meta={meta}>
@@ -28,28 +55,78 @@ const ui = isPt
 		<p class="lb-chapter-lead">{t.lead}</p>
 	</header>
 
-	{/* ─── i. Building now ──────────────────────────────────────── */}
+	{/* ─── i. Apps ──────────────────────────────────────────────── */}
 	<section class="lb-section">
 		<header class="lb-section-head">
 			<p class="lb-section-eyebrow">i</p>
-			<h2 class="lb-section-heading">{t.now.heading}</h2>
-			<p class="lb-section-meta">{t.now.eyebrow}</p>
+			<h2 class="lb-section-heading">{t.apps.heading}</h2>
 		</header>
+		<p class="lb-prose ap-lead">{t.apps.lead}</p>
 
-		<div class="pf-now-list">
-			{
-				t.now.items.map((item) => (
-					<article class="pf-venture">
-						<p class="pf-venture-status">{item.label}</p>
-						<div class="pf-venture-body-block">
-							<h3 class="pf-venture-title">{item.title}</h3>
-							<p class="pf-venture-subtitle">{item.subtitle}</p>
-							<p class="pf-venture-body">{item.body}</p>
-						</div>
-					</article>
-				))
-			}
+		<div class="ap-filter" data-app-filter role="group" aria-label={t.apps.filter.label}>
+			<span class="ap-filter-label" aria-hidden="true">{t.apps.filter.label}</span>
+			<button aria-pressed="true" class="ap-filter-btn" data-filter="all" type="button">
+				{t.apps.filter.all}
+			</button>
+			<button aria-pressed="false" class="ap-filter-btn" data-filter="free" type="button">
+				{t.apps.filter.free}
+			</button>
+			<button aria-pressed="false" class="ap-filter-btn" data-filter="paid" type="button">
+				{t.apps.filter.paid}
+			</button>
 		</div>
+
+		<ol class="ap-list">
+			{
+				appItems.map((item, i) => {
+					const visual = visuals[item.slug];
+					return (
+						<li class="ap-item" data-pricing={item.pricingKey} id={item.slug}>
+							<div class="ap-gutter">
+								<p class="ap-index">{String(i + 1).padStart(2, "0")}</p>
+								{visual ? (
+									<img
+										alt={item.iconAlt ?? ""}
+										class="ap-icon"
+										height="64"
+										src={visual.icon}
+										width="64"
+									/>
+								) : null}
+							</div>
+							<article class="ap-body-block">
+								<p class="ap-status">
+									{item.status}
+									<span class="ap-tax">· {item.kind} · {item.pricing}</span>
+								</p>
+								<h3 class="ap-title">{item.title}</h3>
+								<p class="ap-subtitle">{item.subtitle}</p>
+								{visual ? (
+									<figure class="ap-shot">
+										<Image
+											alt={item.imageAlt ?? ""}
+											class="ap-shot-img"
+											sizes="(min-width: 880px) 28rem, 100vw"
+											src={visual.shot}
+											widths={[480, 720, 960]}
+										/>
+									</figure>
+								) : null}
+								<p class="ap-body">{item.body}</p>
+								<div class="ap-meta">
+									<p class="ap-stack">{item.stack}</p>
+									{item.href ? (
+										<a class="ap-visit" href={item.href} rel="noreferrer" target="_blank">
+											{t.apps.visit}
+										</a>
+									) : null}
+								</div>
+							</article>
+						</li>
+					);
+				})
+			}
+		</ol>
 	</section>
 
 	{/* ─── ii. Past ventures ────────────────────────────────────── */}
@@ -93,29 +170,90 @@ const ui = isPt
 	   prose, full-bleed) lives in global.css under .lb-*. */
 
 	/* ============================================================
-	   BUILDING NOW
-	   Featured editorial entries — large title, italic subtitle,
-	   serif body. On desktop, the status label sits in a side gutter.
+	   APPS
+	   Numbered manifest list — index and icon in the side gutter,
+	   status + taxonomy eyebrow, screenshot, serif body.
 	   ============================================================ */
-	.pf-now-list {
+	.ap-lead {
+		margin: -0.75rem 0 2rem;
+	}
+	.ap-filter {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.5rem 1.5rem;
+		margin: 0 0 1.5rem;
+	}
+	.ap-filter-label {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		font-weight: 500;
+	}
+	.ap-filter-btn {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		font-weight: 600;
+		color: var(--color-muted);
+		background: none;
+		border: none;
+		padding: 0 0 0.15rem;
+		cursor: pointer;
+		border-bottom: 1px solid transparent;
+		transition:
+			color 200ms ease,
+			border-color 200ms ease;
+	}
+	.ap-filter-btn:hover {
+		color: var(--color-accent);
+	}
+	.ap-filter-btn[aria-pressed="true"] {
+		color: var(--color-accent);
+		border-bottom-color: var(--color-accent);
+	}
+	.ap-item[hidden] {
+		display: none;
+	}
+	.ap-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
 		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
 	}
-	.pf-venture {
+	.ap-item {
 		padding: 2.25rem 0;
 		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
 		display: grid;
 		grid-template-columns: 1fr;
 		gap: 1rem;
+		scroll-margin-top: 5rem;
 	}
 	@media (min-width: 880px) {
-		.pf-venture {
+		.ap-item {
 			grid-template-columns: 12rem 1fr;
 			gap: 4rem;
 			padding: 2.75rem 0;
-			align-items: baseline;
+			align-items: start;
 		}
 	}
-	.pf-venture-status {
+	.ap-gutter {
+		display: flex;
+		align-items: center;
+		gap: 0.85rem;
+	}
+	@media (min-width: 880px) {
+		.ap-gutter {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 1.25rem;
+			padding-top: 0.4rem;
+		}
+	}
+	.ap-index {
 		font-family: var(--font-mono);
 		font-size: 0.6875rem;
 		letter-spacing: 0.2em;
@@ -123,9 +261,27 @@ const ui = isPt
 		color: var(--color-accent);
 		margin: 0;
 		font-weight: 700;
-		padding-top: 0.4rem;
 	}
-	.pf-venture-title {
+	.ap-icon {
+		display: block;
+		width: 2.75rem;
+		height: 2.75rem;
+		flex-shrink: 0;
+	}
+	.ap-status {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin: 0 0 0.85rem;
+		font-weight: 700;
+	}
+	.ap-tax {
+		color: var(--color-muted);
+		font-weight: 500;
+	}
+	.ap-title {
 		font-family: var(--font-display);
 		font-size: clamp(1.75rem, 2vw + 0.75rem, 2.5rem);
 		font-weight: 400;
@@ -133,20 +289,35 @@ const ui = isPt
 		letter-spacing: -0.02em;
 		color: var(--color-global-text);
 		margin: 0;
-		font-variation-settings: "opsz" 48, "SOFT" 30, "WONK" 0;
+		font-variation-settings:
+			"opsz" 48,
+			"SOFT" 30,
+			"WONK" 0;
 	}
-	.pf-venture-subtitle {
+	.ap-subtitle {
 		font-family: var(--font-display);
 		font-style: italic;
 		font-size: clamp(1.0625rem, 0.6vw + 0.85rem, 1.25rem);
 		line-height: 1.4;
 		color: var(--color-global-text);
 		margin: 0.4rem 0 0;
-		font-variation-settings: "opsz" 18, "SOFT" 60;
+		font-variation-settings:
+			"opsz" 18,
+			"SOFT" 60;
 		max-width: 50ch;
 		text-wrap: pretty;
 	}
-	.pf-venture-body {
+	.ap-shot {
+		margin: 1.35rem 0 0;
+		max-width: min(100%, 34rem);
+	}
+	.ap-shot-img {
+		display: block;
+		width: 100%;
+		height: auto;
+		border: 1px solid color-mix(in oklab, var(--color-global-text) 14%, transparent);
+	}
+	.ap-body {
 		font-family: var(--font-serif);
 		font-size: 1.0625rem;
 		line-height: 1.65;
@@ -154,6 +325,41 @@ const ui = isPt
 		margin: 1.25rem 0 0;
 		font-variation-settings: "opsz" 16;
 		max-width: 60ch;
+	}
+	.ap-meta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.75rem 1.5rem;
+		margin-top: 1.25rem;
+	}
+	.ap-stack {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		margin: 0;
+		font-weight: 500;
+	}
+	.ap-visit {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		font-weight: 600;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-accent-2);
+		text-decoration: none;
+		border-bottom: 1px solid var(--color-accent);
+		padding-bottom: 0.15rem;
+		transition:
+			color 200ms ease,
+			border-color 200ms ease,
+			padding-left 250ms ease;
+	}
+	.ap-visit:hover {
+		color: var(--color-accent);
+		padding-left: 0.4rem;
 	}
 
 	/* ============================================================
@@ -244,3 +450,22 @@ const ui = isPt
 		padding-left: 0.4rem;
 	}
 </style>
+
+<script>
+	const root = document.querySelector("[data-app-filter]");
+	if (root) {
+		const buttons = root.querySelectorAll<HTMLButtonElement>("button[data-filter]");
+		const items = document.querySelectorAll<HTMLElement>(".ap-list [data-pricing]");
+		for (const button of buttons) {
+			button.addEventListener("click", () => {
+				const filter = button.dataset.filter;
+				for (const b of buttons) {
+					b.setAttribute("aria-pressed", String(b === button));
+				}
+				for (const item of items) {
+					item.hidden = filter !== "all" && item.dataset.pricing !== filter;
+				}
+			});
+		}
+	}
+</script>

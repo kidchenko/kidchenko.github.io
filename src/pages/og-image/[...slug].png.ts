@@ -1,15 +1,15 @@
 import { Resvg } from "@resvg/resvg-js";
 import type { APIContext, InferGetStaticPropsType } from "astro";
 import satori, { type SatoriOptions } from "satori";
-import compassSvgRaw from "@/assets/img/logo/svg/mark.svg?raw";
-import Newsreader400 from "@/assets/fonts/newsreader-latin-400-normal.woff";
 import Newsreader400Italic from "@/assets/fonts/newsreader-latin-400-italic.woff";
+import Newsreader400 from "@/assets/fonts/newsreader-latin-400-normal.woff";
 import Newsreader500 from "@/assets/fonts/newsreader-latin-500-normal.woff";
+import compassSvgRaw from "@/assets/img/logo/svg/mark.svg?raw";
 import RobotoMonoBold from "@/assets/roboto-mono-700.ttf";
 import RobotoMono from "@/assets/roboto-mono-regular.ttf";
 import { getAllPosts } from "@/data/post";
 import { ui } from "@/i18n/ui";
-import { ogMarkup, type OgFields } from "./_ogMarkup";
+import { type OgFields, ogMarkup } from "./_ogMarkup";
 
 const compassDataUri = `data:image/svg+xml;utf8,${encodeURIComponent(
 	compassSvgRaw.replace('stroke="currentColor"', 'stroke="#1f1c19"'),
@@ -145,8 +145,5 @@ export async function getStaticPaths() {
 		}))
 		.toArray();
 
-	return [
-		...sitePages.map(({ slug, ...props }) => ({ params: { slug }, props })),
-		...postEntries,
-	];
+	return [...sitePages.map(({ slug, ...props }) => ({ params: { slug }, props })), ...postEntries];
 }

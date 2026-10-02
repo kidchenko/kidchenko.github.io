@@ -38,7 +38,7 @@ Built on top of [Astro Cactus](https://github.com/chrismwilliams/astro-theme-cac
 | :------------------------- | :--------------------------------------------------------------------------- |
 | `/`                        | Hero, selected outcomes, and featured writing                                |
 | `/about/`                  | Long-form intro, current focus, beyond engineering, reading list, contacts  |
-| `/portfolio/`              | Active SaaS products (Vera, .NET SaaS), past ventures, open source           |
+| `/portfolio/`              | Apps catalog (Cota, Cantos, Vera, .NET SaaS), past ventures, open source     |
 | `/posts/`                  | Writing index with tag filters and pagination                                |
 | `/cv/`                     | Print-ready CV with summary, work history, education, skills, languages     |
 | `/contact/`                | Contact form with honeypot and other ways to reach me                        |

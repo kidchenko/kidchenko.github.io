@@ -6,10 +6,7 @@ import Search from "@/components/Search.astro";
 import ThemeToggle from "@/components/ThemeToggle.astro";
 import { getLangFromUrl, localizeUrl, useTranslations } from "@/i18n/utils";
 
-const markSvg = fs.readFileSync(
-	path.resolve("./src/assets/img/logo/svg/mark.svg"),
-	"utf-8",
-);
+const markSvg = fs.readFileSync(path.resolve("./src/assets/img/logo/svg/mark.svg"), "utf-8");
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang).nav;
@@ -22,11 +19,16 @@ const menuLinks: { path: string; title: string }[] = [
 	{ path: localizeUrl("/cv/", lang), title: t.cv },
 	{ path: localizeUrl("/contact/", lang), title: t.contact },
 ];
-const romanNumerals = ["I", "II", "III", "IV", "V", "VI"];
+const romanNumerals = ["I", "II", "III", "IV", "V", "VI", "VII"];
 ---
 
 <header class="lb-header group relative z-10 flex items-center" id="main-header">
-	<a aria-current={false} aria-label="Jose Barbosa - home" class="logo-link" href={localizeUrl("/", lang)}>
+	<a
+		aria-current={false}
+		aria-label="Jose Barbosa - home"
+		class="logo-link"
+		href={localizeUrl("/", lang)}
+	>
 		<span aria-hidden="true" class="logo-mark" set:html={markSvg} />
 		<span class="logo-wordmark">Jose Barbosa</span>
 	</a>
@@ -40,10 +42,7 @@ const romanNumerals = ["I", "II", "III", "IV", "V", "VI"];
 				menuLinks.map((link, i) => (
 					<a
 						aria-current={Astro.url.pathname === link.path ? "page" : false}
-						class:list={[
-							"nav-link",
-							Astro.url.pathname === link.path ? "is-current" : "",
-						]}
+						class:list={["nav-link", Astro.url.pathname === link.path ? "is-current" : ""]}
 						href={link.path}
 					>
 						<span aria-hidden="true" class="nav-link-num">
@@ -142,7 +141,7 @@ const romanNumerals = ["I", "II", "III", "IV", "V", "VI"];
 
 		let currentAngle = 0;
 		const setAngle = (target: number) => {
-			const diff = (((target - currentAngle) % 360) + 540) % 360 - 180;
+			const diff = ((((target - currentAngle) % 360) + 540) % 360) - 180;
 			currentAngle += diff;
 			bezel.style.transform = `rotate(${currentAngle}deg)`;
 		};
@@ -179,9 +178,7 @@ const romanNumerals = ["I", "II", "III", "IV", "V", "VI"];
 			const wander = () => {
 				if (mode !== "compass-lost") return;
 				const bigSwing = Math.random() < 0.25;
-				const magnitude = bigSwing
-					? 120 + Math.random() * 80
-					: 30 + Math.random() * 70;
+				const magnitude = bigSwing ? 120 + Math.random() * 80 : 30 + Math.random() * 70;
 				const direction = Math.random() < 0.5 ? 1 : -1;
 				setAngle(currentAngle + magnitude * direction);
 				const delay = 600 + Math.random() * 1400;
@@ -473,7 +470,7 @@ const romanNumerals = ["I", "II", "III", "IV", "V", "VI"];
 		}
 		.nav-link {
 			display: inline-block;
-			padding: 0.45rem 0.9rem;
+			padding: 0.45rem 0.55rem;
 			border-bottom: none;
 		}
 		.nav-link-num {
@@ -491,8 +488,8 @@ const romanNumerals = ["I", "II", "III", "IV", "V", "VI"];
 		.nav-link::after {
 			content: "";
 			position: absolute;
-			left: 0.9rem;
-			right: 0.9rem;
+			left: 0.55rem;
+			right: 0.55rem;
 			bottom: 0.15rem;
 			height: 1px;
 			background: var(--color-accent);
@@ -508,6 +505,15 @@ const romanNumerals = ["I", "II", "III", "IV", "V", "VI"];
 			.nav-link::after {
 				transition: none;
 			}
+		}
+	}
+	@media (min-width: 1024px) {
+		.nav-link {
+			padding: 0.45rem 0.75rem;
+		}
+		.nav-link::after {
+			left: 0.75rem;
+			right: 0.75rem;
 		}
 	}
 </style>
