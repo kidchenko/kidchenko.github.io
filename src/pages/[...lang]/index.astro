@@ -1,13 +1,13 @@
 ---
 import { Image } from "astro:assets";
 import { type CollectionEntry } from "astro:content";
+import portrait from "@/assets/img/jose-headshot.png";
 import PostPreview from "@/components/blog/PostPreview.astro";
 import { getAllPosts } from "@/data/post";
-import PageLayout from "@/layouts/Base.astro";
-import { collectionDateSort } from "@/utils/date";
-import portrait from "@/assets/img/jose-headshot.png";
 import { type Lang, languages } from "@/i18n/ui";
 import { localizeUrl, useTranslations } from "@/i18n/utils";
+import PageLayout from "@/layouts/Base.astro";
+import { collectionDateSort } from "@/utils/date";
 
 export function getStaticPaths() {
 	return Object.keys(languages).map((lang) => ({
@@ -40,7 +40,13 @@ const chapterCoords = [
 
 const chapters = isPt
 	? [
-			{ roman: "I", title: "Saudação", sub: tNav.home, path: localizeUrl("/", lang), folio: chapterCoords[0] },
+			{
+				roman: "I",
+				title: "Saudação",
+				sub: tNav.home,
+				path: localizeUrl("/", lang),
+				folio: chapterCoords[0],
+			},
 			{
 				roman: "II",
 				title: "Capitão",
@@ -78,7 +84,13 @@ const chapters = isPt
 			},
 		]
 	: [
-			{ roman: "I", title: "Hailing", sub: tNav.home, path: localizeUrl("/", lang), folio: chapterCoords[0] },
+			{
+				roman: "I",
+				title: "Hailing",
+				sub: tNav.home,
+				path: localizeUrl("/", lang),
+				folio: chapterCoords[0],
+			},
 			{
 				roman: "II",
 				title: "Captain",

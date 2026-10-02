@@ -9,12 +9,7 @@ type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
 	withDesc?: boolean;
 };
 
-const {
-	as: Tag = "h3",
-	post,
-	draftLabel = "(Draft) ",
-	withDesc = true,
-} = Astro.props;
+const { as: Tag = "h3", post, draftLabel = "(Draft) ", withDesc = true } = Astro.props;
 ---
 
 <FormattedDate class="lb-entry-date" date={post.data.publishDate} />

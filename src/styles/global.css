@@ -25,8 +25,7 @@
 
 @font-face {
 	font-family: "Newsreader Fallback";
-	src:
-		local("Georgia"), local("Iowan Old Style"), local("Times New Roman"), local("Times");
+	src: local("Georgia"), local("Iowan Old Style"), local("Times New Roman"), local("Times");
 	font-display: swap;
 	ascent-override: 92%;
 	descent-override: 22%;
@@ -96,17 +95,17 @@
 	   The "Fallback" entries are metric-matched proxies that prevent layout shift
 	   between first paint and webfont arrival. */
 	--font-mono:
-		"Roboto Mono Variable", "Roboto Mono Fallback", ui-monospace, SFMono-Regular, Menlo,
-		Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+		"Roboto Mono Variable", "Roboto Mono Fallback", ui-monospace, SFMono-Regular, Menlo, Monaco,
+		Consolas, "Liberation Mono", "Courier New", monospace;
 	--font-serif:
-		"Newsreader Variable", "Newsreader Fallback", Georgia, "Iowan Old Style",
-		"Times New Roman", serif;
+		"Newsreader Variable", "Newsreader Fallback", Georgia, "Iowan Old Style", "Times New Roman",
+		serif;
 	/* Display face — same Newsreader family as body, just driven hard
 	   on the optical-size axis at hero scale. Single editorial family
 	   keeps the volume cohesive. */
 	--font-display:
-		"Newsreader Variable", "Newsreader Fallback", Georgia, "Iowan Old Style",
-		"Times New Roman", serif;
+		"Newsreader Variable", "Newsreader Fallback", Georgia, "Iowan Old Style", "Times New Roman",
+		serif;
 }
 
 @layer base {
@@ -228,7 +227,10 @@
 		letter-spacing: -0.035em;
 		color: var(--color-global-text);
 		margin: 0;
-		font-variation-settings: "opsz" 96, "SOFT" 30, "WONK" 0;
+		font-variation-settings:
+			"opsz" 96,
+			"SOFT" 30,
+			"WONK" 0;
 		max-width: 14ch;
 		text-wrap: balance;
 	}
@@ -241,7 +243,9 @@
 		color: var(--color-global-text);
 		max-width: 48ch;
 		margin: 1.75rem 0 0;
-		font-variation-settings: "opsz" 18, "SOFT" 60;
+		font-variation-settings:
+			"opsz" 18,
+			"SOFT" 60;
 		text-wrap: pretty;
 	}
 
@@ -282,7 +286,10 @@
 		letter-spacing: -0.025em;
 		color: var(--color-global-text);
 		margin: 0;
-		font-variation-settings: "opsz" 48, "SOFT" 30, "WONK" 0;
+		font-variation-settings:
+			"opsz" 48,
+			"SOFT" 30,
+			"WONK" 0;
 		text-wrap: balance;
 	}
 	.lb-section-meta {
@@ -371,7 +378,10 @@
 		line-height: 1.15;
 		letter-spacing: -0.015em;
 		margin: 0;
-		font-variation-settings: "opsz" 30, "SOFT" 30, "WONK" 0;
+		font-variation-settings:
+			"opsz" 30,
+			"SOFT" 30,
+			"WONK" 0;
 		text-wrap: pretty;
 	}
 	.lb-entry-title a {
@@ -405,7 +415,9 @@
 		line-height: 1.55;
 		color: var(--color-muted);
 		margin: 0.6rem 0 0;
-		font-variation-settings: "opsz" 16, "SOFT" 60;
+		font-variation-settings:
+			"opsz" 16,
+			"SOFT" 60;
 		max-width: 60ch;
 	}
 

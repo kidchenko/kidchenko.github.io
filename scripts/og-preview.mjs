@@ -5,8 +5,8 @@
 // Output:    og-preview.png   (project root)
 
 import { readFileSync, writeFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { Resvg } from "@resvg/resvg-js";
 import satori from "satori";
 
@@ -23,7 +23,9 @@ const fontsourceNewsreader = resolve(
 );
 const newsreader400 = readFileSync(`${fontsourceNewsreader}/newsreader-latin-400-normal.woff`);
 const newsreader500 = readFileSync(`${fontsourceNewsreader}/newsreader-latin-500-normal.woff`);
-const newsreader400Italic = readFileSync(`${fontsourceNewsreader}/newsreader-latin-400-italic.woff`);
+const newsreader400Italic = readFileSync(
+	`${fontsourceNewsreader}/newsreader-latin-400-italic.woff`,
+);
 const robotoMono = readFileSync(resolve(root, "src/assets/roboto-mono-regular.ttf"));
 const robotoMonoBold = readFileSync(resolve(root, "src/assets/roboto-mono-700.ttf"));
 

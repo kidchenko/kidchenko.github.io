@@ -84,8 +84,7 @@ const postHead = (title: string) => {
 };
 
 export const ogMarkup = (fields: OgFields, compassDataUri: string) => {
-	const head =
-		fields.variant === "brand" ? brandHead() : postHead(fields.title ?? "Untitled");
+	const head = fields.variant === "brand" ? brandHead() : postHead(fields.title ?? "Untitled");
 
 	return {
 		type: "div",

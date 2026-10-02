@@ -1,4 +1,4 @@
-import { type Lang, defaultLang, languages, ui } from "./ui";
+import { defaultLang, type Lang, languages, ui } from "./ui";
 
 export function getLangFromUrl(url: URL): Lang {
 	const [, segment] = url.pathname.split("/");
@@ -19,7 +19,9 @@ export function localizeUrl(path: string, lang: Lang): string {
 export function getAlternateUrl(currentPath: string, currentLang: Lang): string {
 	const otherLang: Lang = currentLang === "en" ? "pt" : "en";
 	const stripped =
-		currentLang !== defaultLang ? currentPath.replace(new RegExp(`^/${currentLang}`), "") : currentPath;
+		currentLang !== defaultLang
+			? currentPath.replace(new RegExp(`^/${currentLang}`), "")
+			: currentPath;
 	const cleanPath = stripped || "/";
 	return localizeUrl(cleanPath, otherLang);
 }

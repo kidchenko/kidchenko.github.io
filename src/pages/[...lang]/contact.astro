@@ -1,7 +1,7 @@
 ---
-import PageLayout from "@/layouts/Base.astro";
 import { type Lang, languages } from "@/i18n/ui";
 import { useTranslations } from "@/i18n/utils";
+import PageLayout from "@/layouts/Base.astro";
 
 export function getStaticPaths() {
 	return Object.keys(languages).map((lang) => ({
@@ -12,7 +12,11 @@ export function getStaticPaths() {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang).contact;
-const meta = { title: t.meta.title, description: t.meta.description, ogImage: "/og-image/contact.png" };
+const meta = {
+	title: t.meta.title,
+	description: t.meta.description,
+	ogImage: "/og-image/contact.png",
+};
 
 const isPt = lang === "pt";
 const ui = isPt
