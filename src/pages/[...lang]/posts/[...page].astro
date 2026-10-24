@@ -61,7 +61,7 @@ const groupedByYear = groupPostsByYear(page.data);
 const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 
 const isPt = lang === "pt";
-const ui = isPt ? { chapterEyebrow: "V — Diário" } : { chapterEyebrow: "V — Logbook" };
+const ui = isPt ? { chapterEyebrow: "V · Diário" } : { chapterEyebrow: "V · Logbook" };
 ---
 
 <PageLayout meta={meta}>

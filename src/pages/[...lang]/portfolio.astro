@@ -1,12 +1,15 @@
 ---
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
+import cafeIconUrl from "@/assets/img/apps/cafe-icon.png?url";
 import cantosIconUrl from "@/assets/img/apps/cantos-icon.svg?url";
-import cantosSettings from "@/assets/img/apps/cantos-settings.png";
 import cotaIconUrl from "@/assets/img/apps/cota-icon.svg?url";
-import cotaPanel from "@/assets/img/apps/cota-panel.png";
 import dotnetSaasBilling from "@/assets/img/apps/dotnet-saas-billing.png";
 import dotnetSaasIconUrl from "@/assets/img/apps/dotnet-saas-icon.svg?url";
+import luzIconUrl from "@/assets/img/apps/luz-icon.png?url";
+import portaIconUrl from "@/assets/img/apps/porta-icon.png?url";
+import sonusIconUrl from "@/assets/img/apps/sonus-icon.png?url";
+import suavezIconUrl from "@/assets/img/apps/suavez-icon.png?url";
 import veraIconUrl from "@/assets/img/apps/vera-icon.svg?url";
 import veraInbox from "@/assets/img/apps/vera-inbox.png";
 import { type Lang, languages } from "@/i18n/ui";
@@ -29,7 +32,7 @@ const meta = {
 };
 
 const isPt = lang === "pt";
-const ui = isPt ? { chapterEyebrow: "III — Travessias" } : { chapterEyebrow: "III — Voyages" };
+const ui = isPt ? { chapterEyebrow: "III · Travessias" } : { chapterEyebrow: "III · Voyages" };
 
 type AppItem = (typeof t.apps.items)[number] & {
 	href?: string;
@@ -37,14 +40,25 @@ type AppItem = (typeof t.apps.items)[number] & {
 	iconAlt?: string;
 };
 
-const visuals: Record<string, { icon: string; shot: ImageMetadata }> = {
-	cota: { icon: cotaIconUrl, shot: cotaPanel },
-	cantos: { icon: cantosIconUrl, shot: cantosSettings },
-	vera: { icon: veraIconUrl, shot: veraInbox },
-	"dotnet-saas": { icon: dotnetSaasIconUrl, shot: dotnetSaasBilling },
+const icons: Record<string, string> = {
+	cafe: cafeIconUrl,
+	cantos: cantosIconUrl,
+	cota: cotaIconUrl,
+	luz: luzIconUrl,
+	porta: portaIconUrl,
+	sonus: sonusIconUrl,
+	suavez: suavezIconUrl,
+	vera: veraIconUrl,
+	"dotnet-saas": dotnetSaasIconUrl,
+};
+const shots: Record<string, ImageMetadata> = {
+	vera: veraInbox,
+	"dotnet-saas": dotnetSaasBilling,
 };
 
 const appItems: AppItem[] = [...t.apps.items];
+const desktopApps = appItems.filter((item) => item.kind === "App");
+const saasApps = appItems.filter((item) => item.kind === "SaaS");
 ---
 
 <PageLayout meta={meta}>
@@ -63,70 +77,81 @@ const appItems: AppItem[] = [...t.apps.items];
 		</header>
 		<p class="lb-prose ap-lead">{t.apps.lead}</p>
 
-		<div class="ap-filter" data-app-filter role="group" aria-label={t.apps.filter.label}>
-			<span class="ap-filter-label" aria-hidden="true">{t.apps.filter.label}</span>
-			<button aria-pressed="true" class="ap-filter-btn" data-filter="all" type="button">
-				{t.apps.filter.all}
-			</button>
-			<button aria-pressed="false" class="ap-filter-btn" data-filter="free" type="button">
-				{t.apps.filter.free}
-			</button>
-			<button aria-pressed="false" class="ap-filter-btn" data-filter="paid" type="button">
-				{t.apps.filter.paid}
-			</button>
-		</div>
-
-		<ol class="ap-list">
+		<h3 class="ap-group">{t.apps.groups.desktop}</h3>
+		<ul class="ap-grid">
 			{
-				appItems.map((item, i) => {
-					const visual = visuals[item.slug];
-					return (
-						<li class="ap-item" data-pricing={item.pricingKey} id={item.slug}>
-							<div class="ap-gutter">
-								<p class="ap-index">{String(i + 1).padStart(2, "0")}</p>
-								{visual ? (
-									<img
-										alt={item.iconAlt ?? ""}
-										class="ap-icon"
-										height="64"
-										src={visual.icon}
-										width="64"
-									/>
-								) : null}
-							</div>
-							<article class="ap-body-block">
-								<p class="ap-status">
-									{item.status}
-									<span class="ap-tax">· {item.kind} · {item.pricing}</span>
-								</p>
-								<h3 class="ap-title">{item.title}</h3>
+				desktopApps.map((item) => (
+					<li class="ap-card" id={item.slug}>
+						<div class="ap-card-head">
+							<img
+								alt={item.iconAlt ?? ""}
+								class="ap-icon"
+								height="40"
+								loading="lazy"
+								src={icons[item.slug]}
+								width="40"
+							/>
+							<div>
+								<h4 class="ap-title">{item.title}</h4>
 								<p class="ap-subtitle">{item.subtitle}</p>
-								{visual ? (
-									<figure class="ap-shot">
-										<Image
-											alt={item.imageAlt ?? ""}
-											class="ap-shot-img"
-											sizes="(min-width: 880px) 28rem, 100vw"
-											src={visual.shot}
-											widths={[480, 720, 960]}
-										/>
-									</figure>
-								) : null}
-								<p class="ap-body">{item.body}</p>
-								<div class="ap-meta">
-									<p class="ap-stack">{item.stack}</p>
-									{item.href ? (
-										<a class="ap-visit" href={item.href} rel="noreferrer" target="_blank">
-											{t.apps.visit}
-										</a>
-									) : null}
+							</div>
+						</div>
+						<p class="ap-body">{item.body}</p>
+						<div class="ap-meta">
+							<p class="ap-stack">{item.stack}</p>
+							{item.href ? (
+								<a class="ap-visit" href={item.href} rel="noreferrer" target="_blank">
+									{t.apps.visit}
+									<span class="sr-only"> {item.title}</span>
+								</a>
+							) : null}
+						</div>
+					</li>
+				))
+			}
+		</ul>
+
+		<h3 class="ap-group">{t.apps.groups.saas}</h3>
+		<ul class="ap-grid ap-grid--saas">
+			{
+				saasApps.map((item) => {
+					const shot = shots[item.slug];
+					return (
+						<li class="ap-card" id={item.slug}>
+							{shot ? (
+								<figure class="ap-shot">
+									<Image
+										alt={item.imageAlt ?? ""}
+										class="ap-shot-img"
+										sizes="(min-width: 640px) 22rem, 100vw"
+										src={shot}
+										widths={[360, 720, 1080]}
+									/>
+								</figure>
+							) : null}
+							<div class="ap-card-head">
+								<img
+									alt={item.iconAlt ?? ""}
+									class="ap-icon"
+									height="40"
+									loading="lazy"
+									src={icons[item.slug]}
+									width="40"
+								/>
+								<div>
+									<h4 class="ap-title">{item.title}</h4>
+									<p class="ap-subtitle">{item.subtitle}</p>
 								</div>
-							</article>
+							</div>
+							<p class="ap-body">{item.body}</p>
+							<div class="ap-meta">
+								<p class="ap-stack">{item.stack}</p>
+							</div>
 						</li>
 					);
 				})
 			}
-		</ol>
+		</ul>
 	</section>
 
 	{/* ─── ii. Past ventures ────────────────────────────────────── */}
@@ -171,172 +196,103 @@ const appItems: AppItem[] = [...t.apps.items];
 
 	/* ============================================================
 	   APPS
-	   Numbered manifest list — index and icon in the side gutter,
-	   status + taxonomy eyebrow, screenshot, serif body.
+	   Two groups, each a hairline-ruled two-column grid: compact
+	   tray-app entries, then the SaaS pair with screenshots.
 	   ============================================================ */
 	.ap-lead {
-		margin: -0.75rem 0 2rem;
+		margin: -0.75rem 0 2.5rem;
 	}
-	.ap-filter {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: baseline;
-		gap: 0.5rem 1.5rem;
-		margin: 0 0 1.5rem;
-	}
-	.ap-filter-label {
+	.ap-group {
 		font-family: var(--font-mono);
 		font-size: 0.6875rem;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
-		color: var(--color-muted);
-		font-weight: 500;
-	}
-	.ap-filter-btn {
-		font-family: var(--font-mono);
-		font-size: 0.6875rem;
-		letter-spacing: 0.2em;
-		text-transform: uppercase;
-		font-weight: 600;
-		color: var(--color-muted);
-		background: none;
-		border: none;
-		padding: 0 0 0.15rem;
-		cursor: pointer;
-		border-bottom: 1px solid transparent;
-		transition:
-			color 200ms ease,
-			border-color 200ms ease;
-	}
-	.ap-filter-btn:hover {
 		color: var(--color-accent);
+		font-weight: 700;
+		margin: 0 0 1rem;
 	}
-	.ap-filter-btn[aria-pressed="true"] {
-		color: var(--color-accent);
-		border-bottom-color: var(--color-accent);
-	}
-	.ap-item[hidden] {
-		display: none;
-	}
-	.ap-list {
+	.ap-grid {
 		list-style: none;
-		margin: 0;
+		margin: 0 0 3rem;
 		padding: 0;
-		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
-	}
-	.ap-item {
-		padding: 2.25rem 0;
-		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
 		display: grid;
 		grid-template-columns: 1fr;
-		gap: 1rem;
+		column-gap: 2.5rem;
+		border-top: 1px solid color-mix(in oklab, var(--color-global-text) 18%, transparent);
+	}
+	.ap-grid:last-child {
+		margin-bottom: 0;
+	}
+	@media (min-width: 640px) {
+		.ap-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.ap-card {
+		display: flex;
+		flex-direction: column;
+		padding: 1.5rem 0 1.75rem;
+		border-bottom: 1px solid color-mix(in oklab, var(--color-global-text) 12%, transparent);
 		scroll-margin-top: 5rem;
 	}
-	@media (min-width: 880px) {
-		.ap-item {
-			grid-template-columns: 12rem 1fr;
-			gap: 4rem;
-			padding: 2.75rem 0;
-			align-items: start;
-		}
-	}
-	.ap-gutter {
-		display: flex;
-		align-items: center;
-		gap: 0.85rem;
-	}
-	@media (min-width: 880px) {
-		.ap-gutter {
-			flex-direction: column;
-			align-items: flex-start;
-			gap: 1.25rem;
-			padding-top: 0.4rem;
-		}
-	}
-	.ap-index {
-		font-family: var(--font-mono);
-		font-size: 0.6875rem;
-		letter-spacing: 0.2em;
-		text-transform: uppercase;
-		color: var(--color-accent);
-		margin: 0;
-		font-weight: 700;
+	.ap-card-head {
+		display: grid;
+		grid-template-columns: 2.5rem 1fr;
+		gap: 0.9rem;
+		align-items: start;
 	}
 	.ap-icon {
 		display: block;
-		width: 2.75rem;
-		height: 2.75rem;
-		flex-shrink: 0;
-	}
-	.ap-status {
-		font-family: var(--font-mono);
-		font-size: 0.6875rem;
-		letter-spacing: 0.2em;
-		text-transform: uppercase;
-		color: var(--color-accent);
-		margin: 0 0 0.85rem;
-		font-weight: 700;
-	}
-	.ap-tax {
-		color: var(--color-muted);
-		font-weight: 500;
+		width: 2.5rem;
+		height: 2.5rem;
 	}
 	.ap-title {
 		font-family: var(--font-display);
-		font-size: clamp(1.75rem, 2vw + 0.75rem, 2.5rem);
+		font-size: 1.5rem;
 		font-weight: 400;
 		line-height: 1.05;
 		letter-spacing: -0.02em;
 		color: var(--color-global-text);
 		margin: 0;
 		font-variation-settings:
-			"opsz" 48,
+			"opsz" 36,
 			"SOFT" 30,
 			"WONK" 0;
 	}
 	.ap-subtitle {
 		font-family: var(--font-display);
 		font-style: italic;
-		font-size: clamp(1.0625rem, 0.6vw + 0.85rem, 1.25rem);
-		line-height: 1.4;
+		font-size: 1rem;
+		line-height: 1.35;
 		color: var(--color-global-text);
-		margin: 0.4rem 0 0;
+		margin: 0.3rem 0 0;
 		font-variation-settings:
 			"opsz" 18,
 			"SOFT" 60;
-		max-width: 50ch;
 		text-wrap: pretty;
-	}
-	.ap-shot {
-		margin: 1.35rem 0 0;
-		max-width: min(100%, 34rem);
-	}
-	.ap-shot-img {
-		display: block;
-		width: 100%;
-		height: auto;
-		border: 1px solid color-mix(in oklab, var(--color-global-text) 14%, transparent);
 	}
 	.ap-body {
 		font-family: var(--font-serif);
-		font-size: 1.0625rem;
-		line-height: 1.65;
+		font-size: 0.9375rem;
+		line-height: 1.6;
 		color: var(--color-global-text);
-		margin: 1.25rem 0 0;
-		font-variation-settings: "opsz" 16;
-		max-width: 60ch;
+		margin: 0.9rem 0 0;
+		font-variation-settings: "opsz" 14;
+		text-wrap: pretty;
 	}
 	.ap-meta {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: baseline;
-		gap: 0.75rem 1.5rem;
-		margin-top: 1.25rem;
+		justify-content: space-between;
+		gap: 0.5rem 1rem;
+		margin-top: auto;
+		padding-top: 1rem;
 	}
 	.ap-stack {
 		font-family: var(--font-mono);
-		font-size: 0.6875rem;
-		letter-spacing: 0.18em;
+		font-size: 0.625rem;
+		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		color: var(--color-muted);
 		margin: 0;
@@ -360,6 +316,26 @@ const appItems: AppItem[] = [...t.apps.items];
 	.ap-visit:hover {
 		color: var(--color-accent);
 		padding-left: 0.4rem;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.ap-visit {
+			transition: none;
+		}
+		.ap-visit:hover {
+			padding-left: 0;
+		}
+	}
+	.ap-shot {
+		margin: 0 0 1.25rem;
+	}
+	.ap-shot-img {
+		display: block;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+		object-position: top left;
+		border: 1px solid color-mix(in oklab, var(--color-global-text) 14%, transparent);
 	}
 
 	/* ============================================================
@@ -450,22 +426,3 @@ const appItems: AppItem[] = [...t.apps.items];
 		padding-left: 0.4rem;
 	}
 </style>
-
-<script>
-	const root = document.querySelector("[data-app-filter]");
-	if (root) {
-		const buttons = root.querySelectorAll<HTMLButtonElement>("button[data-filter]");
-		const items = document.querySelectorAll<HTMLElement>(".ap-list [data-pricing]");
-		for (const button of buttons) {
-			button.addEventListener("click", () => {
-				const filter = button.dataset.filter;
-				for (const b of buttons) {
-					b.setAttribute("aria-pressed", String(b === button));
-				}
-				for (const item of items) {
-					item.hidden = filter !== "all" && item.dataset.pricing !== filter;
-				}
-			});
-		}
-	}
-</script>

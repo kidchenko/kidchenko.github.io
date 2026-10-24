@@ -24,8 +24,8 @@ const dateOpts: Intl.DateTimeFormatOptions = {
 };
 
 const ui = isPt
-	? { chapterEyebrow: "V — Diário", draft: "Rascunho", updated: "Atualizado" }
-	: { chapterEyebrow: "V — Logbook", draft: "Draft", updated: "Updated" };
+	? { chapterEyebrow: "V · Diário", draft: "Rascunho", updated: "Atualizado" }
+	: { chapterEyebrow: "V · Logbook", draft: "Draft", updated: "Updated" };
 ---
 
 {
@@ -51,13 +51,13 @@ const ui = isPt
 
 	<div class="lb-post-meta">
 		<FormattedDate class="lb-post-meta-date" date={data.publishDate} dateTimeOptions={dateOpts} />
-		<span aria-hidden="true" class="lb-post-meta-sep">—</span>
+		<span aria-hidden="true" class="lb-post-meta-sep">·</span>
 		<span>{readingTime}</span>
 		{
 			data.updatedDate && (
 				<>
 					<span aria-hidden="true" class="lb-post-meta-sep">
-						—
+						·
 					</span>
 					<span>
 						{ui.updated}{" "}
