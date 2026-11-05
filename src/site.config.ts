@@ -6,7 +6,7 @@ export const siteConfig: SiteConfig = {
 	title: "Jose Barbosa",
 	author: "Jose Barbosa",
 	description:
-		"Engineering Director - AI, SaaS, and team building. 15 years scaling engineering teams across Thailand and Brazil.",
+		"Engineering Director working on AI, SaaS, and team building. 15 years scaling engineering teams across Thailand and Brazil.",
 	lang: "en",
 	ogLocale: "en_US",
 	// Date.prototype.toLocaleDateString() parameters, found in src/utils/date.ts.

@@ -60,22 +60,22 @@ export const ui = {
 			hi: "Hi, I'm Jose.",
 			intro: [
 				"I grew up in São Paulo and started writing code professionally in 2010. By 2017 I was in Bangkok: first as a senior engineer at Jetabroad, then a tech lead at Thoughtworks, and most recently Head of Engineering at Seven Peaks Software, where I grew a 30-person backend team into a 60-engineer department across 27 nationalities.",
-				"Eight years and a lot of conferences, hires, and retros later, I'm back in Brazil. I came home at the end of 2025 with a clearer sense of what I want to build next: use what I learned scaling teams to scale a product instead.",
-				"I'm founding two AI-augmented B2B SaaS products: Vera, a company-data enrichment platform, and a .NET SaaS template for starting new projects faster. On the side I ship small open-source tray apps for Windows and macOS. I also run enterprise AI training across APAC and Brazil, and take on consulting work selectively.",
+				"Eight years and a lot of conferences, hires, and retros later, I moved back to Brazil at the end of 2025. I want to take what I learned growing teams and put it into products of my own.",
+				"Right now I'm building two B2B SaaS products that lean on AI: Vera, which enriches company data, and a .NET SaaS template for starting new projects faster. On the side I ship small open-source tray apps for Windows and macOS. I also run AI training for companies in APAC and Brazil, and take on some consulting.",
 				"I read a lot, lift weights, organize meetups, and care about treating engineers like adults.",
 			],
 			now: {
 				heading: "Now",
 				items: [
-					"<strong>Building.</strong> Vera (AI-driven company data enrichment), a .NET SaaS template for new projects, and small tray apps like Cota, Porta and Sua Vez.",
-					"<strong>Training.</strong> Running enterprise AI workshops (n8n, LLM workflows, automation) for clients across APAC and Brazil.",
-					"<strong>Consulting.</strong> Selectively, on engineering architecture, AI integration, and team scaling.",
+					"Building Vera (company data enrichment with AI), a .NET SaaS template for new projects, and small tray apps like Cota, Porta and Sua Vez.",
+					"Running AI workshops (n8n, LLM workflows, automation) for companies in APAC and Brazil.",
+					"Consulting on architecture, AI integration, and growing engineering teams, when the project is a good fit.",
 				],
 			},
 			beyond: {
 				heading: "Beyond engineering",
 				body: [
-					"I've founded a few companies before this one. <strong>Rose</strong> was a student-era startup that became a Microsoft Imagine Cup finalist and raised over $100K. <strong>Unline</strong> followed with a $15K seed. Later, while working full-time in Bangkok, I founded <strong>Isho Group</strong>, a small mining operation in Thailand that returned 2x on operational costs through procurement and supply-chain optimization.",
+					"I've founded a few companies before this one. <strong>Rose</strong> was a student-era startup that became a Microsoft Imagine Cup finalist and raised over $100K. <strong>Unline</strong> followed with a $15K seed. Later, while working full-time in Bangkok, I founded <strong>Isho Group</strong>, a small mining operation in Thailand. Tighter procurement and supply-chain work got it to a 2x return on operating costs.",
 					"I co-organize <strong>.NET Conf Thailand</strong>, the largest .NET conference in Thailand (~200 attendees, 7 years and counting), and have spoken at conferences across Latin America and Southeast Asia. I invest, lift, and spend a lot of weekends on AI automation pipelines.",
 				],
 			},
@@ -108,7 +108,7 @@ export const ui = {
 			lead: "What I'm building now, companies I founded before, and code on GitHub.",
 			apps: {
 				heading: "Apps",
-				lead: "Small tray apps for Windows and macOS, all free and open source, plus two SaaS products still in the yard.",
+				lead: "Small tray apps for Windows and macOS, all free and open source, plus two SaaS products I'm still building.",
 				visit: "Open →",
 				groups: {
 					desktop: "Tray apps · Windows and macOS · Free, open source",
@@ -218,7 +218,7 @@ export const ui = {
 						pricingKey: "paid",
 						title: "Vera",
 						subtitle: "AI-driven company data enrichment",
-						body: "Finds and enriches company data with AI. Built for sales teams and analysts who want clean, current information about their pipeline without the manual digging.",
+						body: "Finds and fills in company data with AI, for sales teams and analysts who want up-to-date information on the companies in their pipeline without looking it all up by hand.",
 						stack: "AI · B2B · SaaS",
 						imageAlt: "The Vera partnership inbox, three matched companies with match scores",
 						iconAlt: "Vera network mark",
@@ -231,7 +231,7 @@ export const ui = {
 						pricingKey: "paid",
 						title: ".NET SaaS",
 						subtitle: "Template to speed up new .NET projects",
-						body: "A template for starting .NET products quickly: production-ready, idiomatic backend code that stays easy to maintain after launch.",
+						body: "A starting point for new .NET products. The backend code is ready for production and stays easy to maintain after launch.",
 						stack: ".NET · SaaS",
 						imageAlt: "The .NET SaaS billing page, with plan, amount, and payment history",
 						iconAlt: ".NET SaaS grid mark",
@@ -245,7 +245,7 @@ export const ui = {
 						period: "2019-2023",
 						title: "Isho Group",
 						subtitle: "Thailand · CEO and Founder",
-						body: "Founded and registered an independent company in Thailand while employed full-time. Built and operated a small mining operation, achieving 2x return on operational costs through procurement, energy, and supply-chain optimization.",
+						body: "Founded and registered a company in Thailand while working full-time, and ran a small mining operation through it. Cutting procurement, energy, and supply-chain costs got it to a 2x return on operating costs.",
 					},
 					{
 						period: "Earlier",
@@ -310,11 +310,11 @@ export const ui = {
 			meta: {
 				title: "Writing",
 				description:
-					"Notes on engineering leadership, scaling teams, AI-augmented work, and what I'm thinking about.",
+					"Notes on engineering leadership, growing teams, working with AI, and whatever else I'm thinking about.",
 			},
 			eyebrow: "Notes",
 			heading: "Writing",
-			lead: "Notes on engineering leadership, scaling teams, AI-augmented work, and what I'm thinking about.",
+			lead: "Notes on engineering leadership, growing teams, working with AI, and whatever else I'm thinking about.",
 			featured: "Featured",
 			tags: "Tags",
 			viewAll: "View all",
@@ -349,7 +349,7 @@ export const ui = {
 				label: "Summary",
 				body: [
 					"Engineering leader with <strong>15+ years</strong> scaling teams and high-traffic systems across Southeast Asia and Latin America. Promoted within a year from Head of Backend to Head of Engineering at Seven Peaks Software, scaling the department from <strong>30 to 60 engineers across 27+ nationalities</strong> (4 principals, 12 tech leads) while owning a <strong>multi-million USD annual P&amp;L</strong>. Hired 20+ engineers across Thailand and abroad, redesigned the interview process, and halved quarterly attrition over the tenure.",
-					"At Thoughtworks, led technical strategy for 50+ engineers across 9 squads serving a leading Australian airline, and delivered a real-time <strong>1.5TB</strong> Kafka migration pipeline with built-in PII compliance. Earlier scaled a global travel platform from <strong>5M to 20M+ daily requests</strong>. Today: founder of two AI-augmented B2B SaaS products, enterprise AI training partner across APAC and Brazil (clients include a leading Thai utility), and 7-year organizer of .NET Conf Thailand.",
+					"At Thoughtworks, led technical strategy for 50+ engineers across 9 squads serving a leading Australian airline, and delivered a real-time <strong>1.5TB</strong> Kafka migration pipeline with built-in PII compliance. Earlier scaled a global travel platform from <strong>5M to 20M+ daily requests</strong>. Now founding two B2B SaaS products, running AI training for companies in APAC and Brazil (clients include a leading Thai utility), and 7-year organizer of .NET Conf Thailand.",
 				],
 			},
 			workHeading: "Work history",
@@ -359,7 +359,7 @@ export const ui = {
 					location: "Brazil",
 					title: "Founder & Technical Consultant",
 					body: [
-						"After scaling Seven Peaks Software's engineering department, transitioned to full-time founder and technical consultant. Building two AI-augmented B2B SaaS products: <strong>Vera</strong> (AI-driven company data enrichment platform) and <strong>.NET SaaS</strong> (template to speed up new .NET projects).",
+						"Left Seven Peaks Software to work full-time as a founder and technical consultant. Building two B2B SaaS products that use AI heavily: <strong>Vera</strong> (AI-driven company data enrichment platform) and <strong>.NET SaaS</strong> (template to speed up new .NET projects).",
 						"Running product operations end to end (B2B sales, customer support, marketing) through AI automation pipelines. Delivering AI and automation training (n8n, LLM workflows) for SMBs in Brazil. Technical consulting on backend architecture, AI integration, and system audits.",
 						"Shipped seven open-source desktop utilities in Rust for Windows and macOS: Cota, Cantos, Cafe, Luz, Porta, Sonus and Sua Vez.",
 					],
@@ -398,7 +398,7 @@ export const ui = {
 					title: "Isho Group",
 					role: "CEO and Founder",
 					body: [
-						"Founded and registered an independent company in Thailand while employed full-time. Built and operated a small mining operation, achieving 2x return on operational costs through procurement, energy, and supply-chain optimization.",
+						"Founded and registered a company in Thailand while working full-time, and ran a small mining operation through it. Cutting procurement, energy, and supply-chain costs got it to a 2x return on operating costs.",
 					],
 					stack: "Operations, Cost Optimization, International Supply Chain",
 				},
@@ -495,26 +495,26 @@ export const ui = {
 			meta: { title: "Diretor de Engenharia" },
 			heroName: "Jose Barbosa",
 			heroRole: "Diretor de Engenharia",
-			heroFocus: "AI Agents / SaaS / Team Building / Distributed Teams",
+			heroFocus: "Agentes de IA / SaaS / Formação de times / Times distribuídos",
 			heroBlurb:
-				"15 anos construindo times de engenharia entre Tailândia e Brasil. Ex-Thoughtworks; liderei um <strong>departamento de 60 engenheiros</strong> com <strong>P&amp;L de US$ 3M+</strong>, <strong>27 nacionalidades</strong>. Atualmente fundando produtos de IA e atuando como consultor no Brasil.",
+				"15 anos construindo times de engenharia entre Tailândia e Brasil. Ex-Thoughtworks; liderei um <strong>departamento de 60 engenheiros</strong> com <strong>P&amp;L de US$ 3M+</strong>, <strong>27 nacionalidades</strong>. Hoje crio produtos de IA e faço consultoria a partir do Brasil.",
 			scrollCue: "Resultados selecionados",
 			outcomesHeading: "Resultados selecionados",
 			outcomes: [
 				{
 					eyebrow: "01 / Escala",
 					heading: "Liderei um time de engenharia de 60 pessoas.",
-					body: "Na Seven Peaks Software, fui promovido de Head de Backend para Head de Engenharia em menos de um ano. Liderei o departamento de 60 engenheiros via 16 reports diretos (4 principals, 12 tech leads) de 27 nacionalidades, com times distribuídos na Índia e Europa Oriental.",
+					body: "Na Seven Peaks Software, fui promovido de Head de Backend para Head de Engenharia em menos de um ano. Liderei o departamento de 60 engenheiros com 16 liderados diretos (4 principals, 12 tech leads), de 27 nacionalidades, com times distribuídos na Índia e no Leste Europeu.",
 				},
 				{
 					eyebrow: "02 / Retenção",
-					heading: "Cortei a atrição trimestral pela metade.",
-					body: "1:1s quinzenais com 12 reports diretos e trimestrais com cada engenheiro do departamento. Redesenhei o processo de entrevista para filtrar fit cedo. Criei o Leader Development Program para tech leads.",
+					heading: "Reduzi o turnover trimestral pela metade.",
+					body: "1:1s quinzenais com 12 liderados diretos e trimestrais com cada engenheiro do departamento. Redesenhei o processo seletivo para avaliar fit logo no começo. Criei o Leader Development Program para tech leads.",
 				},
 				{
 					eyebrow: "03 / Receita",
 					heading: "Treinei times de engenharia corporativos em IA.",
-					body: "Duas trilhas: desenvolvimento aumentado por IA (workflows com LLM, padrões de codificação com agentes) e construção de AI Agents (n8n, orquestração de LLM, deploy em produção). Ambas começaram como workshops internos bimensais, viraram um programa pago corporativo. Clientes incluem uma das principais empresas de energia da Tailândia.",
+					body: "Duas trilhas: desenvolvimento assistido por IA (workflows com LLM, programação com agentes) e criação de agentes de IA (n8n, orquestração de LLM, deploy em produção). As duas começaram como workshops internos bimensais e viraram um programa corporativo pago. Clientes incluem uma das principais empresas de energia da Tailândia.",
 				},
 			],
 			featuredHeading: "Em destaque",
@@ -523,36 +523,36 @@ export const ui = {
 			meta: {
 				title: "Sobre",
 				description:
-					"Diretor de Engenharia que escalou times na Tailândia e no Brasil. Agora fundando produtos de IA e consultando de São Paulo.",
+					"Diretor de Engenharia que escalou times na Tailândia e no Brasil. Hoje cria produtos de IA e faz consultoria em São Paulo.",
 			},
 			eyebrow: "Perfil",
 			heading: "Sobre",
 			photoAlt: "Jose Barbosa, retrato casual",
 			hi: "Oi, eu sou o Jose.",
 			intro: [
-				"Cresci em São Paulo e comecei a programar profissionalmente em 2010. Em 2017 eu já estava em Bangkok: primeiro como engenheiro sênior na Jetabroad, depois tech lead na Thoughtworks, e mais recentemente Head de Engenharia na Seven Peaks Software, onde transformei um time de backend de 30 pessoas para um departamento de 60 engenheiros de 27 nacionalidades.",
-				"Oito anos e muitas conferências, contratações e retros depois, voltei pro Brasil. Cheguei em casa no fim de 2025 com uma ideia mais clara do que quero construir: usar o que aprendi escalando times pra escalar um produto.",
-				"Estou fundando dois produtos B2B SaaS aumentados por IA: Vera, uma plataforma de enriquecimento de dados corporativos, e um template SaaS em .NET para começar novos projetos mais rápido. Nas horas vagas lanço pequenos apps de bandeja open source para Windows e macOS. Também dou treinamentos corporativos de IA na APAC e no Brasil, e pego consultoria de forma seletiva.",
-				"Eu leio bastante, treino musculação, organizo meetups, e me importo em tratar engenheiros como adultos.",
+				"Cresci em São Paulo e comecei a programar profissionalmente em 2010. Em 2017 eu já estava em Bangkok: primeiro como engenheiro sênior na Jetabroad, depois tech lead na Thoughtworks, e mais recentemente Head de Engenharia na Seven Peaks Software, onde um time de backend de 30 pessoas virou um departamento de 60 engenheiros de 27 nacionalidades.",
+				"Oito anos e muitas conferências, contratações e retros depois, voltei pro Brasil no fim de 2025. Quero pegar o que aprendi fazendo times crescerem e colocar em produtos meus.",
+				"Hoje estou construindo dois SaaS B2B com bastante IA dentro: a Vera, que enriquece dados de empresas, e um template SaaS em .NET para começar projetos novos mais rápido. Nas horas vagas lanço apps pequenos e open source para Windows e macOS, daqueles que ficam ao lado do relógio. Também dou treinamentos de IA para empresas na APAC e no Brasil, e pego alguns projetos de consultoria.",
+				"Leio bastante, faço musculação, organizo meetups e faço questão de tratar engenheiro como adulto.",
 			],
 			now: {
 				heading: "Agora",
 				items: [
-					"<strong>Construindo.</strong> Vera (enriquecimento de dados corporativos com IA), um template SaaS em .NET para novos projetos, e apps de bandeja como Cota, Porta e Sua Vez.",
-					"<strong>Treinando.</strong> Workshops corporativos de IA (n8n, workflows com LLM, automação) para clientes na APAC e no Brasil.",
-					"<strong>Consultando.</strong> De forma seletiva, em arquitetura de engenharia, integração de IA e escalonamento de times.",
+					"Construindo a Vera (enriquecimento de dados de empresas com IA), um template SaaS em .NET para projetos novos e apps pequenos como Cota, Porta e Sua Vez.",
+					"Dando workshops de IA (n8n, workflows com LLM, automação) para empresas na APAC e no Brasil.",
+					"Fazendo consultoria em arquitetura, integração de IA e crescimento de times de engenharia, quando o projeto faz sentido.",
 				],
 			},
 			beyond: {
 				heading: "Além da engenharia",
 				body: [
-					"Já fundei algumas empresas antes dessa. <strong>Rose</strong> foi uma startup da época da faculdade que virou finalista do Microsoft Imagine Cup e captou mais de US$ 100 mil. <strong>Unline</strong> veio depois com US$ 15 mil de seed. Mais tarde, enquanto trabalhava em tempo integral em Bangkok, fundei o <strong>Isho Group</strong>, uma pequena operação de mineração na Tailândia que retornou 2x sobre os custos operacionais via otimização de compras e cadeia de suprimentos.",
-					"Co-organizo o <strong>.NET Conf Thailand</strong>, a maior conferência .NET da Tailândia (~200 participantes, 7 anos e contando), e já palestrei em conferências pela América Latina e Sudeste Asiático. Eu invisto, treino, e passo muitos fins de semana em pipelines de automação com IA.",
+					"Já fundei algumas empresas antes dessa. <strong>Rose</strong> foi uma startup da época da faculdade que virou finalista do Microsoft Imagine Cup e captou mais de US$ 100 mil. <strong>Unline</strong> veio depois com US$ 15 mil de seed. Mais tarde, enquanto trabalhava em tempo integral em Bangkok, fundei o <strong>Isho Group</strong>, uma pequena operação de mineração na Tailândia. Com compras e cadeia de suprimentos mais enxutas, ela chegou a um retorno de 2x sobre os custos operacionais.",
+					"Co-organizo a <strong>.NET Conf Thailand</strong>, a maior conferência .NET da Tailândia (~200 participantes, há 7 anos), e já palestrei em conferências pela América Latina e pelo Sudeste Asiático. Invisto, treino e passo muitos fins de semana mexendo em pipelines de automação com IA.",
 				],
 			},
 			reading: {
 				heading: "Leituras e interesses",
-				lead: "Eu leio bastante. Os livros aos quais eu volto:",
+				lead: "Eu leio bastante. Os livros que eu sempre releio:",
 				items: [
 					"<strong>Engenharia e liderança:</strong> <em>The Making of a Manager</em>, <em>Managing Humans</em>, <em>Leading Effective Engineering Teams</em>",
 					"<strong>Times:</strong> <em>Os 5 Desafios das Equipes</em>",
@@ -561,28 +561,28 @@ export const ui = {
 					"<strong>Estoicismo:</strong> <em>Meditações</em>, <em>Cartas de um Estoico</em>, <em>Tao Te Ching</em>",
 				],
 				closing:
-					"Temas que eu mais penso: design organizacional, IA e automação, estratégia de produto, e tomada de decisão estoica.",
+					"Os temas em que mais penso: design organizacional, IA e automação, estratégia de produto e tomada de decisão estoica.",
 			},
 			connect: {
 				heading: "Contato",
-				body: 'A melhor forma de me contatar é via <a href="{contactUrl}">o formulário de contato</a>. Você também me encontra no <a href="https://github.com/kidchenko" rel="noreferrer" target="_blank">GitHub</a> e no <a href="https://linkedin.com/in/kidchenko" rel="noreferrer" target="_blank">LinkedIn</a>.',
+				body: 'O melhor jeito de falar comigo é pelo <a href="{contactUrl}">formulário de contato</a>. Você também me encontra no <a href="https://github.com/kidchenko" rel="noreferrer" target="_blank">GitHub</a> e no <a href="https://linkedin.com/in/kidchenko" rel="noreferrer" target="_blank">LinkedIn</a>.',
 			},
 		},
 		portfolio: {
 			meta: {
 				title: "Portfólio",
 				description:
-					"Apps de desktop e produtos SaaS que estou construindo, empresas que fundei antes, e open source.",
+					"Apps de desktop e produtos SaaS que estou construindo, empresas que fundei antes e open source.",
 			},
 			eyebrow: "Trabalho",
 			heading: "Portfólio",
-			lead: "O que estou construindo agora, empresas que fundei antes, e código no GitHub.",
+			lead: "O que estou construindo agora, empresas que fundei antes e código no GitHub.",
 			apps: {
 				heading: "Apps",
-				lead: "Pequenos apps de bandeja para Windows e macOS, todos grátis e open source, e dois SaaS ainda no estaleiro.",
+				lead: "Apps pequenos que ficam na barra de tarefas do Windows e na barra de menus do macOS, todos grátis e open source. E dois SaaS que ainda estou construindo.",
 				visit: "Abrir →",
 				groups: {
-					desktop: "Apps de bandeja · Windows e macOS · Grátis, open source",
+					desktop: "Apps para Windows e macOS · Grátis, open source",
 					saas: "SaaS · Em construção",
 				},
 				items: [
@@ -593,8 +593,8 @@ export const ui = {
 						pricing: "Grátis",
 						pricingKey: "free",
 						title: "Cafe",
-						subtitle: "Mantém o computador acordado, da bandeja",
-						body: "Uma xícara de café na bandeja. Clique e o computador fica acordado até você clicar de novo ou um timer acabar. Xícara com vapor quer dizer que a tela também fica ligada. Cerca de meio megabyte, nada mais para instalar.",
+						subtitle: "Mantém o computador acordado com um clique",
+						body: "Uma xícara de café ao lado do relógio. Clique e o computador fica acordado até você clicar de novo ou um timer acabar. Xícara com vapor quer dizer que a tela também fica ligada. Cerca de meio megabyte, sem precisar instalar mais nada.",
 						stack: "Rust · Windows · macOS",
 						href: "https://josebarbosa.dev/cafe/",
 						iconAlt: "Ícone de xícara do Cafe",
@@ -607,7 +607,7 @@ export const ui = {
 						pricingKey: "free",
 						title: "Cantos",
 						subtitle: "Hot corners, com as ações que você escolher",
-						body: "Joga o cursor num canto e alguma coisa acontece: mostrar a área de trabalho, bloquear, tirar um print, ou abrir qualquer programa. Ele espera um instante antes de disparar, então movimentos acidentais não fazem nada. No Mac, edita os hot corners do próprio sistema e adiciona ações dele. Também roda no Linux.",
+						body: "Jogue o cursor num canto e algo acontece: mostrar a área de trabalho, bloquear a tela, tirar um print ou abrir qualquer programa. Ele espera um instante antes de disparar, então movimentos acidentais não fazem nada. No Mac, ele edita os hot corners do próprio sistema e acrescenta ações próprias. Também roda no Linux.",
 						stack: "Rust · Windows · macOS · Linux",
 						href: "https://josebarbosa.dev/cantos/",
 						imageAlt:
@@ -621,11 +621,11 @@ export const ui = {
 						pricing: "Grátis",
 						pricingKey: "free",
 						title: "Cota",
-						subtitle: "Seus limites de uso do Claude, na bandeja",
-						body: "Um anel na bandeja que enche conforme o seu uso do Claude. Fica âmbar em 75% e vermelho em 90%, e projeta quando você vai estourar no ritmo atual. Cerca de um megabyte, sem conta, sem telemetria.",
+						subtitle: "Seus limites de uso do Claude, sempre à vista",
+						body: "Um anel ao lado do relógio que vai enchendo conforme você usa o Claude. Fica âmbar em 75% e vermelho em 90%, e estima quando o limite vai estourar no ritmo atual. Cerca de um megabyte, sem conta, sem telemetria.",
 						stack: "Rust · Windows · macOS",
 						href: "https://josebarbosa.dev/cota/",
-						imageAlt: "O painel do Cota na bandeja, uso semanal em 88 por cento, em âmbar",
+						imageAlt: "O painel do Cota, uso semanal em 88 por cento, em âmbar",
 						iconAlt: "Anel de uso do Cota",
 					},
 					{
@@ -636,7 +636,7 @@ export const ui = {
 						pricingKey: "free",
 						title: "Luz",
 						subtitle: "Esquenta a tela à noite, como o f.lux",
-						body: "No pôr do sol, muda a tela para uma luz quente de abajur, devagar o bastante para você não perceber, e volta de manhã. Usa as cores e atalhos do f.lux, calcula o nascer do sol sem pedir sua localização, e nunca usa a rede.",
+						body: "Quando o sol se põe, a tela vai ficando com uma luz quente de abajur, tão devagar que você nem percebe, e volta ao normal de manhã. Usa as cores e os atalhos do f.lux, calcula o nascer do sol sem pedir sua localização e nunca acessa a rede.",
 						stack: "Rust · Windows · macOS",
 						href: "https://josebarbosa.dev/luz/",
 						iconAlt: "Ícone de sol do Luz",
@@ -648,8 +648,8 @@ export const ui = {
 						pricing: "Grátis",
 						pricingKey: "free",
 						title: "Porta",
-						subtitle: "O que está escutando nas suas portas, e como parar",
-						body: "A porta 3000 já está em uso, e um de seis processos node está com ela. O Porta lista cada servidor que você subiu pelo terminal, com porta, comando e tempo no ar. Abra no navegador ou pare em dois cliques.",
+						subtitle: "Quem está ocupando suas portas, e um jeito de derrubar",
+						body: "A porta 3000 já está em uso, e um de seis processos node está com ela. O Porta lista cada servidor que você subiu pelo terminal, com porta, comando e tempo no ar. Dá para abrir no navegador ou derrubar em dois cliques.",
 						stack: "Rust · Windows · macOS",
 						href: "https://josebarbosa.dev/porta/",
 						iconAlt: "Ícone de porta do Porta",
@@ -662,7 +662,7 @@ export const ui = {
 						pricingKey: "free",
 						title: "Sonus",
 						subtitle: "Um controle de volume para cada app",
-						body: "A call está baixa e a música está alta. Clique no Sonus na bandeja e cada app tocando som ganha um slider, um medidor de nível e um botão de mudo, com o dispositivo de saída no topo. O macOS não tem volume por app.",
+						body: "A call está baixa e a música está alta. Clique no Sonus e cada app que está tocando som ganha um slider, um medidor de nível e um botão de mudo, com o dispositivo de saída no topo. O macOS não tem volume por app.",
 						stack: "Rust · Windows · macOS",
 						href: "https://josebarbosa.dev/sonus/",
 						imageAlt: "O mixer do Sonus, com sliders para Spotify, Brave, Slack, Discord e Teams",
@@ -676,7 +676,7 @@ export const ui = {
 						pricingKey: "free",
 						title: "Sua Vez",
 						subtitle: "Avisa quando seu agente de código precisa de você",
-						body: "Um balão na bandeja que fica âmbar quando um agente está esperando uma permissão e verde quando termina. Funciona com Claude Code, Codex, Gemini CLI e Devin. Clique numa sessão para trazer o terminal dela para frente.",
+						body: "Um balão ao lado do relógio que fica âmbar quando um agente está esperando você aprovar algo e verde quando ele termina. Funciona com Claude Code, Codex, Gemini CLI e Devin. Clique numa sessão para trazer o terminal dela para frente.",
 						stack: "Rust · Windows · macOS",
 						href: "https://josebarbosa.dev/suavez/",
 						iconAlt: "Ícone de balão do Sua Vez",
@@ -689,7 +689,7 @@ export const ui = {
 						pricingKey: "paid",
 						title: "Vera",
 						subtitle: "Enriquecimento de dados corporativos com IA",
-						body: "Busca e enriquece dados de empresas com IA. Feito para times de vendas e analistas que querem informação limpa e atualizada sobre o pipeline, sem garimpo manual.",
+						body: "Busca e completa dados de empresas com IA, para times de vendas e analistas que querem informação atualizada sobre as empresas do pipeline sem pesquisar tudo na mão.",
 						stack: "IA · B2B · SaaS",
 						imageAlt: "A inbox de parcerias da Vera, três empresas com índice de compatibilidade",
 						iconAlt: "Marca de rede da Vera",
@@ -702,7 +702,7 @@ export const ui = {
 						pricingKey: "paid",
 						title: ".NET SaaS",
 						subtitle: "Template para acelerar novos projetos .NET",
-						body: "Um template para começar produtos .NET rápido: código backend pronto pra produção, idiomático e fácil de manter depois do lançamento.",
+						body: "Um ponto de partida para produtos .NET novos. O código de backend já vem pronto para produção e continua fácil de manter depois do lançamento.",
 						stack: ".NET · SaaS",
 						imageAlt:
 							"A página de cobrança do .NET SaaS, com plano, valor e histórico de pagamentos",
@@ -717,25 +717,25 @@ export const ui = {
 						period: "2019-2023",
 						title: "Isho Group",
 						subtitle: "Tailândia · CEO e Fundador",
-						body: "Fundei e registrei uma empresa independente na Tailândia enquanto trabalhava em tempo integral. Construí e operei uma pequena operação de mineração, atingindo retorno 2x sobre custos operacionais via otimização de compras, energia, e cadeia de suprimentos.",
+						body: "Fundei e registrei uma empresa na Tailândia enquanto trabalhava em tempo integral, e por ela tocava uma pequena operação de mineração. Cortando custos de compras, energia e cadeia de suprimentos, chegamos a um retorno de 2x sobre os custos operacionais.",
 					},
 					{
 						period: "Anterior",
 						title: "Unline",
 						subtitle: "Brasil · Co-fundador, Germinadora",
-						body: "Segunda startup da era da incubadora Germinadora. Fechou rodada seed de US$ 15 mil para custear o desenvolvimento inicial.",
+						body: "Segunda startup da época da incubadora Germinadora. Fechou rodada seed de US$ 15 mil para custear o desenvolvimento inicial.",
 					},
 					{
 						period: "Anterior",
 						title: "Rose",
 						subtitle: "Brasil · Co-fundador, Germinadora",
-						body: "Startup B2C fundada na era da incubadora Germinadora. Finalista do Microsoft Imagine Cup; captou mais de US$ 100 mil em rodada inicial.",
+						body: "Startup B2C fundada na época da incubadora Germinadora. Finalista do Microsoft Imagine Cup; captou mais de US$ 100 mil em rodada inicial.",
 					},
 				],
 			},
 			oss: {
 				heading: "Open source",
-				body: "Quase tudo que eu construo vai parar no GitHub. Ultimamente: os apps de bandeja acima, boilerplates .NET, e ferramentas para trabalhar com agentes de IA.",
+				body: "Quase tudo que eu construo vai parar no GitHub. Ultimamente, isso inclui os apps acima, boilerplates .NET e ferramentas para trabalhar com agentes de IA.",
 				link: "Ver tudo no GitHub →",
 			},
 		},
@@ -743,11 +743,11 @@ export const ui = {
 			meta: {
 				title: "Contato",
 				description:
-					"Entre em contato com Jose Barbosa. Para consultoria, treinamentos de IA, ou qualquer coisa que mereça uma resposta de verdade.",
+					"Entre em contato com Jose Barbosa. Para consultoria, treinamentos de IA ou qualquer coisa que mereça uma resposta de verdade.",
 			},
 			eyebrow: "Canais",
 			heading: "Contato",
-			lead: "Manda uma mensagem. Tenho interesse em consultoria, treinamentos de IA, e conversas sobre engenharia em escala. Quanto mais específica a mensagem, mais rápida a resposta.",
+			lead: "Manda uma mensagem. Tenho interesse em consultoria, treinamentos de IA e conversas sobre engenharia em escala. Quanto mais específica a mensagem, mais rápida a resposta.",
 			form: {
 				name: "Nome",
 				email: "E-mail",
@@ -756,8 +756,8 @@ export const ui = {
 				message: "Mensagem",
 				submit: "Enviar mensagem",
 				sending: "Enviando...",
-				success: "Mensagem enviada. Eu volto pra você.",
-				error: "Algo deu errado. Tente de novo, ou mande direto para kidchenko@gmail.com.",
+				success: "Mensagem enviada. Te respondo assim que puder.",
+				error: "Algo deu errado. Tente de novo ou mande direto para kidchenko@gmail.com.",
 				honeypotLabel: "Deixe este campo vazio",
 			},
 			other: {
@@ -775,18 +775,18 @@ export const ui = {
 					},
 				],
 				footnote:
-					'Aviso: prospecção fria, spam genérico de recrutador, e pedidos de "papo rápido" sem contexto costumam ser arquivados.',
+					'Aviso: prospecção fria, spam genérico de recrutador e pedidos de "papo rápido" sem contexto costumam ser arquivados.',
 			},
 		},
 		writing: {
 			meta: {
 				title: "Blog",
 				description:
-					"Notas sobre liderança em engenharia, escalonamento de times, trabalho aumentado por IA, e o que ando pensando.",
+					"Notas sobre liderança em engenharia, crescimento de times, trabalho com IA e o que mais eu ando pensando.",
 			},
 			eyebrow: "Notas",
 			heading: "Blog",
-			lead: "Notas sobre liderança em engenharia, escalonamento de times, trabalho aumentado por IA, e o que ando pensando.",
+			lead: "Notas sobre liderança em engenharia, crescimento de times, trabalho com IA e o que mais eu ando pensando.",
 			featured: "Em destaque",
 			tags: "Tags",
 			viewAll: "Ver todas",
@@ -820,8 +820,8 @@ export const ui = {
 			summary: {
 				label: "Resumo",
 				body: [
-					"Líder de engenharia com <strong>15+ anos</strong> escalando times e sistemas de alto tráfego pelo Sudeste Asiático e América Latina. Promovido em menos de um ano de Head de Backend para Head de Engenharia na Seven Peaks Software, escalando o departamento de <strong>30 para 60 engenheiros de 27+ nacionalidades</strong> (4 principals, 12 tech leads) com <strong>P&amp;L anual em milhões de USD</strong>. Contratei 20+ engenheiros na Tailândia e no exterior, redesenhei o processo de entrevista, e cortei pela metade a atrição trimestral ao longo do período.",
-					"Na Thoughtworks, liderei a estratégia técnica para 50+ engenheiros em 9 squads atendendo uma das maiores companhias aéreas da Austrália, e entreguei um pipeline de migração Kafka em tempo real de <strong>1.5TB</strong> com compliance de PII embutido. Antes, escalei uma plataforma global de viagens de <strong>5M para 20M+ requisições diárias</strong>. Hoje: fundador de dois SaaS B2B aumentados por IA, parceiro de treinamento corporativo em IA pela APAC e Brasil (clientes incluem uma das principais empresas de energia da Tailândia), e há 7 anos organizador da .NET Conf Thailand.",
+					"Líder de engenharia com <strong>15+ anos</strong> escalando times e sistemas de alto tráfego pelo Sudeste Asiático e América Latina. Promovido em menos de um ano de Head de Backend para Head de Engenharia na Seven Peaks Software, escalando o departamento de <strong>30 para 60 engenheiros de 27+ nacionalidades</strong> (4 principals, 12 tech leads) com <strong>P&amp;L anual em milhões de USD</strong>. Contratei 20+ engenheiros na Tailândia e no exterior, redesenhei o processo seletivo e reduzi o turnover trimestral pela metade ao longo do período.",
+					"Na Thoughtworks, liderei a estratégia técnica para 50+ engenheiros em 9 squads atendendo uma das maiores companhias aéreas da Austrália, e entreguei um pipeline de migração Kafka em tempo real de <strong>1,5 TB</strong> com compliance de PII embutido. Antes, escalei uma plataforma global de viagens de <strong>5M para 20M+ requisições diárias</strong>. Hoje fundo dois SaaS B2B, dou treinamentos de IA para empresas na APAC e no Brasil (clientes incluem uma das principais empresas de energia da Tailândia), e há 7 anos organizador da .NET Conf Thailand.",
 				],
 			},
 			workHeading: "Histórico profissional",
@@ -831,9 +831,9 @@ export const ui = {
 					location: "Brasil",
 					title: "Fundador e Consultor Técnico",
 					body: [
-						"Após escalar o departamento de engenharia da Seven Peaks Software, transicionei para fundador em tempo integral e consultor técnico. Construindo dois produtos B2B SaaS aumentados por IA: <strong>Vera</strong> (plataforma de enriquecimento de dados corporativos com IA) e <strong>.NET SaaS</strong> (template para acelerar novos projetos .NET).",
-						"Operando o produto ponta a ponta (vendas B2B, suporte ao cliente, marketing) com pipelines de automação com IA. Entregando treinamentos de IA e automação (n8n, workflows com LLM) para PMEs no Brasil. Consultoria técnica em arquitetura backend, integração de IA e auditoria de sistemas.",
-						"Lancei sete utilitários de desktop open source em Rust para Windows e macOS: Cota, Cantos, Cafe, Luz, Porta, Sonus e Sua Vez.",
+						"Saí da Seven Peaks Software para atuar em tempo integral como fundador e consultor técnico. Construindo dois SaaS B2B com uso intenso de IA: <strong>Vera</strong> (plataforma de enriquecimento de dados corporativos com IA) e <strong>.NET SaaS</strong> (template para acelerar novos projetos .NET).",
+						"Opero o produto de ponta a ponta (vendas B2B, suporte ao cliente, marketing) com pipelines de automação com IA. Dou treinamentos de IA e automação (n8n, workflows com LLM) para PMEs no Brasil. Consultoria técnica em arquitetura backend, integração de IA e auditoria de sistemas.",
+						"Lancei sete apps open source em Rust para Windows e macOS: Cota, Cantos, Cafe, Luz, Porta, Sonus e Sua Vez.",
 					],
 					stack: "IA, LLMs, n8n, SaaS, Vendas B2B, .NET, Node.js, Operações de Produto",
 				},
@@ -841,15 +841,15 @@ export const ui = {
 					period: "08/2022 - 12/2025",
 					location: "Bangkok, Tailândia",
 					title: "Seven Peaks Software",
-					role: "Head de Backend Engineering, Head de Engenharia",
+					role: "Head de Backend, Head de Engenharia",
 					body: [
-						"<strong>Head de Backend.</strong> Entrei para estruturar o departamento de backend. Mapeei pontos fortes, fracos e gaps operacionais nos primeiros 90 dias. Estabeleci sessões semanais de compartilhamento de conhecimento, workshops técnicos bimensais (DDD, OWASP, IA, Performance), newsletters mensais do time, e quatro times de governança (Onboarding, Process & Practices, Recruitment, Community & Mastery). Depois, o programa de workshops virou um produto pago: treinamento em IA para clientes corporativos, incluindo uma das principais empresas de energia da Tailândia.",
-						"<strong>Head de Engenharia.</strong> Promovido em menos de um ano. Unifiquei backend, web e mobile num único departamento com 4 principals e 12 tech leads, e cresci de 30 para 60 engenheiros de 27+ nacionalidades, com times distribuídos na Índia e Europa Oriental. Responsável por um P&amp;L anual em milhões de USD.",
-						"Contratei 20+ engenheiros na Tailândia e no exterior e redesenhei o processo de entrevista para melhorar a qualidade e a velocidade da contratação em escala. Mantive 1:1s quinzenais com 12 reports diretos e 1:1s trimestrais com cada engenheiro do departamento. As iniciativas de retenção que saíram dessas conversas cortaram a atrição trimestral pela metade.",
+						"<strong>Head de Backend.</strong> Entrei para estruturar o departamento de backend. Mapeei pontos fortes, fracos e gaps operacionais nos primeiros 90 dias. Estabeleci sessões semanais de compartilhamento de conhecimento, workshops técnicos bimensais (DDD, OWASP, IA, Performance), newsletters mensais do time e quatro times de governança (Onboarding, Process & Practices, Recruitment, Community & Mastery). Depois, o programa de workshops virou um produto pago: treinamento em IA para clientes corporativos, incluindo uma das principais empresas de energia da Tailândia.",
+						"<strong>Head de Engenharia.</strong> Promovido em menos de um ano. Unifiquei backend, web e mobile num único departamento com 4 principals e 12 tech leads, e fiz o departamento crescer de 30 para 60 engenheiros de 27+ nacionalidades, com times distribuídos na Índia e no Leste Europeu. Responsável por um P&amp;L anual em milhões de USD.",
+						"Contratei 20+ engenheiros na Tailândia e no exterior e redesenhei o processo seletivo para contratar melhor e mais rápido em escala. Mantive 1:1s quinzenais com 12 liderados diretos e 1:1s trimestrais com cada engenheiro do departamento. As ações de retenção que saíram dessas conversas reduziram o turnover trimestral pela metade.",
 						"Criei o Leader Development Program (LDP) para desenvolver tech leads. Liderei três ciclos completos de avaliação usando uma ferramenta interna pra puxar dados e métricas do time de engenharia. Construí automação interna que economiza 600K+ THB/ano em custos operacionais e de cloud.",
 					],
 					stack:
-						"Treinamento Corporativo de IA, Escalonamento de Times, Gestão de P&L, Times Distribuídos, Cultura de Engenharia, Azure, AWS",
+						"Treinamento Corporativo de IA, Crescimento de Times, Gestão de P&L, Times Distribuídos, Cultura de Engenharia, Azure, AWS",
 				},
 				{
 					period: "01/2020 - 08/2022",
@@ -857,8 +857,8 @@ export const ui = {
 					title: "Thoughtworks",
 					role: "Senior Software Engineer, Tech Lead, Principal Engineer",
 					body: [
-						"Liderei a estratégia técnica e a entrega de uma conta de 50+ pessoas em 9 squads, desenvolvendo uma API omnichannel para uma das maiores companhias aéreas da Austrália. Responsável pela arquitetura, estratégia de testes, e ciclo completo de desenvolvimento.",
-						"Projetei e entreguei um pipeline de migração de dados em tempo real processando <strong>1.5TB+</strong> usando Kafka, com reconciliação e compliance de PII embutidos para dados governamentais sensíveis. Performance partner de 2 engenheiros, com mentoria contínua e desenvolvimento de carreira. Reconhecido como senior leadership tanto pelo cliente quanto dentro da Thoughtworks.",
+						"Liderei a estratégia técnica e a entrega de uma conta de 50+ pessoas em 9 squads, desenvolvendo uma API omnichannel para uma das maiores companhias aéreas da Austrália. Responsável pela arquitetura, pela estratégia de testes e pelo ciclo completo de desenvolvimento.",
+						"Projetei e entreguei um pipeline de migração de dados em tempo real processando <strong>1,5 TB+</strong> com Kafka, com reconciliação e compliance de PII embutidos para dados governamentais sensíveis. Performance partner de 2 engenheiros, com mentoria contínua e desenvolvimento de carreira. Reconhecido como liderança sênior tanto pelo cliente quanto dentro da Thoughtworks.",
 					],
 					stack:
 						".NET, AWS, Kafka, Sistemas Distribuídos, Migração de Dados, Compliance PII, Arquitetura, Mentoria",
@@ -870,7 +870,7 @@ export const ui = {
 					title: "Isho Group",
 					role: "CEO e Fundador",
 					body: [
-						"Fundei e registrei uma empresa independente na Tailândia enquanto trabalhava em tempo integral. Construí e operei uma pequena operação de mineração, atingindo retorno 2x sobre custos operacionais via otimização de compras, energia e cadeia de suprimentos.",
+						"Fundei e registrei uma empresa na Tailândia enquanto trabalhava em tempo integral, e por ela tocava uma pequena operação de mineração. Cortando custos de compras, energia e cadeia de suprimentos, chegamos a um retorno de 2x sobre os custos operacionais.",
 					],
 					stack: "Operações, Otimização de Custos, Cadeia de Suprimentos Internacional",
 				},
@@ -880,7 +880,7 @@ export const ui = {
 					title: "Jetabroad",
 					role: "Senior Software Engineer, Lead Software Engineer",
 					body: [
-						"Primeira posição internacional. Escalei a plataforma de <strong>5M para 20M de requisições diárias</strong>, crescendo a infraestrutura de 20 para 100 instâncias AWS. Otimizei o logging de queries GDS pra consolidar chamadas de API redundantes, reduzindo custo AWS em ~US$ 2K+/mês. Construí pipelines de dados para reporting de negócio. Responsável por ciclos de release quinzenais com A/B testing.",
+						"Primeiro emprego fora do Brasil. Escalei a plataforma de <strong>5M para 20M de requisições diárias</strong>, crescendo a infraestrutura de 20 para 100 instâncias AWS. Otimizei o logging de queries GDS pra consolidar chamadas de API redundantes, reduzindo custo AWS em ~US$ 2K+/mês. Construí pipelines de dados para reporting de negócio. Responsável por ciclos de release quinzenais com A/B testing.",
 					],
 					stack:
 						".NET, AWS, Sistemas de Alta Escala, Otimização de Performance, Redução de Custos, Pipelines de Dados",
@@ -914,7 +914,7 @@ export const ui = {
 			skills: [
 				{
 					label: "Liderança e pessoas",
-					body: "Escalonamento de times (30 para 60, com 27+ nacionalidades); times distribuídos (Índia, Europa Oriental); programas de 1:1 em escala (quinzenais com reports, trimestrais com cada engenheiro); ciclos de avaliação de performance; coaching e mentoria; Leader Development Programs; OKRs; cultura de engenharia.",
+					body: "Crescimento de times (30 para 60, com 27+ nacionalidades); times distribuídos (Índia, Leste Europeu); programas de 1:1 em escala (quinzenais com liderados, trimestrais com cada engenheiro); ciclos de avaliação de performance; coaching e mentoria; Leader Development Programs; OKRs; cultura de engenharia.",
 				},
 				{
 					label: "Estratégia e visão",
@@ -926,11 +926,11 @@ export const ui = {
 				},
 				{
 					label: "Operações e negócio",
-					body: "Gestão de P&L em escala de milhões de USD; orçamento e planejamento de capacidade; previsão de receita; otimização de fornecedores e custos; gestão de risco; gestão de stakeholders; contratação em escala; palestras públicas.",
+					body: "Gestão de P&L em escala de milhões de USD; orçamento e planejamento de capacidade; previsão de receita; otimização de fornecedores e custos; gestão de risco; gestão de stakeholders; contratação em escala; falar em público.",
 				},
 				{
 					label: "IA e automação",
-					body: "Design e entrega de workshops corporativos de IA; desenvolvimento de produto aumentado por LLM; automação com IA em vendas, marketing e suporte; automação de workflow com n8n; capacitação de times de engenharia em IA; operações de SaaS orientadas por IA.",
+					body: "Design e entrega de workshops corporativos de IA; desenvolvimento de produto com LLMs; automação com IA em vendas, marketing e suporte; automação de workflow com n8n; capacitação de times de engenharia em IA; operações de SaaS orientadas por IA.",
 				},
 				{
 					label: "Técnico",
@@ -939,7 +939,7 @@ export const ui = {
 			],
 			community: {
 				label: "Comunidade e palestras",
-				body: "Co-organizador e palestrante na <strong>.NET Conf Thailand</strong> desde 2018 (7 anos). É a maior conferência .NET da Tailândia, com ~200 participantes por ano e apoio da Microsoft. Cresci o time da conferência de 3 para 7 pessoas. Organizador do <strong>.NET Bangkok Meetup</strong>. Palestrante em eventos técnicos pela América Latina e Sudeste Asiático. <strong>Finalista do Microsoft Imagine Cup</strong>.",
+				body: "Co-organizador e palestrante na <strong>.NET Conf Thailand</strong> desde 2018 (7 anos). É a maior conferência .NET da Tailândia, com ~200 participantes por ano e apoio da Microsoft. Aumentei o time da conferência de 3 para 7 pessoas. Organizador do <strong>.NET Bangkok Meetup</strong>. Palestrante em eventos técnicos pela América Latina e Sudeste Asiático. <strong>Finalista do Microsoft Imagine Cup</strong>.",
 			},
 			learning: {
 				label: "Aprendizado contínuo",
