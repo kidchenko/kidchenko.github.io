@@ -1,4 +1,5 @@
 ---
+import { LEAD_WEBHOOK_URL } from "astro:env/client";
 import { type Lang, languages } from "@/i18n/ui";
 import { useTranslations } from "@/i18n/utils";
 import PageLayout from "@/layouts/Base.astro";
@@ -37,6 +38,8 @@ const ui = isPt
 		action="https://formspree.io/f/mzdozjng"
 		class="ct-form"
 		data-error={t.form.error}
+		data-lang={lang}
+		data-webhook={LEAD_WEBHOOK_URL}
 		data-sending={t.form.sending}
 		data-submit={t.form.submit}
 		data-success={t.form.success}
@@ -51,6 +54,19 @@ const ui = isPt
 		<div class="ct-field">
 			<label class="ct-label" for="email">{t.form.email}</label>
 			<input autocomplete="email" class="ct-input" id="email" name="email" required type="email" />
+		</div>
+
+		<div class="ct-field">
+			<label class="ct-label" for="topic">{t.form.topic}</label>
+			<div class="ct-select-wrap">
+				<select class="ct-input ct-select" id="topic" name="topic" required>
+					{
+						Object.entries(t.form.topics).map(([value, label]) => (
+							<option value={value}>{label}</option>
+						))
+					}
+				</select>
+			</div>
 		</div>
 
 		<div class="ct-field">
@@ -164,6 +180,27 @@ const ui = isPt
 		border-bottom-color: var(--color-accent);
 		border-bottom-width: 2px;
 		padding-bottom: calc(0.65rem - 1px);
+	}
+	.ct-select-wrap {
+		position: relative;
+	}
+	.ct-select-wrap::after {
+		content: "↓";
+		position: absolute;
+		right: 0.25rem;
+		top: 50%;
+		transform: translateY(-50%);
+		font-family: var(--font-mono);
+		color: var(--color-muted);
+		pointer-events: none;
+	}
+	.ct-select {
+		appearance: none;
+		padding-right: 1.5rem;
+		cursor: pointer;
+	}
+	.ct-select option {
+		color: initial;
 	}
 	.ct-textarea {
 		min-height: 9rem;
@@ -336,13 +373,46 @@ const ui = isPt
 			submitLabel.textContent = sendingMsg;
 
 			try {
-				const response = await fetch(form.action, {
-					method: "POST",
-					body: new FormData(form),
-					headers: { Accept: "application/json" },
-				});
+				const data = new FormData(form);
+				let firstTouch: Record<string, string> = {};
+				try {
+					firstTouch = JSON.parse(localStorage.getItem("kd_first_touch") ?? "{}");
+				} catch {
+					// Storage blocked: send the lead without attribution.
+				}
+				const posthog = (window as unknown as { posthog?: { get_distinct_id(): string; identify(id: string, p: object): void; capture(e: string, p: object): void } }).posthog;
+				const lead = {
+					...Object.fromEntries(data),
+					...firstTouch,
+					lang: form.dataset.lang ?? "en",
+					page: location.pathname,
+					posthog_id: posthog?.get_distinct_id() ?? "",
+				};
 
-				if (response.ok) {
+				// The CRM webhook first; Formspree (form.action) if it isn't set up or fails.
+				let ok = false;
+				if (form.dataset.webhook) {
+					ok = await fetch(form.dataset.webhook, {
+						method: "POST",
+						body: JSON.stringify(lead),
+						headers: { "Content-Type": "application/json" },
+					}).then((r) => r.ok, () => false);
+				}
+				if (!ok) {
+					for (const [k, v] of Object.entries(lead)) if (!data.has(k)) data.append(k, String(v));
+					ok = await fetch(form.action, {
+						method: "POST",
+						body: data,
+						headers: { Accept: "application/json" },
+					}).then((r) => r.ok, () => false);
+				}
+
+				if (ok) {
+					const email = String(data.get("email") ?? "");
+					if (posthog && email) {
+						posthog.identify(email, { email, name: String(data.get("name") ?? "") });
+						posthog.capture("contact_submitted", { topic: String(data.get("topic") ?? "") });
+					}
 					feedback.textContent = successMsg;
 					feedback.className = "ct-feedback is-success";
 					form.reset();

@@ -97,6 +97,16 @@ export default defineConfig({
 			WEBMENTION_API_KEY: envField.string({ context: "server", access: "secret", optional: true }),
 			WEBMENTION_URL: envField.string({ context: "client", access: "public", optional: true }),
 			WEBMENTION_PINGBACK: envField.string({ context: "client", access: "public", optional: true }),
+			// PostHog project key (phc_...): unset, no analytics script is loaded.
+			POSTHOG_KEY: envField.string({ context: "client", access: "public", optional: true }),
+			POSTHOG_HOST: envField.string({
+				context: "client",
+				access: "public",
+				default: "https://us.i.posthog.com",
+			}),
+			// n8n webhook that records contact-form leads in the CRM. Unset, or when it fails,
+			// the form posts to Formspree as before, so no message is lost.
+			LEAD_WEBHOOK_URL: envField.string({ context: "client", access: "public", optional: true }),
 		},
 	},
 });

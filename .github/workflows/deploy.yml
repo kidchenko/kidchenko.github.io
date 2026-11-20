@@ -42,6 +42,11 @@ jobs:
 
       - name: Build
         run: pnpm build
+        env:
+          # Repository variables (Settings -> Secrets and variables -> Actions -> Variables).
+          # Unset: no PostHog, and the contact form posts to Formspree only.
+          POSTHOG_KEY: ${{ vars.POSTHOG_KEY }}
+          LEAD_WEBHOOK_URL: ${{ vars.LEAD_WEBHOOK_URL }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5

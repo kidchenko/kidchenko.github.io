@@ -1,0 +1,31 @@
+---
+// PostHog (only when POSTHOG_KEY is set at build time) and first-touch attribution: the
+// UTM parameters and referrer of the visit that first brought someone here, kept in
+// localStorage so the contact form can send them with a lead, even pages later.
+---
+
+<script>
+	import { POSTHOG_HOST, POSTHOG_KEY } from "astro:env/client";
+
+	try {
+		const key = "kd_first_touch";
+		if (!localStorage.getItem(key)) {
+			const q = new URLSearchParams(location.search);
+			const touch: Record<string, string> = { landing: location.pathname, referrer: document.referrer };
+			for (const k of ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]) {
+				const v = q.get(k);
+				if (v) touch[k] = v;
+			}
+			localStorage.setItem(key, JSON.stringify(touch));
+		}
+	} catch {
+		// Storage blocked (private window): the form sends what it can without it.
+	}
+
+	// Loaded only when a key is set, so the site ships no analytics code without one.
+	if (POSTHOG_KEY) {
+		const { default: posthog } = await import("posthog-js");
+		posthog.init(POSTHOG_KEY, { api_host: POSTHOG_HOST, person_profiles: "identified_only" });
+		(window as unknown as { posthog: typeof posthog }).posthog = posthog;
+	}
+</script>
