@@ -21,7 +21,11 @@ export const ui = {
 			languageLabel: "Language",
 		},
 		home: {
-			meta: { title: "Engineering Director" },
+			meta: {
+				title: "Engineering Director",
+				description:
+					"Engineering Director working on AI, SaaS, and team building. 15 years scaling engineering teams across Thailand and Brazil.",
+			},
 			heroName: "Jose Barbosa",
 			heroRole: "Engineering Director",
 			heroFocus: "AI Agents / SaaS / Team Building / Distributed Teams",
@@ -335,6 +339,7 @@ export const ui = {
 			elsewhere: "Elsewhere",
 			navigate: "Navigate",
 			rss: "RSS",
+			tags: "Tags",
 		},
 		cv: {
 			meta: {
@@ -500,7 +505,11 @@ export const ui = {
 			languageLabel: "Idioma",
 		},
 		home: {
-			meta: { title: "Diretor de Engenharia" },
+			meta: {
+				title: "Diretor de Engenharia",
+				description:
+					"Diretor de Engenharia trabalhando com IA, SaaS e formação de times. 15 anos escalando times de engenharia na Tailândia e no Brasil.",
+			},
 			heroName: "Jose Barbosa",
 			heroRole: "Diretor de Engenharia",
 			heroFocus: "Agentes de IA / SaaS / Formação de times / Times distribuídos",
@@ -815,12 +824,13 @@ export const ui = {
 			elsewhere: "Em outros lugares",
 			navigate: "Navegação",
 			rss: "RSS",
+			tags: "Tags",
 		},
 		cv: {
 			meta: {
-				title: "CV",
+				title: "Currículo",
 				description:
-					"CV de Jose Barbosa. Diretor de Engenharia com 15+ anos escalando times de engenharia e sistemas de alto tráfego pelo Sudeste Asiático e América Latina.",
+					"Currículo de Jose Barbosa. Diretor de Engenharia com 15+ anos escalando times de engenharia e sistemas de alto tráfego pelo Sudeste Asiático e América Latina.",
 			},
 			eyebrow: "Currículo",
 			heading: "CV",

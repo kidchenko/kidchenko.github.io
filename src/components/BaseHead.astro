@@ -1,5 +1,7 @@
 ---
 import { WEBMENTION_PINGBACK, WEBMENTION_URL } from "astro:env/client";
+import { defaultLang, type Lang, languages } from "@/i18n/ui";
+import { getLangFromUrl, getLocalizedRoute, localizeUrl } from "@/i18n/utils";
 import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
 import "@/styles/global.css";
@@ -19,6 +21,20 @@ const titleSeparator = "-";
 const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL(ogImage ? ogImage : "/og-image/default.png", Astro.url).href;
+
+// hreflang pairs for pages that exist in both languages, so search engines treat
+// /about/ and /pt/about/ as translations of each other instead of duplicates.
+const lang = getLangFromUrl(Astro.url);
+const localizedRoute = getLocalizedRoute(Astro.url.pathname, lang);
+const alternates = localizedRoute
+	? (Object.keys(languages) as Lang[]).map((code) => ({
+			hreflang: code === "pt" ? "pt-BR" : code,
+			href: new URL(localizeUrl(localizedRoute, code), Astro.site).href,
+		}))
+	: [];
+const defaultAlternate = localizedRoute
+	? new URL(localizeUrl(localizedRoute, defaultLang), Astro.site).href
+	: null;
 ---
 
 <meta charset="utf-8" />
@@ -46,6 +62,8 @@ const socialImageURL = new URL(ogImage ? ogImage : "/og-image/default.png", Astr
 
 {/* Canonical URL */}
 <link href={canonicalURL} rel="canonical" />
+{alternates.map((a) => <link href={a.href} hreflang={a.hreflang} rel="alternate" />)}
+{defaultAlternate && <link href={defaultAlternate} hreflang="x-default" rel="alternate" />}
 
 {/* Primary Meta Tags */}
 <meta content={siteTitle} name="title" />
@@ -58,7 +76,7 @@ const socialImageURL = new URL(ogImage ? ogImage : "/og-image/default.png", Astr
 <meta content={description} property="og:description" />
 <meta content={canonicalURL} property="og:url" />
 <meta content={siteConfig.title} property="og:site_name" />
-<meta content={siteConfig.ogLocale} property="og:locale" />
+<meta content={lang === "pt" ? "pt_BR" : siteConfig.ogLocale} property="og:locale" />
 <meta content={socialImageURL} property="og:image" />
 <meta content="1200" property="og:image:width" />
 <meta content="630" property="og:image:height" />
